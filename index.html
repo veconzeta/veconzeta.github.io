@@ -103,7 +103,7 @@
         }
 
         .nav-btn {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(108, 75, 255, 0.3);
             padding: 12px 20px;
             color: #ffffff;
@@ -117,6 +117,13 @@
             width: 85%;
             max-width: 200px;
             text-align: center;
+        }
+
+        .nav-btn:hover {
+            background: rgba(108, 75, 255, 0.15);
+            border-color: var(--vz-violet);
+            box-shadow: 0 0 20px var(--vz-violet-glow);
+            transform: translateY(-5px);
         }
 
         /* --- GAVETA DE FEEDBACK --- */
@@ -177,6 +184,18 @@
 
         .bio-panel.open { right: 0; }
 
+        /* Botón de cierre interno (X) para móvil */
+        .close-bio-btn {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--vz-violet);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1010;
+        }
+
         .bio-tab {
             position: fixed;
             right: 0;
@@ -196,7 +215,6 @@
             transition: right 0.5s ease;
         }
 
-        /* En escritorio, el botón se mueve a la par del panel */
         @media (min-width: 769px) {
             .bio-panel.open ~ .bio-tab { right: 380px; }
         }
@@ -219,6 +237,8 @@
             header { display: none; }
             .main-logo { margin-bottom: 30px; }
             .bio-panel { width: 100%; }
+            .close-bio-btn { display: block; } /* Mostrar X en móvil */
+            
             .bio-tab { 
                 top: 25px; 
                 right: 0; 
@@ -227,9 +247,10 @@
                 width: auto; 
                 padding: 0 15px; 
                 border-radius: 10px 0 0 10px; 
+                border-right: none;
+                z-index: 1100; /* Asegurar que esté por encima de todo */
             }
             .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
-            .bio-panel.open ~ .bio-tab { opacity: 0; visibility: hidden; } /* Se oculta al abrir en móvil */
         }
     </style>
 </head>
@@ -250,7 +271,6 @@
             <a class="nav-btn">Fotomontajes</a>
             <a class="nav-btn">Edición de Video</a>
             <a class="nav-btn">Diseño</a>
-            
         </div>
     </main>
 
@@ -266,6 +286,8 @@
     </div>
 
     <div class="bio-panel" id="bioPanel">
+        <div class="close-bio-btn" id="closeBio">✕</div>
+        
         <div class="bio-content">
             <img src="IMG/perfil.png" alt="Perfil" class="bio-photo">
             <h2 style="color: white; margin-bottom: 15px; font-size: 1.3rem;">DANILO HERNÁNDEZ A.</h2>
@@ -279,31 +301,50 @@
     </div>
 
     <div class="bio-tab" id="bioTab">
-        <span>[ SOBRE MÍ ]</span>
+        <span id="bioTabText">[ SOBRE MÍ ]</span>
     </div>
 
     <script>
         const bioTab = document.getElementById('bioTab');
+        const bioTabText = document.getElementById('bioTabText');
         const bioPanel = document.getElementById('bioPanel');
+        const closeBio = document.getElementById('closeBio');
         const fTrigger = document.getElementById('feedbackTrigger');
         const fDrawer = document.getElementById('feedbackDrawer');
 
+        // Función para cerrar Bio
+        function closeBioPanel() {
+            bioPanel.classList.remove('open');
+            bioTabText.innerText = '[ SOBRE MÍ ]';
+        }
+
         bioTab.addEventListener('click', (e) => {
             e.stopPropagation();
-            bioPanel.classList.toggle('open');
+            const isOpen = bioPanel.classList.toggle('open');
+            
+            // En móvil, cambiar el texto del botón para que sirva de cierre
+            if (window.innerWidth <= 768) {
+                bioTabText.innerText = isOpen ? '[ CERRAR ]' : '[ SOBRE MÍ ]';
+            }
+            
             fDrawer.classList.remove('open');
             fTrigger.innerText = '[ VER TESTIMONIOS ]';
         });
 
+        // Evento para la X interna
+        closeBio.addEventListener('click', closeBioPanel);
+
         fTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
             fDrawer.classList.toggle('open');
-            bioPanel.classList.remove('open');
+            closeBioPanel();
             fTrigger.innerText = fDrawer.classList.contains('open') ? '[ CERRAR ]' : '[ VER TESTIMONIOS ]';
         });
 
         document.addEventListener('click', (e) => {
-            if (!bioPanel.contains(e.target) && !bioTab.contains(e.target)) bioPanel.classList.remove('open');
+            if (!bioPanel.contains(e.target) && !bioTab.contains(e.target)) {
+                closeBioPanel();
+            }
             if (!fDrawer.contains(e.target) && !fTrigger.contains(e.target)) {
                 fDrawer.classList.remove('open');
                 fTrigger.innerText = '[ VER TESTIMONIOS ]';
