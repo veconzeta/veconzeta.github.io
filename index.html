@@ -55,10 +55,10 @@
         header {
             display: flex;
             justify-content: space-between;
-            padding: 30px 50px;
+            padding: 20px 5% ;
             font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            letter-spacing: 2px;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
             color: var(--text-muted);
             z-index: 5;
@@ -72,201 +72,186 @@
             justify-content: center;
             text-align: center;
             z-index: 5;
+            padding: 20px;
         }
 
         .main-logo {
             width: 750px;
-            max-width: 90vw;
+            max-width: 85vw; /* Se ajusta al ancho del celular */
             height: auto;
-            margin-bottom: 50px;
-            filter: drop-shadow(0 0 35px var(--vz-violet-glow));
+            margin-bottom: 40px;
+            filter: drop-shadow(0 0 25px var(--vz-violet-glow));
             animation: float 6s ease-in-out infinite;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
+            50% { transform: translateY(-10px); }
         }
 
         .nav-grid {
             display: flex;
-            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
             z-index: 10;
+            width: 100%;
+            max-width: 900px;
         }
 
         .nav-btn {
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(108, 75, 255, 0.3);
-            padding: 15px 30px;
+            padding: 12px 20px;
             color: #ffffff;
             text-decoration: none;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-size: 0.9rem;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
             backdrop-filter: blur(10px);
-            transition: all 0.4s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
+            min-width: 160px;
         }
 
         .nav-btn:hover {
-            background: rgba(108, 75, 255, 0.15);
             border-color: var(--vz-violet);
-            box-shadow: 0 0 20px var(--vz-violet-glow);
-            transform: translateY(-5px);
+            box-shadow: 0 0 15px var(--vz-violet-glow);
+            transform: translateY(-3px);
         }
 
-        /* --- GAVETA DE FEEDBACK CORREGIDA --- */
+        /* --- GAVETA DE FEEDBACK (DESLIZA HACIA ARRIBA) --- */
         .feedback-drawer {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100vw;
-            height: 60vh; /* Ocupa el 60% de la pantalla al abrirse */
+            height: 70vh; 
             background: rgba(5, 3, 10, 0.98);
             backdrop-filter: blur(20px);
             border-top: 2px solid var(--vz-violet);
-            transform: translateY(100%); /* Escondida abajo */
-            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
             z-index: 90;
             display: flex;
             flex-direction: column;
         }
 
         .feedback-drawer.open {
-            transform: translateY(0); /* Sube a su posición */
+            transform: translateY(0);
         }
 
-        /* Botón de apertura siempre visible */
+        /* --- CORRECCIÓN: Botón de Feedback con estilo unificado --- */
         .feedback-trigger {
             position: fixed;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            padding: 12px 40px;
-            background: rgba(5, 3, 10, 0.9);
-            border: 1px solid var(--vz-violet);
+            padding: 10px 30px;
+            background: rgba(5, 3, 10, 0.95); /* Fondo oscuro */
+            border: 1px solid var(--vz-violet); /* Borde violeta */
             border-bottom: none;
-            border-radius: 15px 15px 0 0;
-            color: var(--vz-violet);
+            border-radius: 12px 12px 0 0;
+            color: white; /* Letras blancas */
             font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
             cursor: pointer;
             z-index: 95;
-            transition: all 0.3s ease;
+            white-space: nowrap;
+            transition: all 0.3s ease; /* Para el efecto hover */
         }
 
         .feedback-trigger:hover {
-            background: var(--vz-violet);
-            color: white;
-            box-shadow: 0 0 20px var(--vz-violet-glow);
+            background: rgba(108, 75, 255, 0.2); /* Resaltado al hover */
+            box-shadow: 0 0 15px var(--vz-violet-glow);
         }
 
         .feedback-content {
-            padding: 60px 40px;
+            padding: 40px 20px;
             overflow-y: auto;
-            max-width: 1400px;
-            margin: 0 auto;
             width: 100%;
-        }
-
-        .feedback-header {
-            text-align: center;
-            margin-bottom: 50px;
         }
 
         .feedback-title {
             font-family: 'Courier New', monospace;
-            font-size: 2rem;
-            letter-spacing: 5px;
+            font-size: 1.4rem;
             color: white;
-            margin-bottom: 10px;
+            margin-bottom: 30px;
+            text-align: center;
         }
 
-        /* --- GRID DE TESTIMONIOS --- */
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
         }
 
         .testimonial-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(108, 75, 255, 0.2);
-            padding: 30px;
-            border-radius: 15px;
-            transition: 0.3s;
+            padding: 20px;
+            border-radius: 12px;
         }
 
-        .testimonial-card:hover {
-            border-color: var(--vz-violet);
-            background: rgba(108, 75, 255, 0.05);
-        }
-
-        .client-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .client-photo {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 2px solid var(--vz-violet);
-            background: #222; /* Placeholder */
-        }
-
-        .client-meta h4 { color: white; margin-bottom: 2px; }
-        .client-meta span { color: var(--text-muted); font-size: 0.8rem; }
-
-        .stars { color: var(--star-color); margin-bottom: 15px; font-size: 1.2rem; }
-        .quote { line-height: 1.6; font-style: italic; color: var(--text-main); }
-
-        /* --- PANEL BIOGRAFÍA --- */
+        /* --- PANEL BIOGRAFÍA (Se mantiene igual) --- */
         .bio-panel {
             position: fixed;
             top: 0;
-            right: -380px;
+            right: -100%; /* Oculto fuera a la derecha */
             width: 380px;
+            max-width: 100%; /* Ocupa todo el ancho en móviles */
             height: 100vh;
-            background: rgba(5, 3, 10, 0.9);
+            background: rgba(5, 3, 10, 0.95);
             backdrop-filter: blur(15px);
             border-left: 1px solid var(--vz-violet);
             transition: right 0.5s ease;
             z-index: 100;
             display: flex;
             align-items: center;
+            overflow-y: auto;
         }
 
         .bio-panel.open { right: 0; }
 
+        /* --- CORRECCIÓN: Botón de Bio con estilo unificado --- */
         .bio-tab {
             position: absolute;
-            left: -40px;
+            left: -35px;
             top: 50%;
             transform: translateY(-50%);
-            width: 40px;
-            height: 160px;
-            background: rgba(5, 3, 10, 0.9);
-            border: 1px solid var(--vz-violet);
+            width: 35px;
+            height: 140px;
+            background: rgba(5, 3, 10, 0.9); /* Fondo oscuro */
+            border: 1px solid var(--vz-violet); /* Borde violeta */
             border-right: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 10px 0 0 10px;
+            border-radius: 8px 0 0 8px;
+            transition: all 0.3s ease; /* Para el efecto hover */
         }
 
-        .bio-tab span {
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
-            color: white;
-            letter-spacing: 3px;
-            font-size: 0.8rem;
+        .bio-tab:hover {
+            background: rgba(108, 75, 255, 0.2); /* Resaltado al hover */
+            box-shadow: -5px 0 15px rgba(108, 75, 255, 0.3);
         }
 
-        .bio-content { padding: 40px; text-align: center; }
-        .bio-photo { width: 150px; height: 150px; border-radius: 50%; border: 2px solid var(--vz-violet); margin-bottom: 20px; }
+        /* --- MEDIA QUERIES PARA MÓVILES --- */
+        @media (max-width: 600px) {
+            header { flex-direction: column; gap: 5px; text-align: center; }
+            .nav-grid { flex-direction: column; align-items: center; }
+            .nav-btn { width: 80%; }
+            .bio-panel { width: 100%; } /* Panel completo en celular */
+            /* Ajuste del botón Bio para móvil para que sea legible */
+            .bio-tab { left: auto; right: 10px; top: 20px; transform: none; height: 40px; width: 80px; border: 1px solid var(--vz-violet); border-radius: 5px; }
+            .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; color: white; /* Letras blancas en móvil */ }
+        }
+
+        .bio-tab span { writing-mode: vertical-rl; transform: rotate(180deg); color: white; /* Letras blancas en escritorio */ font-size: 0.8rem; letter-spacing: 2px; }
+
+        .bio-content { padding: 40px 20px; text-align: center; width: 100%; }
+        .bio-photo { width: 120px; height: 120px; border-radius: 50%; border: 2px solid var(--vz-violet); margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -291,63 +276,36 @@
     </main>
 
     <div class="feedback-trigger" id="feedbackTrigger">
-        [ VER FEEDBACK CLIENTES ]
+        [ TESTIMONIOS ]
     </div>
 
     <div class="feedback-drawer" id="feedbackDrawer">
         <div class="feedback-content">
-            <div class="feedback-header">
-                <h2 class="feedback-title">EXPERIENCIAS</h2>
-                <p style="color: var(--text-muted)">Lo que dicen de trabajar con VeconZeta</p>
-            </div>
-
+            <h2 class="feedback-title">EXPERIENCIAS</h2>
             <div class="testimonials-grid">
                 <div class="testimonial-card">
-                    <div class="client-info">
-                        <div class="client-photo"></div>
-                        <div class="client-meta">
-                            <h4>Nombre Cliente</h4>
-                            <span>Proyecto Realizado</span>
-                        </div>
-                    </div>
-                    <div class="stars">★★★★★</div>
-                    <p class="quote">"Excelente profesional, entendió perfectamente la narrativa que buscaba para mi proyecto visual."</p>
+                    <div style="color:white; font-weight:bold; margin-bottom:5px;">Nombre Cliente</div>
+                    <div class="stars" style="color:var(--star-color); margin-bottom:10px;">★★★★★</div>
+                    <p style="font-size:0.9rem; font-style:italic; color:var(--text-main);">"Excelente trabajo y narrativa visual."</p>
                 </div>
                 <div class="testimonial-card">
-                    <div class="client-info">
-                        <div class="client-photo"></div>
-                        <div class="client-meta">
-                            <h4>Nombre Cliente</h4>
-                            <span>Proyecto Realizado</span>
-                        </div>
-                    </div>
-                    <div class="stars">★★★★★</div>
-                    <p class="quote">"El nivel de detalle en los fotomontajes es de otro mundo. Totalmente recomendado."</p>
-                </div>
-                <div class="testimonial-card">
-                    <div class="client-info">
-                        <div class="client-photo"></div>
-                        <div class="client-meta">
-                            <h4>Nombre Cliente</h4>
-                            <span>Proyecto Realizado</span>
-                        </div>
-                    </div>
-                    <div class="stars">★★★★★</div>
-                    <p class="quote">"Trabajo impecable y muy buena comunicación durante todo el proceso creativo."</p>
+                    <div style="color:white; font-weight:bold; margin-bottom:5px;">Nombre Cliente</div>
+                    <div class="stars" style="color:var(--star-color); margin-bottom:10px;">★★★★★</div>
+                    <p style="font-size:0.9rem; font-style:italic; color:var(--text-main);">"Fotomontajes de nivel cinematográfico."</p>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="bio-panel" id="bioPanel">
-        <div class="bio-tab" id="bioTab"><span>[ SOBRE MÍ ]</span></div>
+        <div class="bio-tab" id="bioTab"><span>[ INFO ]</span></div>
         <div class="bio-content">
             <img src="IMG/perfil.png" alt="Perfil" class="bio-photo">
-            <h2 style="color: white; margin-bottom: 15px;">DANILO HERNÁNDEZ A.</h2>
-            <p style="font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); text-align: center;">
+            <h2 style="color: white; margin-bottom: 10px; font-size: 1.2rem;">DANILO HERNÁNDEZ A.</h2>
+            <p style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted);">
                 <strong>Artista Digital.</strong><br><br>
-                Tengo 33 años, vivo en Santiago de Chile.<br><br>
-                Me puedes encontrar en roles como fotógrafo, editor de contenido y experto en retoque digital. Mi motor es la construcción de mundos y relatos visuales.
+                33 años, Santiago de Chile.<br><br>
+                Fotógrafo, editor y experto en retoque digital. Mi motor es construir mundos y relatos visuales.
             </p>
         </div>
     </div>
@@ -361,14 +319,19 @@
         // Abrir/Cerrar Bio
         bioTab.addEventListener('click', () => {
             bioPanel.classList.toggle('open');
+            // Cierra el panel de feedback si está abierto
             fDrawer.classList.remove('open');
+            // Restablece el texto del trigger de feedback
+            fTrigger.innerText = '[ TESTIMONIOS ]';
         });
 
         // Abrir/Cerrar Feedback
         fTrigger.addEventListener('click', () => {
             fDrawer.classList.toggle('open');
+            // Cierra el panel de bio si está abierto
             bioPanel.classList.remove('open');
-            fTrigger.innerText = fDrawer.classList.contains('open') ? '[ CERRAR ]' : '[ VER FEEDBACK CLIENTES ]';
+            // Cambia el texto del trigger
+            fTrigger.innerText = fDrawer.classList.contains('open') ? '[ CERRAR ]' : '[ TESTIMONIOS ]';
         });
 
         // Cerrar al clickear fuera
@@ -376,7 +339,7 @@
             if (!bioPanel.contains(e.target) && !bioTab.contains(e.target)) bioPanel.classList.remove('open');
             if (!fDrawer.contains(e.target) && !fTrigger.contains(e.target)) {
                 fDrawer.classList.remove('open');
-                fTrigger.innerText = '[ VER FEEDBACK CLIENTES ]';
+                fTrigger.innerText = '[ TESTIMONIOS ]';
             }
         });
     </script>
