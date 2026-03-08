@@ -29,8 +29,8 @@
             height: 100vh;
         }
 
-        /* --- ESTILOS DEL VIDEO DE FONDO --- */
-        .bg-video {
+        /* --- ESTILOS DE LA IMAGEN DE FONDO --- */
+        .bg-image {
             position: absolute;
             top: 0;
             left: 0;
@@ -38,7 +38,6 @@
             height: 100vh;
             object-fit: cover;
             z-index: -2;
-            opacity: 0.6;
         }
 
         /* --- CAPA DE CRISTAL OSCURO --- */
@@ -77,106 +76,4 @@
         .main-logo {
             width: 750px;
             max-width: 90vw;
-            height: auto;
-            margin-bottom: 40px;
-            filter: drop-shadow(0 0 25px rgba(108, 75, 255, 0.6));
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 650px;
-            line-height: 1.6;
-            margin-bottom: 50px;
-        }
-
-        .nav-grid {
-            display: flex;
-            gap: 20px;
-            z-index: 10;
-        }
-
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(108, 75, 255, 0.3);
-            padding: 15px 30px;
-            color: var(--text-main);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-size: 0.9rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            cursor: pointer;
-        }
-
-        .nav-btn:hover {
-            background: rgba(255, 42, 109, 0.1);
-            border-color: var(--vz-neon-pink);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 42, 109, 0.4);
-            color: #fff;
-            text-shadow: 0 0 8px var(--vz-neon-pink);
-        }
-
-        .feedback-sector {
-            padding: 20px;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            background: rgba(0, 0, 0, 0.5);
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            transition: background 0.3s ease;
-        }
-
-        .feedback-sector:hover {
-            background: rgba(108, 75, 255, 0.1);
-            cursor: pointer;
-        }
-
-        .feedback-text {
-            color: var(--vz-violet);
-        }
-    </style>
-</head>
-<body>
-    
-   <img src="IMG/fondo mosaico.png" alt="Fondo Mosaico" class="bg-image">
-
-    <div class="ambient-bg"></div>
-
-    <header>
-        <div>SYS.VECONZETA // V.26</div>
-        <div>CREADOR DIGITAL INDEPENDIENTE</div>
-    </header>
-
-    <main class="hero-container">
-        <img src="IMG/321.png" alt="VeconZeta Logo" class="main-logo">
-        
-        <p class="subtitle">
-            Creativo Digital especializado en Narrativa Visual y Fotomontajes.<br>
-            Desarrollo de mundos y estética cinematográfica mediante flujos de trabajo híbridos.
-        </p>
-        
-        <div class="nav-grid">
-            <a class="nav-btn">Fotografía</a>
-            <a class="nav-btn">Fotomontajes</a>
-            <a class="nav-btn">Edición de Video</a>
-            <a class="nav-btn">Diseño</a>
-            <a class="nav-btn">Contacto</a>
-        </div>
-    </main>
-
-    <footer class="feedback-sector">
-        <span class="feedback-text">[ ABRIR MÓDULO DE FEEDBACK ]</span> - Evaluaciones y comentarios de proyectos.
-    </footer>
-</body>
-</html>
+            height:
