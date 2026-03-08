@@ -8,6 +8,7 @@
         :root {
             --vz-violet: #6C4BFF;
             --vz-violet-glow: rgba(108, 75, 255, 0.6);
+            --vz-neon-pink: #FF2A6D;
             --bg-dark: #05030A;
             --text-main: #E0E0E0;
             --text-muted: #888899;
@@ -184,8 +185,8 @@
         /* --- TESTIMONIOS GRID --- */
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
         }
 
         .testimonial-card {
@@ -195,17 +196,42 @@
             border-radius: 15px;
             transition: 0.3s;
             text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .testimonial-card:hover {
             border-color: var(--vz-violet);
             background: rgba(108, 75, 255, 0.05);
+            transform: translateY(-5px);
         }
 
-        .client-name { color: white; font-weight: bold; margin-bottom: 5px; font-size: 1.1rem; }
-        .client-project { color: var(--vz-violet); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 10px; display: block; }
-        .stars { color: var(--star-color); margin-bottom: 15px; font-size: 1.2rem; }
-        .quote { font-style: italic; line-height: 1.6; color: var(--text-main); font-size: 0.95rem; }
+        .client-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 5px;
+        }
+
+        .client-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--vz-violet);
+            box-shadow: 0 0 10px var(--vz-violet-glow);
+        }
+
+        .client-info-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .client-name { color: white; font-weight: bold; font-size: 1.1rem; }
+        .client-project { color: var(--vz-violet); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+        .stars { color: var(--star-color); font-size: 1.1rem; margin-top: 5px; }
+        .quote { font-style: italic; line-height: 1.6; color: var(--text-main); font-size: 0.95rem; margin-top: 5px; }
 
         /* --- PANEL BIOGRAFÍA --- */
         .bio-panel {
@@ -325,14 +351,19 @@
             
             <div class="testimonials-grid">
                 <div class="testimonial-card">
-                    <span class="client-name">Miiussete A.</span>
-                    <span class="client-project">Sesión de fotos pareja</span>
+                    <div class="client-header">
+                        <img src="FEEDBACK/miiussette feedback.jpeg" alt="Miiussette A." class="client-img">
+                        <div class="client-info-text">
+                            <span class="client-name">Miiussete A.</span>
+                            <span class="client-project">Sesión de fotos pareja</span>
+                        </div>
+                    </div>
                     <div class="stars">★★★★★</div>
                     <p class="quote">"Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso."</p>
                 </div>
 
-                <div class="testimonial-card" style="opacity: 0.5; border-style: dashed;">
-                    <p style="text-align: center; color: var(--text-muted); padding: 20px;">Esperando tu próximo gran proyecto...</p>
+                <div class="testimonial-card" style="opacity: 0.4; border-style: dashed; justify-content: center; align-items: center;">
+                    <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px;">Siguiente proyecto en proceso...</p>
                 </div>
             </div>
         </div>
