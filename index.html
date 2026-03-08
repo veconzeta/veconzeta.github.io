@@ -8,6 +8,7 @@
         :root {
             --vz-violet: #6C4BFF;
             --vz-violet-glow: rgba(108, 75, 255, 0.6);
+            --vz-neon-pink: #FF2A6D;
             --bg-dark: #05030A;
             --text-main: #E0E0E0;
             --text-muted: #888899;
@@ -23,7 +24,7 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             font-family: 'Inter', -apple-system, sans-serif;
-            overflow: hidden;
+            overflow: hidden; /* Mantiene la viñeta y los paneles fijos */
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -63,6 +64,7 @@
             text-transform: uppercase;
             color: var(--text-muted);
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+            z-index: 5; /* Asegura que el header esté sobre el fondo */
         }
 
         .hero-container {
@@ -73,6 +75,7 @@
             justify-content: center;
             text-align: center;
             perspective: 1000px;
+            z-index: 5; /* Asegura que el contenido esté sobre el fondo */
         }
 
         .main-logo {
@@ -122,28 +125,85 @@
             text-shadow: 0 0 8px var(--vz-violet);
         }
 
-        .feedback-sector {
-            padding: 20px;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            background: rgba(0, 0, 0, 0.7);
+        /* --- GAVETA DE FEEDBACK (DESLIZA HACIA ARRIBA) --- */
+        .feedback-drawer {
+            position: fixed;
+            bottom: -300px; /* Oculta por defecto abajo */
+            left: 0;
+            width: 100vw;
+            height: 300px;
+            background: rgba(5, 3, 10, 0.85);
+            backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(108, 75, 255, 0.3);
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.9);
+            transition: bottom 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Transición suave */
+            z-index: 90; /* Debajo del panel lateral, pero sobre el fondo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .feedback-drawer.open {
+            bottom: 0; /* Se desliza hacia arriba */
+        }
+
+        /* Botón/pestaña visible que abre la gaveta */
+        .feedback-trigger {
+            position: absolute;
+            top: -45px; /* Justo arriba del panel */
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 25px;
+            background: rgba(5, 3, 10, 0.95);
+            border: 1px solid rgba(108, 75, 255, 0.4);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
             font-family: 'Courier New', monospace;
             font-size: 0.85rem;
             letter-spacing: 1px;
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            z-index: 91;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+        }
+
+        .feedback-trigger:hover {
+            background: rgba(108, 75, 255, 0.2);
+            box-shadow: 0 -5px 15px rgba(108, 75, 255, 0.3);
+        }
+
+        .feedback-trigger span {
+            color: var(--vz-violet);
+            text-shadow: 0 0 5px var(--vz-violet-glow);
+        }
+
+        .feedback-trigger .muted-text {
+            color: var(--text-muted);
+            text-shadow: none;
+        }
+
+        /* Contenido interior de la gaveta de feedback */
+        .feedback-content {
+            padding: 40px;
+            text-align: center;
+            max-width: 800px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .feedback-title {
+            color: var(--text-main);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
             text-shadow: 0 2px 5px rgba(0,0,0,0.8);
         }
 
-        .feedback-sector:hover {
-            background: rgba(108, 75, 255, 0.15);
-            cursor: pointer;
-        }
-
-        .feedback-text {
-            color: var(--vz-violet);
-        }
-
-        /* --- PANEL LATERAL DE BIOGRAFÍA --- */
+        /* --- PANEL LATERAL DE BIOGRAFÍA (SE MANTIENE IGUAL) --- */
         .bio-panel {
             position: fixed;
             top: 0;
@@ -155,7 +215,7 @@
             border-left: 1px solid rgba(108, 75, 255, 0.3);
             box-shadow: -10px 0 40px rgba(0,0,0,0.9);
             transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-            z-index: 100;
+            z-index: 100; /* Sobre la gaveta inferior */
             display: flex;
             align-items: center;
         }
@@ -177,125 +237,4 @@
             backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border-radius: 8px 0 0 8px;
-            transition: all 0.3s ease;
-        }
-
-        .bio-tab:hover {
-            background: rgba(108, 75, 255, 0.2);
-            box-shadow: -5px 0 15px rgba(108, 75, 255, 0.3);
-        }
-
-        .bio-tab span {
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            color: var(--text-main);
-            font-family: 'Courier New', monospace;
-            letter-spacing: 3px;
-            font-size: 0.85rem;
-            transform: rotate(180deg);
-        }
-
-        .bio-content {
-            padding: 50px 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            width: 100%;
-        }
-
-        .bio-photo {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--vz-violet);
-            margin-bottom: 25px;
-            box-shadow: 0 0 25px rgba(108, 75, 255, 0.4);
-        }
-
-        .bio-name {
-            color: #ffffff;
-            font-size: 1.3rem;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
-        }
-
-        .bio-text {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.7;
-            text-align: center;
-        }
-        
-        .bio-text strong {
-            color: var(--text-main);
-            font-weight: 600;
-        }
-    </style>
-</head>
-<body>
-    
-   <img src="IMG/fondo mosaico.png" alt="Fondo Mosaico" class="bg-image">
-
-   <div class="ambient-bg"></div>
-
-   <header>
-       <div>SYS.VECONZETA // V.26</div>
-       <div>ARTISTA DIGITAL </div>
-   </header>
-
-   <main class="hero-container">
-       <img src="IMG/321.png" alt="VeconZeta Logo" class="main-logo">
-       
-       <div class="nav-grid">
-           <a class="nav-btn">Fotografía</a>
-           <a class="nav-btn">Fotomontajes</a>
-           <a class="nav-btn">Edición de Contenido</a>
-           <a class="nav-btn">Diseño</a>
-           <a class="nav-btn">Contacto</a>
-       </div>
-   </main>
-
-   <div class="bio-panel" id="bioPanel">
-       <div class="bio-tab" id="bioTab">
-           <span>[ SOBRE MÍ ]</span>
-       </div>
-       
-       <div class="bio-content">
-           <img src="IMG/perfil.png" alt="Danilo Hernández A." class="bio-photo">
-           <h2 class="bio-name">DANILO HERNÁNDEZ A.</h2>
-           <p class="bio-text">
-               <strong>Artista Digital.</strong><br><br>
-               Tengo 33 años, vivo en Santiago de Chile.<br><br>
-               Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>
-               Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma y la identidad de mis clientes, plasmando su verdadera esencia en el resultado final.
-           </p>
-       </div>
-   </div>
-
-   <footer class="feedback-sector">
-       <span class="feedback-text">[ ABRIR MÓDULO DE FEEDBACK ]</span> - Evaluaciones y comentarios de proyectos.
-   </footer>
-
-   <script>
-       const bioTab = document.getElementById('bioTab');
-       const bioPanel = document.getElementById('bioPanel');
-
-       bioTab.addEventListener('click', (event) => {
-           event.stopPropagation();
-           bioPanel.classList.toggle('open');
-       });
-
-       document.addEventListener('click', (event) => {
-           if (bioPanel.classList.contains('open') && !bioPanel.contains(event.target)) {
-               bioPanel.classList.remove('open');
-           }
-       });
-   </script>
-</body>
-</html>
+            justify
