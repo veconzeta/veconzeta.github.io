@@ -115,12 +115,6 @@
             text-align: center;
         }
 
-        .nav-btn:hover {
-            border-color: var(--vz-violet);
-            box-shadow: 0 0 15px var(--vz-violet-glow);
-            transform: translateY(-3px);
-        }
-
         /* --- GAVETA DE FEEDBACK --- */
         .feedback-drawer {
             position: fixed;
@@ -138,16 +132,14 @@
             flex-direction: column;
         }
 
-        .feedback-drawer.open {
-            transform: translateY(0);
-        }
+        .feedback-drawer.open { transform: translateY(0); }
 
         .feedback-trigger {
             position: fixed;
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            padding: 12px 30px;
+            padding: 12px 35px;
             background: rgba(5, 3, 10, 0.95);
             border: 1px solid var(--vz-violet);
             border-bottom: none;
@@ -158,6 +150,7 @@
             cursor: pointer;
             z-index: 95;
             transition: all 0.3s ease;
+            white-space: nowrap; /* Evita saltos de línea */
         }
 
         /* --- PANEL BIOGRAFÍA --- */
@@ -181,11 +174,11 @@
         .bio-panel.open { right: 0; }
 
         .bio-tab {
-            position: fixed; /* Cambiado a fixed para asegurar visibilidad */
+            position: fixed;
             right: 0;
             top: 50%;
             transform: translateY(-50%);
-            width: 40px;
+            width: 42px;
             height: 160px;
             background: rgba(5, 3, 10, 0.9);
             border: 1px solid var(--vz-violet);
@@ -196,7 +189,13 @@
             justify-content: center;
             border-radius: 10px 0 0 10px;
             z-index: 1001;
-            transition: all 0.3s ease;
+            transition: all 0.5s ease; /* Sincronizado con el panel */
+        }
+
+        /* Mueve el botón junto con el panel para que no tape el texto */
+        .bio-panel.open + .bio-tab,
+        body:has(.bio-panel.open) .bio-tab {
+            right: 380px;
         }
 
         .bio-tab span {
@@ -206,6 +205,7 @@
             letter-spacing: 3px;
             font-size: 0.8rem;
             font-family: 'Courier New', monospace;
+            white-space: nowrap;
         }
 
         .bio-content { padding: 60px 30px; text-align: center; width: 100%; }
@@ -213,25 +213,31 @@
 
         /* --- MEDIA QUERIES --- */
         @media (max-width: 768px) {
-            header { display: none; } /* Ocultamos header en móvil para limpiar espacio */
-            
-            .nav-grid { flex-direction: column; align-items: center; gap: 10px; }
-            .nav-btn { width: 85%; min-width: unset; }
+            header { display: none; }
+            .nav-grid { flex-direction: column; align-items: center; gap: 8px; }
+            .nav-btn { width: 85%; min-width: unset; padding: 10px; font-size: 0.75rem; }
 
-            /* El botón de Bio en móvil se vuelve una pestaña superior derecha fija */
+            /* Fix para botón Bio en móvil */
             .bio-tab { 
                 top: 20px; 
                 right: 0;
                 left: auto;
                 transform: none;
                 height: 40px; 
-                width: 100px; 
-                border-radius: 10px 0 0 10px;
-                border-right: none;
+                width: auto; /* Ancho automático según contenido */
+                padding: 0 15px;
+                border-radius: 8px 0 0 8px;
             }
-            .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
             
+            .bio-panel.open + .bio-tab,
+            body:has(.bio-panel.open) .bio-tab {
+                right: 0; /* En móvil no lo desplazamos para que no se pierda */
+                opacity: 0; /* Lo ocultamos al abrir para que no moleste */
+            }
+
+            .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
             .bio-panel { width: 100%; }
+            .feedback-trigger { width: auto; padding: 10px 20px; font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -262,8 +268,9 @@
 
     <div class="feedback-drawer" id="feedbackDrawer">
         <div style="padding: 40px 20px; overflow-y: auto;">
-            <h2 style="text-align:center; font-family:'Courier New'; margin-bottom:30px;">EXPERIENCIAS</h2>
-            </div>
+            <h2 style="text-align:center; font-family:'Courier New'; margin-bottom:30px; color:white;">EXPERIENCIAS</h2>
+            <p style="text-align:center; color:var(--text-muted);">Próximamente los testimonios de mis clientes.</p>
+        </div>
     </div>
 
     <div class="bio-tab" id="bioTab">
@@ -276,8 +283,8 @@
             <h2 style="color: white; margin-bottom: 15px; font-size: 1.3rem;">DANILO HERNÁNDEZ A.</h2>
             <p style="font-size: 0.9rem; line-height: 1.7; color: var(--text-muted);">
                 <strong>Artista Digital.</strong><br><br>
-                33 años, Santiago de Chile.<br><br>
-                Fotógrafo, editor y experto en retoque digital. Mi motor creativo es la construcción de mundos y relatos visuales.
+                Tengo 33 años, vivo en Santiago de Chile.<br><br>
+                Me puedes encontrar en roles como fotógrafo, editor de contenido y experto en retoque digital. Mi motor creativo es la construcción de mundos y relatos visuales.
             </p>
         </div>
     </div>
