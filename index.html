@@ -29,14 +29,26 @@
             height: 100vh;
         }
 
+        /* --- ESTILOS DEL VIDEO DE FONDO --- */
+        .bg-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -2;
+            opacity: 0.6;
+        }
+
+        /* --- CAPA DE CRISTAL OSCURO --- */
         .ambient-bg {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 150vw;
-            height: 150vh;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle at center, rgba(108, 75, 255, 0.15) 0%, rgba(5, 3, 10, 1) 60%);
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(circle at center, rgba(108, 75, 255, 0.15) 0%, rgba(5, 3, 10, 0.85) 100%);
             z-index: -1;
             pointer-events: none;
         }
@@ -136,6 +148,10 @@
     </style>
 </head>
 <body>
+    <video class="bg-video" autoplay loop muted playsinline>
+        <source src="https://cdn.pixabay.com/video/2023/04/20/159820-819875487_large.mp4" type="video/mp4">
+    </video>
+
     <div class="ambient-bg"></div>
 
     <header>
