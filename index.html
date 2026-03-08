@@ -62,14 +62,12 @@
             z-index: 5;
         }
 
-        /* --- CONTENEDOR IZQUIERDO DEL HEADER --- */
         .header-left {
             display: flex;
             align-items: center;
             gap: 20px;
         }
 
-        /* --- SELECTOR DE IDIOMA INTEGRADO --- */
         .lang-switcher {
             display: flex;
             gap: 8px;
@@ -88,10 +86,7 @@
             padding: 2px 5px;
         }
 
-        .lang-btn:hover {
-            color: var(--vz-violet);
-        }
-
+        .lang-btn:hover { color: var(--vz-violet); }
         .lang-btn.active {
             color: white;
             text-shadow: 0 0 8px var(--vz-violet-glow);
@@ -160,6 +155,43 @@
             transform: translateY(-5px);
         }
 
+        /* --- BOTONES FLOTANTES DE CONTACTO --- */
+        .floating-contact {
+            position: fixed;
+            bottom: 80px; /* Sobre el trigger de testimonios */
+            right: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 1500;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(5, 3, 10, 0.9);
+            border: 1px solid var(--vz-violet);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(5px);
+        }
+
+        .contact-icon:hover {
+            transform: scale(1.15) rotate(5deg);
+            background: rgba(108, 75, 255, 0.2);
+            box-shadow: 0 0 20px var(--vz-violet-glow);
+            border-color: white;
+        }
+
+        .contact-icon i { font-style: normal; font-family: sans-serif; font-weight: bold; }
+
         /* --- GAVETA FEEDBACK --- */
         .feedback-drawer {
             position: fixed;
@@ -195,46 +227,11 @@
             white-space: nowrap;
         }
 
-        .feedback-content {
-            padding: 40px 20px;
-            overflow-y: auto;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .feedback-title {
-            font-family: 'Courier New', monospace;
-            font-size: 1.6rem;
-            letter-spacing: 4px;
-            color: white;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-        }
-
-        .testimonial-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(108, 75, 255, 0.2);
-            padding: 25px;
-            border-radius: 15px;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .testimonial-card:hover {
-            border-color: var(--vz-violet);
-            transform: translateY(-5px);
-        }
-
+        /* --- TESTIMONIOS --- */
+        .feedback-content { padding: 40px 20px; overflow-y: auto; width: 100%; max-width: 1200px; margin: 0 auto; }
+        .feedback-title { font-family: 'Courier New', monospace; font-size: 1.6rem; letter-spacing: 4px; color: white; margin-bottom: 30px; text-align: center; }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .testimonial-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(108, 75, 255, 0.2); padding: 25px; border-radius: 15px; text-align: left; display: flex; flex-direction: column; gap: 12px; transition: all 0.3s ease; }
         .client-header { display: flex; align-items: center; gap: 15px; }
         .client-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--vz-violet); }
         .client-name { color: white; font-weight: bold; font-size: 1.1rem; }
@@ -305,15 +302,17 @@
         }
 
         @media (max-width: 768px) {
-            header { padding-top: 50px; } /* Espacio para el selector en móvil */
+            header { padding-top: 50px; }
             .lang-switcher { border-left: none; padding-left: 0; }
             .header-left { flex-direction: column; align-items: flex-start; gap: 5px; }
             .main-logo { margin-bottom: 30px; }
             .bio-panel { width: 100%; }
-            .bio-tab { top: 25px; right: 0; transform: none; height: 40px; width: auto; padding: 0 15px; border-radius: 10px 0 0 10px; }
+            .bio-tab { top: 70px; right: 0; transform: none; height: 40px; width: auto; padding: 0 15px; border-radius: 10px 0 0 10px; }
             .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
             .bio-panel.open ~ .bio-tab { opacity: 0; visibility: hidden; }
             .mobile-back-btn { display: block; }
+            .floating-contact { bottom: 60px; right: 15px; gap: 10px; }
+            .contact-icon { width: 45px; height: 45px; font-size: 1rem; }
         }
     </style>
 </head>
@@ -321,6 +320,15 @@
     
     <img src="IMG/fondo mosaico.png" alt="Fondo" class="bg-image">
     <div class="ambient-bg"></div>
+
+    <div class="floating-contact">
+        <a href="https://wa.me/56932751639" target="_blank" class="contact-icon" title="WhatsApp">
+            <i>W</i>
+        </a>
+        <a href="mailto:contacto.veconzeta@gmail.com" class="contact-icon" title="Email">
+            <i>@</i>
+        </a>
+    </div>
 
     <header>
         <div class="header-left">
