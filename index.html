@@ -29,7 +29,7 @@
             height: 100vh;
         }
 
-        /* --- ESTILOS DE LA IMAGEN DE FONDO --- */
+        /* --- IMAGEN DE FONDO --- */
         .bg-image {
             position: absolute;
             top: 0;
@@ -40,16 +40,14 @@
             z-index: -2;
         }
 
-        /* --- CAPA DE CRISTAL OSCURO Y BLUR (VERSION 2 - MENOS DIFUSO) --- */
+        /* --- CAPA DE CRISTAL OSCURO --- */
         .ambient-bg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* CAMBIO 1: OSCURECIMIENTO. Aumentamos la opacidad central de 0.6 a 0.8 para compensar la falta de blur. */
             background: radial-gradient(circle at center, rgba(5, 3, 10, 0.8) 0%, rgba(5, 3, 10, 0.95) 100%);
-            /* CAMBIO 2: NITIDEZ. Reducimos el blur de 8px a solo 3px. Ahora se distinguen las pantallas. */
             backdrop-filter: blur(3px);
             z-index: -1;
             pointer-events: none;
@@ -81,7 +79,7 @@
             width: 750px;
             max-width: 90vw;
             height: auto;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             filter: drop-shadow(0 0 35px rgba(108, 75, 255, 0.8)) drop-shadow(0 5px 15px rgba(0,0,0,0.8));
             animation: float 6s ease-in-out infinite;
         }
@@ -90,15 +88,6 @@
             0% { transform: translateY(0px); }
             50% { transform: translateY(-12px); }
             100% { transform: translateY(0px); }
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: #ffffff;
-            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0,0,0,0.5);
-            max-width: 650px;
-            line-height: 1.6;
-            margin-bottom: 50px;
         }
 
         .nav-grid {
@@ -151,6 +140,100 @@
         .feedback-text {
             color: var(--vz-violet);
         }
+
+        /* --- PANEL LATERAL DE BIOGRAFÍA (NUEVO) --- */
+        .bio-panel {
+            position: fixed;
+            top: 0;
+            right: -380px; /* Oculto por defecto */
+            width: 380px;
+            height: 100vh;
+            background: rgba(5, 3, 10, 0.85);
+            backdrop-filter: blur(15px);
+            border-left: 1px solid rgba(108, 75, 255, 0.3);
+            box-shadow: -10px 0 40px rgba(0,0,0,0.9);
+            transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Transición suave tipo resorte */
+            z-index: 100;
+            display: flex;
+            align-items: center;
+        }
+
+        .bio-panel.open {
+            right: 0; /* Al añadir la clase 'open', se desliza hacia la pantalla */
+        }
+
+        .bio-tab {
+            position: absolute;
+            left: -40px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 120px;
+            background: rgba(5, 3, 10, 0.9);
+            border: 1px solid rgba(108, 75, 255, 0.4);
+            border-right: none;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 8px 0 0 8px;
+            transition: all 0.3s ease;
+        }
+
+        .bio-tab:hover {
+            background: rgba(108, 75, 255, 0.2);
+            box-shadow: -5px 0 15px rgba(108, 75, 255, 0.3);
+        }
+
+        .bio-tab span {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            color: var(--text-main);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            transform: rotate(180deg); /* Para que se lea de abajo hacia arriba */
+        }
+
+        .bio-content {
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .bio-photo {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--vz-violet);
+            margin-bottom: 25px;
+            box-shadow: 0 0 25px rgba(108, 75, 255, 0.4);
+        }
+
+        .bio-name {
+            color: #ffffff;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .bio-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            text-align: left;
+        }
+        
+        .bio-text strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -167,22 +250,51 @@
    <main class="hero-container">
        <img src="IMG/321.png" alt="VeconZeta Logo" class="main-logo">
        
-       <p class="subtitle">
-           Creativo Digital especializado en Narrativa Visual y Fotomontajes.<br>
-           Desarrollo de mundos y estética cinematográfica mediante flujos de trabajo híbridos.
-       </p>
-       
        <div class="nav-grid">
            <a class="nav-btn">Fotografía</a>
            <a class="nav-btn">Fotomontajes</a>
-           <a class="nav-btn">Edición de Video</a>
+           <a class="nav-btn">Edición de Contenido</a>
            <a class="nav-btn">Diseño</a>
            <a class="nav-btn">Contacto</a>
        </div>
    </main>
 
+   <div class="bio-panel" id="bioPanel">
+       <div class="bio-tab" id="bioTab">
+           <span>[ INFO ]</span>
+       </div>
+       
+       <div class="bio-content">
+           <img src="IMG/321.png" alt="Danilo Hernández" class="bio-photo">
+           <h2 class="bio-name">DANILO HERNÁNDEZ</h2>
+           <p class="bio-text">
+               <strong>Creador visual todoterreno.</strong><br><br>
+               Capturo la realidad y construyo mundos. Paso de la fotografía de retratos y eventos al retoque, el fotomontaje y la edición audiovisual.<br><br>
+               Mi enfoque es dar vida a ideas complejas con un estilo fuertemente cinematográfico y alto nivel de detalle técnico.
+           </p>
+       </div>
+   </div>
+
    <footer class="feedback-sector">
        <span class="feedback-text">[ ABRIR MÓDULO DE FEEDBACK ]</span> - Evaluaciones y comentarios de proyectos.
    </footer>
+
+   <script>
+       const bioTab = document.getElementById('bioTab');
+       const bioPanel = document.getElementById('bioPanel');
+
+       // Alternar clase 'open' al hacer clic en la pestaña
+       bioTab.addEventListener('click', (event) => {
+           event.stopPropagation(); // Evita que el clic se propague al documento
+           bioPanel.classList.toggle('open');
+       });
+
+       // Cerrar panel si se hace clic en cualquier lugar fuera de él
+       document.addEventListener('click', (event) => {
+           if (bioPanel.classList.contains('open') && !bioPanel.contains(event.target)) {
+               bioPanel.classList.remove('open');
+           }
+       });
+   </script>
 </body>
 </html>
