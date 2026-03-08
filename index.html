@@ -7,7 +7,7 @@
     <style>
         :root {
             --vz-violet: #6C4BFF;
-            --vz-neon-pink: #FF2A6D;
+            --vz-violet-glow: rgba(108, 75, 255, 0.6);
             --bg-dark: #05030A;
             --text-main: #E0E0E0;
             --text-muted: #888899;
@@ -80,7 +80,7 @@
             max-width: 90vw;
             height: auto;
             margin-bottom: 50px;
-            filter: drop-shadow(0 0 35px rgba(108, 75, 255, 0.8)) drop-shadow(0 5px 15px rgba(0,0,0,0.8));
+            filter: drop-shadow(0 0 35px var(--vz-violet-glow)) drop-shadow(0 5px 15px rgba(0,0,0,0.8));
             animation: float 6s ease-in-out infinite;
         }
 
@@ -96,9 +96,10 @@
             z-index: 10;
         }
 
+        /* --- BOTONES CON RESPLANDOR VIOLETA --- */
         .nav-btn {
             background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(108, 75, 255, 0.5);
+            border: 1px solid rgba(108, 75, 255, 0.3);
             padding: 15px 30px;
             color: #ffffff;
             text-decoration: none;
@@ -112,12 +113,13 @@
         }
 
         .nav-btn:hover {
-            background: rgba(255, 42, 109, 0.15);
-            border-color: var(--vz-neon-pink);
+            background: rgba(108, 75, 255, 0.15); /* Fondo violeta suave */
+            border-color: var(--vz-violet); /* Borde violeta brillante */
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 42, 109, 0.5);
+            /* Resplandor violeta que imita el logo */
+            box-shadow: 0 0 20px var(--vz-violet-glow), 0 10px 30px rgba(0, 0, 0, 0.5);
             color: #fff;
-            text-shadow: 0 0 8px var(--vz-neon-pink);
+            text-shadow: 0 0 8px var(--vz-violet);
         }
 
         .feedback-sector {
@@ -284,13 +286,11 @@
        const bioTab = document.getElementById('bioTab');
        const bioPanel = document.getElementById('bioPanel');
 
-       // Alternar clase 'open' al hacer clic en la pestaña
        bioTab.addEventListener('click', (event) => {
            event.stopPropagation();
            bioPanel.classList.toggle('open');
        });
 
-       // Cerrar panel si se hace clic en cualquier lugar fuera de él
        document.addEventListener('click', (event) => {
            if (bioPanel.classList.contains('open') && !bioPanel.contains(event.target)) {
                bioPanel.classList.remove('open');
