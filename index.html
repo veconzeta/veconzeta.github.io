@@ -8,7 +8,6 @@
         :root {
             --vz-violet: #6C4BFF;
             --vz-violet-glow: rgba(108, 75, 255, 0.6);
-            --vz-neon-pink: #FF2A6D;
             --bg-dark: #05030A;
             --text-main: #E0E0E0;
             --text-muted: #888899;
@@ -86,9 +85,6 @@
             padding: 2px 5px;
         }
 
-        .lang-btn:hover { color: var(--vz-violet); }
-        
-        /* Ajuste: Resplandor para el idioma activo */
         .lang-btn.active {
             color: white;
             text-shadow: 0 0 10px var(--vz-violet-glow);
@@ -106,25 +102,25 @@
             padding: 20px;
         }
 
-        /* Ajuste: Efecto Glitch sutil para el logo */
+        /* --- LOGO AGRANDADO CON FLOTACIÓN Y PULSO SUTRE --- */
         .main-logo {
-            width: 750px;
-            max-width: 80vw;
+            width: 850px; /* Agrandado de 750px a 850px */
+            max-width: 90vw;
             height: auto;
             margin-bottom: 40px;
             filter: drop-shadow(0 0 25px var(--vz-violet-glow));
-            animation: float 6s ease-in-out infinite, glitch 10s step-end infinite;
+            animation: hero-float-pulse 6s ease-in-out infinite; /* Combinación de efectos */
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
-        }
-
-        @keyframes glitch {
-            0%, 90%, 100% { transform: translate(0); filter: drop-shadow(0 0 25px var(--vz-violet-glow)); }
-            92% { transform: translate(2px, -2px); filter: hue-rotate(90deg); }
-            94% { transform: translate(-2px, 2px); }
+        @keyframes hero-float-pulse {
+            0%, 100% { 
+                transform: translateY(0px); 
+                filter: drop-shadow(0 0 25px var(--vz-violet-glow));
+            }
+            50% { 
+                transform: translateY(-20px); 
+                filter: drop-shadow(0 0 45px var(--vz-violet-glow)); /* Efecto pulso en el logo */
+            }
         }
 
         .nav-grid {
@@ -164,7 +160,7 @@
             transform: translateY(-5px);
         }
 
-        /* --- BOTONES FLOTANTES CON PULSO --- */
+        /* --- BOTONES DE CONTACTO AGRANDADOS Y CON PULSO --- */
         .floating-contact {
             position: fixed;
             bottom: 80px;
@@ -173,18 +169,14 @@
             flex-direction: column;
             gap: 15px;
             z-index: 1500;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
         }
 
-        /* Ocultar iconos cuando los paneles están abiertos */
-        body.panel-open .floating-contact {
-            opacity: 0;
-            visibility: hidden;
-        }
+        body.panel-open .floating-contact { opacity: 0; visibility: hidden; }
 
         .contact-icon {
-            width: 50px;
-            height: 50px;
+            width: 60px; /* Agrandado de 50px a 60px */
+            height: 60px;
             background: rgba(5, 3, 10, 0.9);
             border: 1px solid var(--vz-violet);
             border-radius: 50%;
@@ -193,28 +185,20 @@
             justify-content: center;
             cursor: pointer;
             box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.4s ease;
             backdrop-filter: blur(5px);
-            padding: 10px;
-            animation: pulse-border 3s infinite;
+            padding: 12px;
+            animation: contact-pulse 4s infinite;
         }
 
-        @keyframes pulse-border {
-            0% { box-shadow: 0 0 0 0 rgba(108, 75, 255, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(108, 75, 255, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(108, 75, 255, 0); }
+        @keyframes contact-pulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(0,0,0,0.5); border-color: var(--vz-violet); }
+            50% { box-shadow: 0 0 30px var(--vz-violet-glow); border-color: white; transform: scale(1.05); }
         }
 
         .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
 
-        .contact-icon:hover {
-            transform: scale(1.15) rotate(5deg);
-            background: rgba(108, 75, 255, 0.2);
-            box-shadow: 0 0 25px var(--vz-violet-glow);
-            border-color: white;
-        }
-
-        /* --- GAVETA FEEDBACK --- */
+        /* --- PANELES --- */
         .feedback-drawer {
             position: fixed;
             bottom: 0; left: 0;
@@ -246,21 +230,8 @@
             cursor: pointer;
             z-index: 2005;
             transition: all 0.3s ease;
-            white-space: nowrap;
         }
 
-        .feedback-content { padding: 40px 20px; overflow-y: auto; width: 100%; max-width: 1200px; margin: 0 auto; }
-        .feedback-title { font-family: 'Courier New', monospace; font-size: 1.6rem; letter-spacing: 4px; color: white; margin-bottom: 30px; text-align: center; }
-        .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
-        .testimonial-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(108, 75, 255, 0.2); padding: 25px; border-radius: 15px; text-align: left; display: flex; flex-direction: column; gap: 12px; transition: all 0.3s ease; }
-        .client-header { display: flex; align-items: center; gap: 15px; }
-        .client-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--vz-violet); }
-        .client-name { color: white; font-weight: bold; font-size: 1.1rem; }
-        .client-project { color: var(--vz-violet); font-size: 0.75rem; text-transform: uppercase; }
-        .stars { color: var(--star-color); }
-        .quote { font-style: italic; line-height: 1.6; color: var(--text-main); font-size: 0.95rem; }
-
-        /* --- PANEL BIOGRAFÍA --- */
         .bio-panel {
             position: fixed;
             top: 0; right: -100%;
@@ -306,14 +277,14 @@
             header { padding-top: 50px; }
             .lang-switcher { border-left: none; padding-left: 0; }
             .header-left { flex-direction: column; align-items: flex-start; gap: 5px; }
-            .main-logo { margin-bottom: 30px; }
+            .main-logo { margin-bottom: 30px; width: 85vw; } /* Logo adaptable en móvil */
             .bio-panel { width: 100%; }
             .bio-tab { top: 70px; right: 0; transform: none; height: 40px; width: auto; padding: 0 15px; border-radius: 10px 0 0 10px; }
             .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
             .bio-panel.open ~ .bio-tab { opacity: 0; visibility: hidden; }
             .mobile-back-btn { display: block; }
-            .floating-contact { bottom: 60px; right: 15px; gap: 10px; }
-            .contact-icon { width: 45px; height: 45px; }
+            .floating-contact { bottom: 65px; right: 15px; gap: 12px; }
+            .contact-icon { width: 55px; height: 55px; }
         }
     </style>
 </head>
@@ -357,24 +328,22 @@
     </div>
 
     <div class="feedback-drawer" id="feedbackDrawer">
-        <div class="feedback-content">
+        <div class="feedback-content" style="text-align: center;">
             <h2 class="feedback-title translate" data-es="EXPERIENCIAS" data-en="EXPERIENCES">EXPERIENCIAS</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="client-header">
-                        <img src="FEEDBACK/miiussette feedback.jpeg" alt="Miiussette A." class="client-img">
-                        <div class="client-info-text">
-                            <span class="client-name">Miiussette A.</span>
-                            <span class="client-project translate" data-es="Sesión de fotos pareja" data-en="Couple photoshoot">Sesión de fotos pareja</span>
-                        </div>
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,75,255,0.2); padding:25px; border-radius:15px; display:inline-block; text-align:left; max-width:500px;">
+                <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
+                    <img src="FEEDBACK/miiussette feedback.jpeg" alt="Miiussette" style="width:60px; height:60px; border-radius:50%; border:2px solid var(--vz-violet);">
+                    <div>
+                        <span style="display:block; color:white; font-weight:bold;">Miiussette A.</span>
+                        <span class="translate" data-es="Sesión de fotos pareja" data-en="Couple photoshoot" style="font-size:0.75rem; color:var(--vz-violet);">Sesión de fotos pareja</span>
                     </div>
-                    <div class="stars">★★★★★</div>
-                    <p class="quote translate" 
-                       data-es="Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso." 
-                       data-en="Excellent communication and space to work with his photography, attentive, clear and very respectful.">
-                       Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso.
-                    </p>
                 </div>
+                <div style="color:var(--star-color); margin-bottom:10px;">★★★★★</div>
+                <p class="translate" style="font-style:italic; font-size:0.95rem;"
+                   data-es="Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso."
+                   data-en="Excellent communication and space to work with his photography, attentive, clear and very respectful.">
+                   Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso.
+                </p>
             </div>
         </div>
     </div>
@@ -391,7 +360,6 @@
                 Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>
                 Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales.
             </p>
-            <button class="mobile-back-btn translate" id="mobileBackBtn" data-es="[ VOLVER AL INICIO ]" data-en="[ BACK TO HOME ]">[ VOLVER AL INICIO ]</button>
         </div>
     </div>
 
@@ -403,7 +371,6 @@
         const body = document.getElementById('mainBody');
         const bioTab = document.getElementById('bioTab');
         const bioPanel = document.getElementById('bioPanel');
-        const mobileBackBtn = document.getElementById('mobileBackBtn');
         const fTrigger = document.getElementById('feedbackTrigger');
         const fDrawer = document.getElementById('feedbackDrawer');
 
@@ -418,15 +385,9 @@
             }
         }
 
-        // Función centralizada para manejar visibilidad de iconos de contacto
         function toggleUI(isOpen) {
             if (isOpen) body.classList.add('panel-open');
             else body.classList.remove('panel-open');
-        }
-
-        function closeBio() { 
-            bioPanel.classList.remove('open');
-            toggleUI(false);
         }
 
         bioTab.addEventListener('click', (e) => {
@@ -436,23 +397,22 @@
             toggleUI(isOpen);
         });
 
-        mobileBackBtn.addEventListener('click', closeBio);
-
         fTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
             const isOpen = fDrawer.classList.toggle('open');
-            closeBio();
+            bioPanel.classList.remove('open');
             toggleUI(isOpen);
             const currentLang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
-            if (fDrawer.classList.contains('open')) {
-                fTrigger.innerText = currentLang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]';
-            } else {
-                fTrigger.innerText = currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]';
-            }
+            fTrigger.innerText = fDrawer.classList.contains('open') ? 
+                (currentLang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]') : 
+                (currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]');
         });
 
         document.addEventListener('click', (e) => {
-            if (!bioPanel.contains(e.target) && !bioTab.contains(e.target)) closeBio();
+            if (!bioPanel.contains(e.target) && !bioTab.contains(e.target)) {
+                bioPanel.classList.remove('open');
+                toggleUI(false);
+            }
             if (!fDrawer.contains(e.target) && !fTrigger.contains(e.target)) {
                 fDrawer.classList.remove('open');
                 toggleUI(false);
