@@ -3,57 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VECONZETA | Narrativa Visual</title>
+    <title>VeconZeta | Portafolio Visual</title>
     <style>
-        /* Estética Cinematográfica Base */
-        body {
-            background-color: #050505;
-            color: #ffffff;
-            font-family: 'Inter', 'Helvetica', sans-serif;
+        :root {
+            --vz-violet: #6C4BFF;
+            --vz-neon-pink: #FF2A6D;
+            --bg-dark: #05030A;
+            --text-main: #E0E0E0;
+            --text-muted: #888899;
+        }
+
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
-            overflow: hidden;
         }
 
-        .hero {
-            text-align: center;
+        .ambient-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150vw;
+            height: 150vh;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle at center, rgba(108, 75, 255, 0.15) 0%, rgba(5, 3, 10, 1) 60%);
+            z-index: -1;
+            pointer-events: none;
         }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            padding: 30px 50px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .hero-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            perspective: 1000px;
+        }
+
+        /* --- NUEVOS ESTILOS PARA EL LOGO --- */
+        .main-logo {
+            width: 280px; /* Tamaño ajustable según necesites */
+            height: auto;
+            margin-bottom: -10px; /* Acerca el logo al nombre */
+            /* Añade un resplandor violeta dinámico que se funde con tu fondo */
+            filter: drop-shadow(0 0 25px rgba(108, 75, 255, 0.6));
+            /* Animación suave para darle un aspecto orgánico/tecnológico */
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+        /* ---------------------------------- */
 
         h1 {
-            font-size: 3rem;
-            font-weight: 200;
-            letter-spacing: 15px;
-            margin: 0;
-            text-transform: uppercase;
-            opacity: 0.8;
+            font-size: 4rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            text-shadow: 0 0 20px rgba(108, 75, 255, 0.4);
+            margin-bottom: 15px;
+            color: #ffffff;
         }
 
-        .line {
-            width: 50px;
-            height: 1px;
-            background-color: #444;
-            margin: 20px auto;
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            line-height: 1.6;
+            margin-bottom: 50px;
         }
 
-        p {
-            font-size: 0.7rem;
-            letter-spacing: 5px;
-            color: #666;
+        .nav-grid {
+            display: flex;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(108, 75, 255, 0.3);
+            padding: 15px 30px;
+            color: var(--text-main);
+            text-decoration: none;
             text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+        }
+
+        .nav-btn:hover {
+            background: rgba(108, 75, 255, 0.2);
+            border-color: var(--vz-violet);
+            transform: translateY(-5px) translateZ(20px);
+            box-shadow: 0 10px 30px rgba(108, 75, 255, 0.4);
+            color: #fff;
+        }
+
+        .feedback-sector {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.5);
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: background 0.3s ease;
+        }
+
+        .feedback-sector:hover {
+            background: rgba(108, 75, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .feedback-text {
+            color: var(--vz-violet);
         }
     </style>
 </head>
 <body>
+    <div class="ambient-bg"></div>
 
-    <div class="hero">
-        <h1>Veconzeta</h1>
-        <div class="line"></div>
-        <p>Próximamente: Narrativa Visual & Fotomontaje</p>
-    </div>
+    <header>
+        <div>SYS.VECONZETA // V.26</div>
+        <div>CREADOR DIGITAL INDEPENDIENTE</div>
+    </header>
 
+    <main class="hero-container">
+        <img src="321.png" alt="VeconZeta Logo" class="main-logo">
+        
+        <h1>Danilo Hernández</h1>
+        <p class="subtitle">
+            Combino técnica, narrativa e iteración digital para crear piezas visuales con estética cinematográfica. 
+            Especializado en flujos de trabajo híbridos y arte digital.
+        </p>
+        
+        <div class="nav-grid">
+            <a class="nav-btn">Fotografía</a>
+            <a class="nav-btn">Fotomontajes</a>
+            <a class="nav-btn">Edición de Contenido</a>
+            <a class="nav-btn">Diseño</a>
+            <a class="nav-btn">Contacto</a>
+        </div>
+    </main>
+
+    <footer class="feedback-sector">
+        <span class="feedback-text">[ ABRIR MÓDULO DE FEEDBACK ]</span> - Evaluaciones y comentarios de proyectos.
+    </footer>
 </body>
 </html>
