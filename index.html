@@ -14,11 +14,7 @@
             --star-color: #FFD700;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-dark);
@@ -31,275 +27,146 @@
             width: 100vw;
         }
 
-        .bg-image {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            z-index: -2;
-        }
-
+        .bg-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
         .ambient-bg {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, rgba(5, 3, 10, 0.8) 0%, rgba(5, 3, 10, 0.95) 100%);
-            backdrop-filter: blur(3px);
-            z-index: -1;
+            backdrop-filter: blur(3px); z-index: -1;
         }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            font-family: 'Courier New', monospace;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            z-index: 5;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5%; font-family: 'Courier New', monospace;
+            font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;
+            color: var(--text-muted); z-index: 5;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .lang-switcher {
-            display: flex;
-            gap: 8px;
-            border-left: 1px solid rgba(136, 136, 153, 0.3);
-            padding-left: 15px;
-        }
-
-        .lang-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-size: 0.75rem;
-            transition: all 0.3s ease;
-            padding: 2px 5px;
-        }
-
-        .lang-btn.active {
-            color: white;
-            text-shadow: 0 0 10px var(--vz-violet-glow);
-            border-bottom: 2px solid var(--vz-violet);
-        }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .lang-switcher { display: flex; gap: 8px; border-left: 1px solid rgba(136, 136, 153, 0.3); padding-left: 15px; }
+        .lang-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-family: 'Courier New', monospace; font-size: 0.75rem; transition: all 0.3s ease; padding: 2px 5px; }
+        .lang-btn.active { color: white; text-shadow: 0 0 10px var(--vz-violet-glow); border-bottom: 2px solid var(--vz-violet); }
 
         .hero-container {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            z-index: 5;
-            padding: 20px;
+            flex-grow: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; text-align: center;
+            z-index: 5; padding: 20px;
         }
 
-        /* --- LOGO AGRANDADO CON FLOTACIÓN Y PULSO SUTRE --- */
+        /* --- LOGO: AGRANDADO + FLOTACIÓN + PULSO --- */
         .main-logo {
-            width: 850px; /* Agrandado de 750px a 850px */
-            max-width: 90vw;
-            height: auto;
-            margin-bottom: 40px;
+            width: 850px; max-width: 90vw; height: auto; margin-bottom: 40px;
             filter: drop-shadow(0 0 25px var(--vz-violet-glow));
-            animation: hero-float-pulse 6s ease-in-out infinite; /* Combinación de efectos */
+            animation: hero-float-pulse 6s ease-in-out infinite;
         }
 
         @keyframes hero-float-pulse {
-            0%, 100% { 
-                transform: translateY(0px); 
-                filter: drop-shadow(0 0 25px var(--vz-violet-glow));
-            }
-            50% { 
-                transform: translateY(-20px); 
-                filter: drop-shadow(0 0 45px var(--vz-violet-glow)); /* Efecto pulso en el logo */
-            }
+            0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 25px var(--vz-violet-glow)); }
+            50% { transform: translateY(-20px); filter: drop-shadow(0 0 45px var(--vz-violet-glow)); }
         }
 
-        .nav-grid {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            z-index: 10;
-            width: 100%;
-        }
+        .nav-grid { display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 10; width: 100%; }
+        @media (min-width: 769px) { .nav-grid { flex-direction: row; justify-content: center; gap: 15px; } }
 
-        @media (min-width: 769px) {
-            .nav-grid { flex-direction: row; justify-content: center; gap: 15px; }
-        }
-
+        /* --- BOTONES NAVEGACIÓN: EFECTO SALTO --- */
         .nav-btn {
             background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(108, 75, 255, 0.3);
-            padding: 12px 20px;
-            color: #ffffff;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.8rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            width: 85%;
-            max-width: 200px;
-            text-align: center;
+            padding: 12px 20px; color: #ffffff; text-decoration: none;
+            text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;
+            backdrop-filter: blur(10px); transition: all 0.3s ease;
+            cursor: pointer; width: 85%; max-width: 200px; text-align: center;
+            position: relative;
         }
 
-        .nav-btn:hover {
-            background: rgba(108, 75, 255, 0.15);
-            border-color: var(--vz-violet);
-            box-shadow: 0 0 20px var(--vz-violet-glow);
-            transform: translateY(-5px);
+        .nav-btn:hover { background: rgba(108, 75, 255, 0.15); border-color: var(--vz-violet); box-shadow: 0 0 20px var(--vz-violet-glow); transform: translateY(-5px); }
+
+        /* Animación de salto rápido */
+        .jump-anim { animation: quick-jump 0.4s ease-out; }
+        @keyframes quick-jump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); border-color: white; box-shadow: 0 0 15px var(--vz-violet-glow); }
         }
 
-        /* --- BOTONES DE CONTACTO AGRANDADOS Y CON PULSO --- */
+        /* --- CONTACTO: AGRANDADO + PULSO --- */
         .floating-contact {
-            position: fixed;
-            bottom: 80px;
-            right: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            z-index: 1500;
+            position: fixed; bottom: 80px; right: 25px;
+            display: flex; flex-direction: column; gap: 15px; z-index: 1500;
             transition: opacity 0.4s ease, visibility 0.4s ease;
         }
-
         body.panel-open .floating-contact { opacity: 0; visibility: hidden; }
 
         .contact-icon {
-            width: 60px; /* Agrandado de 50px a 60px */
-            height: 60px;
-            background: rgba(5, 3, 10, 0.9);
-            border: 1px solid var(--vz-violet);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            transition: all 0.4s ease;
-            backdrop-filter: blur(5px);
-            padding: 12px;
-            animation: contact-pulse 4s infinite;
+            width: 60px; height: 60px; background: rgba(5, 3, 10, 0.9);
+            border: 1px solid var(--vz-violet); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            transition: all 0.4s ease; backdrop-filter: blur(5px);
+            padding: 12px; animation: contact-pulse 4s infinite;
         }
 
         @keyframes contact-pulse {
             0%, 100% { box-shadow: 0 0 15px rgba(0,0,0,0.5); border-color: var(--vz-violet); }
             50% { box-shadow: 0 0 30px var(--vz-violet-glow); border-color: white; transform: scale(1.05); }
         }
-
         .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
 
         /* --- PANELES --- */
         .feedback-drawer {
-            position: fixed;
-            bottom: 0; left: 0;
-            width: 100vw; height: 70vh; 
-            background: rgba(5, 3, 10, 0.98);
-            backdrop-filter: blur(20px);
-            border-top: 2px solid var(--vz-violet);
-            transform: translateY(100%);
-            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
+            position: fixed; bottom: 0; left: 0; width: 100vw; height: 70vh; 
+            background: rgba(5, 3, 10, 0.98); backdrop-filter: blur(20px);
+            border-top: 2px solid var(--vz-violet); transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); z-index: 2000;
+            display: flex; flex-direction: column;
         }
-
         .feedback-drawer.open { transform: translateY(0); }
-
         .feedback-trigger {
-            position: fixed;
-            bottom: 0; left: 50%;
-            transform: translateX(-50%);
-            padding: 12px 30px;
-            background: rgba(5, 3, 10, 0.95);
-            border: 1px solid var(--vz-violet);
-            border-bottom: none;
-            border-radius: 12px 12px 0 0;
-            color: white;
-            font-family: 'Courier New', monospace;
-            font-size: 0.75rem;
-            cursor: pointer;
-            z-index: 2005;
-            transition: all 0.3s ease;
+            position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+            padding: 12px 30px; background: rgba(5, 3, 10, 0.95);
+            border: 1px solid var(--vz-violet); border-bottom: none;
+            border-radius: 12px 12px 0 0; color: white; font-family: 'Courier New', monospace;
+            font-size: 0.75rem; cursor: pointer; z-index: 2005; transition: all 0.3s ease;
         }
 
         .bio-panel {
-            position: fixed;
-            top: 0; right: -100%;
-            width: 380px; max-width: 100%; height: 100vh;
-            background: rgba(5, 3, 10, 0.95);
-            backdrop-filter: blur(15px);
-            border-left: 1px solid var(--vz-violet);
-            transition: right 0.5s ease;
-            z-index: 1900;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
+            position: fixed; top: 0; right: -100%; width: 380px; max-width: 100%;
+            height: 100vh; background: rgba(5, 3, 10, 0.95); backdrop-filter: blur(15px);
+            border-left: 1px solid var(--vz-violet); transition: right 0.5s ease;
+            z-index: 1900; display: flex; flex-direction: column; overflow-y: auto;
         }
-
         .bio-panel.open { right: 0; }
-
         .bio-tab {
-            position: fixed;
-            right: 0; top: 50%;
-            transform: translateY(-50%);
-            width: 42px; height: 160px;
-            background: rgba(5, 3, 10, 0.9);
-            border: 1px solid var(--vz-violet);
-            border-right: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px 0 0 10px;
-            z-index: 1905;
-            transition: right 0.5s ease;
+            position: fixed; right: 0; top: 50%; transform: translateY(-50%);
+            width: 42px; height: 160px; background: rgba(5, 3, 10, 0.9);
+            border: 1px solid var(--vz-violet); border-right: none;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            border-radius: 10px 0 0 10px; z-index: 1905; transition: right 0.5s ease;
         }
-
         @media (min-width: 769px) { .bio-panel.open ~ .bio-tab { right: 380px; } }
-
         .bio-tab span { writing-mode: vertical-rl; transform: rotate(180deg); color: white; letter-spacing: 3px; font-size: 0.8rem; font-family: 'Courier New', monospace; }
         .bio-content { padding: 60px 30px; text-align: center; width: 100%; }
         .bio-photo { width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--vz-violet); margin-bottom: 25px; object-fit: cover; box-shadow: 0 0 20px var(--vz-violet-glow); }
-
-        .mobile-back-btn { display: none; margin: 30px auto 0; padding: 12px 25px; border: 1px solid var(--vz-violet); background: rgba(108, 75, 255, 0.1); color: white; text-transform: uppercase; border-radius: 5px; cursor: pointer; }
 
         @media (max-width: 768px) {
             header { padding-top: 50px; }
             .lang-switcher { border-left: none; padding-left: 0; }
             .header-left { flex-direction: column; align-items: flex-start; gap: 5px; }
-            .main-logo { margin-bottom: 30px; width: 85vw; } /* Logo adaptable en móvil */
+            .main-logo { margin-bottom: 30px; width: 85vw; }
             .bio-panel { width: 100%; }
             .bio-tab { top: 70px; right: 0; transform: none; height: 40px; width: auto; padding: 0 15px; border-radius: 10px 0 0 10px; }
             .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
             .bio-panel.open ~ .bio-tab { opacity: 0; visibility: hidden; }
-            .mobile-back-btn { display: block; }
             .floating-contact { bottom: 65px; right: 15px; gap: 12px; }
             .contact-icon { width: 55px; height: 55px; }
         }
     </style>
 </head>
 <body id="mainBody">
-    
     <img src="IMG/fondo mosaico.png" alt="Fondo" class="bg-image">
     <div class="ambient-bg"></div>
 
     <div class="floating-contact" id="contactButtons">
-        <a href="https://wa.me/56932751639" target="_blank" class="contact-icon" title="WhatsApp">
-            <img src="ICON/social.png" alt="WhatsApp">
-        </a>
-        <a href="mailto:contacto.veconzeta@gmail.com" class="contact-icon" title="Email">
-            <img src="ICON/gmail.png" alt="Email">
-        </a>
+        <a href="https://wa.me/56932751639" target="_blank" class="contact-icon" title="WhatsApp"><img src="ICON/social.png" alt="WhatsApp"></a>
+        <a href="mailto:contacto.veconzeta@gmail.com" class="contact-icon" title="Email"><img src="ICON/gmail.png" alt="Email"></a>
     </div>
 
     <header>
@@ -315,7 +182,7 @@
 
     <main class="hero-container">
         <img src="IMG/321.png" alt="Logo" class="main-logo">
-        <div class="nav-grid">
+        <div class="nav-grid" id="navGrid">
             <a class="nav-btn translate" data-es="Fotografía" data-en="Photography">Fotografía</a>
             <a class="nav-btn translate" data-es="Fotomontajes" data-en="Photomontage">Fotomontajes</a>
             <a class="nav-btn translate" data-es="Edición de Video" data-en="Video Editing">Edición de Video</a>
@@ -323,9 +190,7 @@
         </div>
     </main>
 
-    <div class="feedback-trigger translate" id="feedbackTrigger" data-es="[ VER TESTIMONIOS ]" data-en="[ VIEW TESTIMONIALS ]">
-        [ VER TESTIMONIOS ]
-    </div>
+    <div class="feedback-trigger translate" id="feedbackTrigger" data-es="[ VER TESTIMONIOS ]" data-en="[ VIEW TESTIMONIALS ]">[ VER TESTIMONIOS ]</div>
 
     <div class="feedback-drawer" id="feedbackDrawer">
         <div class="feedback-content" style="text-align: center;">
@@ -339,11 +204,7 @@
                     </div>
                 </div>
                 <div style="color:var(--star-color); margin-bottom:10px;">★★★★★</div>
-                <p class="translate" style="font-style:italic; font-size:0.95rem;"
-                   data-es="Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso."
-                   data-en="Excellent communication and space to work with his photography, attentive, clear and very respectful.">
-                   Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso.
-                </p>
+                <p class="translate" style="font-style:italic; font-size:0.95rem;" data-es="Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso." data-en="Excellent communication and space to work with his photography, attentive, clear and very respectful.">Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso.</p>
             </div>
         </div>
     </div>
@@ -352,20 +213,11 @@
         <div class="bio-content">
             <img src="IMG/perfil.png" alt="Perfil" class="bio-photo">
             <h2 style="color: white; margin-bottom: 15px; font-size: 1.3rem;">DANILO HERNÁNDEZ A.</h2>
-            <p class="translate" style="font-size: 0.95rem; line-height: 1.7; color: var(--text-muted); text-align: center;"
-               data-es="<strong>Artista Digital.</strong><br><br>Tengo 33 años, vivo en Santiago de Chile. Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales."
-               data-en="<strong>Digital Artist.</strong><br><br>I am 33 years old, living in Santiago, Chile. You can find me in roles such as photographer (portraits and events), graphic/audiovisual content editor, and digital retouching expert. Additionally, I love bringing abstract concepts to life through photomontage.<br><br>My creative engine is the construction of worlds and their stories. In every piece I develop, I seek to convey the soul and identity of each person I work with, ensuring they are reflected in the final results.">
-                <strong>Artista Digital.</strong><br><br>
-                Tengo 33 años, vivo en Santiago de Chile. <br><br>
-                Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>
-                Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales.
-            </p>
+            <p class="translate" style="font-size: 0.95rem; line-height: 1.7; color: var(--text-muted); text-align: center;" data-es="<strong>Artista Digital.</strong><br><br>Tengo 33 años, vivo en Santiago de Chile. Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales." data-en="<strong>Digital Artist.</strong><br><br>I am 33 years old, living in Santiago, Chile. You can find me in roles such as photographer (portraits and events), graphic/audiovisual content editor, and digital retouching expert. Additionally, I love bringing abstract concepts to life through photomontage.<br><br>My creative engine is the construction of worlds and their stories. In every piece I develop, I seek to convey the soul and identity of each person I work with, ensuring they are reflected in the final results."><strong>Artista Digital.</strong><br><br>Tengo 33 años, vivo en Santiago de Chile. <br><br>Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales.</p>
         </div>
     </div>
 
-    <div class="bio-tab" id="bioTab">
-        <span class="translate" data-es="[ SOBRE MÍ ]" data-en="[ ABOUT ME ]">[ SOBRE MÍ ]</span>
-    </div>
+    <div class="bio-tab" id="bioTab"><span class="translate" data-es="[ SOBRE MÍ ]" data-en="[ ABOUT ME ]">[ SOBRE MÍ ]</span></div>
 
     <script>
         const body = document.getElementById('mainBody');
@@ -374,48 +226,47 @@
         const fTrigger = document.getElementById('feedbackTrigger');
         const fDrawer = document.getElementById('feedbackDrawer');
 
+        // Lógica de salto aleatorio
+        const navBtns = Array.from(document.querySelectorAll('.nav-btn'));
+        let jumpQueue = [];
+
+        function startJumpCycle() {
+            if (jumpQueue.length === 0) {
+                jumpQueue = [...navBtns].sort(() => Math.random() - 0.5); // Barajado aleatorio
+            }
+            
+            const nextBtn = jumpQueue.shift();
+            nextBtn.classList.add('jump-anim');
+            
+            setTimeout(() => {
+                nextBtn.classList.remove('jump-anim');
+                const nextInterval = Math.random() * (5000 - 3000) + 3000; // Entre 3 y 5 segundos
+                setTimeout(startJumpCycle, nextInterval);
+            }, 500); // Duración de la animación
+        }
+        
+        setTimeout(startJumpCycle, 2000); // Iniciar después de 2 seg
+
         function setLanguage(lang, event) {
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            document.querySelectorAll('.translate').forEach(el => {
-                el.innerHTML = el.getAttribute(`data-${lang}`);
-            });
-            if (fDrawer.classList.contains('open')) {
-                fTrigger.innerText = lang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]';
-            }
+            document.querySelectorAll('.translate').forEach(el => { el.innerHTML = el.getAttribute(`data-${lang}`); });
+            if (fDrawer.classList.contains('open')) { fTrigger.innerText = lang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]'; }
         }
 
-        function toggleUI(isOpen) {
-            if (isOpen) body.classList.add('panel-open');
-            else body.classList.remove('panel-open');
-        }
+        function toggleUI(isOpen) { if (isOpen) body.classList.add('panel-open'); else body.classList.remove('panel-open'); }
 
-        bioTab.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isOpen = bioPanel.classList.toggle('open');
-            fDrawer.classList.remove('open');
-            toggleUI(isOpen);
-        });
-
+        bioTab.addEventListener('click', (e) => { e.stopPropagation(); const isOpen = bioPanel.classList.toggle('open'); fDrawer.classList.remove('open'); toggleUI(isOpen); });
         fTrigger.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isOpen = fDrawer.classList.toggle('open');
-            bioPanel.classList.remove('open');
-            toggleUI(isOpen);
+            e.stopPropagation(); const isOpen = fDrawer.classList.toggle('open'); bioPanel.classList.remove('open'); toggleUI(isOpen);
             const currentLang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
-            fTrigger.innerText = fDrawer.classList.contains('open') ? 
-                (currentLang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]') : 
-                (currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]');
+            fTrigger.innerText = fDrawer.classList.contains('open') ? (currentLang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]') : (currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]');
         });
 
         document.addEventListener('click', (e) => {
-            if (!bioPanel.contains(e.target) && !bioTab.contains(e.target)) {
-                bioPanel.classList.remove('open');
-                toggleUI(false);
-            }
+            if (!bioPanel.contains(e.target) && !bioTab.contains(e.target)) { bioPanel.classList.remove('open'); toggleUI(false); }
             if (!fDrawer.contains(e.target) && !fTrigger.contains(e.target)) {
-                fDrawer.classList.remove('open');
-                toggleUI(false);
+                fDrawer.classList.remove('open'); toggleUI(false);
                 const currentLang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
                 fTrigger.innerText = currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]';
             }
