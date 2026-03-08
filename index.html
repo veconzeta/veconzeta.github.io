@@ -141,25 +141,25 @@
             color: var(--vz-violet);
         }
 
-        /* --- PANEL LATERAL DE BIOGRAFÍA (NUEVO) --- */
+        /* --- PANEL LATERAL DE BIOGRAFÍA --- */
         .bio-panel {
             position: fixed;
             top: 0;
-            right: -380px; /* Oculto por defecto */
+            right: -380px;
             width: 380px;
             height: 100vh;
             background: rgba(5, 3, 10, 0.85);
             backdrop-filter: blur(15px);
             border-left: 1px solid rgba(108, 75, 255, 0.3);
             box-shadow: -10px 0 40px rgba(0,0,0,0.9);
-            transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Transición suave tipo resorte */
+            transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1);
             z-index: 100;
             display: flex;
             align-items: center;
         }
 
         .bio-panel.open {
-            right: 0; /* Al añadir la clase 'open', se desliza hacia la pantalla */
+            right: 0;
         }
 
         .bio-tab {
@@ -168,7 +168,7 @@
             top: 50%;
             transform: translateY(-50%);
             width: 40px;
-            height: 120px;
+            height: 160px; /* Aumentado para que el texto "SOBRE MÍ" respire bien */
             background: rgba(5, 3, 10, 0.9);
             border: 1px solid rgba(108, 75, 255, 0.4);
             border-right: none;
@@ -193,7 +193,7 @@
             font-family: 'Courier New', monospace;
             letter-spacing: 3px;
             font-size: 0.85rem;
-            transform: rotate(180deg); /* Para que se lea de abajo hacia arriba */
+            transform: rotate(180deg);
         }
 
         .bio-content {
@@ -261,11 +261,11 @@
 
    <div class="bio-panel" id="bioPanel">
        <div class="bio-tab" id="bioTab">
-           <span>[ INFO ]</span>
+           <span>[ SOBRE MÍ ]</span>
        </div>
        
        <div class="bio-content">
-           <img src="IMG/321.png" alt="Danilo Hernández" class="bio-photo">
+           <img src="IMG/perfil.jpg" alt="Danilo Hernández" class="bio-photo">
            <h2 class="bio-name">DANILO HERNÁNDEZ</h2>
            <p class="bio-text">
                <strong>Creador visual todoterreno.</strong><br><br>
@@ -285,7 +285,7 @@
 
        // Alternar clase 'open' al hacer clic en la pestaña
        bioTab.addEventListener('click', (event) => {
-           event.stopPropagation(); // Evita que el clic se propague al documento
+           event.stopPropagation();
            bioPanel.classList.toggle('open');
        });
 
