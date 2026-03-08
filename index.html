@@ -237,4 +237,151 @@
             backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
-            justify
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 8px 0 0 8px;
+            transition: all 0.3s ease;
+        }
+
+        .bio-tab:hover {
+            background: rgba(108, 75, 255, 0.2);
+            box-shadow: -5px 0 15px rgba(108, 75, 255, 0.3);
+        }
+
+        .bio-tab span {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            color: var(--text-main);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            transform: rotate(180deg);
+        }
+
+        .bio-content {
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+        }
+
+        .bio-photo {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--vz-violet);
+            margin-bottom: 25px;
+            box-shadow: 0 0 25px rgba(108, 75, 255, 0.4);
+        }
+
+        .bio-name {
+            color: #ffffff;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .bio-text {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            text-align: center;
+        }
+        
+        .bio-text strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    
+   <img src="IMG/fondo mosaico.png" alt="Fondo Mosaico" class="bg-image">
+
+   <div class="ambient-bg"></div>
+
+   <header>
+       <div>SYS.VECONZETA // V.26</div>
+       <div>ARTISTA DIGITAL </div>
+   </header>
+
+   <main class="hero-container">
+       <img src="IMG/321.png" alt="VeconZeta Logo" class="main-logo">
+       
+       <div class="nav-grid">
+           <a class="nav-btn">Fotografía</a>
+           <a class="nav-btn">Fotomontajes</a>
+           <a class="nav-btn">Edición de Contenido</a>
+           <a class="nav-btn">Diseño</a>
+           <a class="nav-btn">Contacto</a>
+       </div>
+   </main>
+
+   <div class="bio-panel" id="bioPanel">
+       <div class="bio-tab" id="bioTab">
+           <span>[ SOBRE MÍ ]</span>
+       </div>
+       
+       <div class="bio-content">
+           <img src="IMG/perfil.png" alt="Danilo Hernández A." class="bio-photo">
+           <h2 class="bio-name">DANILO HERNÁNDEZ A.</h2>
+           <p class="bio-text">
+               <strong>Artista Digital.</strong><br><br>
+               Tengo 33 años, vivo en Santiago de Chile.<br><br>
+               Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>
+               Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma y la identidad de mis clientes, plasmando su verdadera esencia en el resultado final.
+           </p>
+       </div>
+   </div>
+
+   <div class="feedback-drawer" id="feedbackDrawer">
+       <div class="feedback-trigger" id="feedbackTrigger">
+           <span>[ ABRIR MÓDULO DE FEEDBACK ]</span> <span class="muted-text">- Evaluaciones y comentarios.</span>
+       </div>
+       
+       <div class="feedback-content">
+           <div class="feedback-title">MÓDULO DE EVALUACIÓN Y COMENTARIOS DE PROYECTOS</div>
+           Aquí puedes integrar un formulario de contacto, un feed de comentarios o testimonios de clientes.<br><br>
+           [ESPACIO RESERVADO PARA CONTENIDO TÉCNICO]
+       </div>
+   </div>
+
+   <script>
+       // Lógica del Panel Lateral (Sobre Mí)
+       const bioTab = document.getElementById('bioTab');
+       const bioPanel = document.getElementById('bioPanel');
+
+       bioTab.addEventListener('click', (event) => {
+           event.stopPropagation();
+           bioPanel.classList.toggle('open');
+           // Cierra la gaveta inferior si está abierta
+           feedbackDrawer.classList.remove('open');
+       });
+
+       // Lógica de la Gaveta Inferior (Feedback)
+       const feedbackTrigger = document.getElementById('feedbackTrigger');
+       const feedbackDrawer = document.getElementById('feedbackDrawer');
+
+       feedbackTrigger.addEventListener('click', (event) => {
+           event.stopPropagation();
+           feedbackDrawer.classList.toggle('open');
+           // Cierra el panel lateral si está abierto
+           bioPanel.classList.remove('open');
+       });
+
+       // Cerrar AMBOS paneles si se hace clic fuera de ellos
+       document.addEventListener('click', (event) => {
+           if (bioPanel.classList.contains('open') && !bioPanel.contains(event.target)) {
+               bioPanel.classList.remove('open');
+           }
+           if (feedbackDrawer.classList.contains('open') && !feedbackDrawer.contains(event.target)) {
+               feedbackDrawer.classList.remove('open');
+           }
+       });
+   </script>
+</body>
+</html>
