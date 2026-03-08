@@ -8,7 +8,6 @@
         :root {
             --vz-violet: #6C4BFF;
             --vz-violet-glow: rgba(108, 75, 255, 0.6);
-            --vz-neon-pink: #FF2A6D;
             --bg-dark: #05030A;
             --text-main: #E0E0E0;
             --text-muted: #888899;
@@ -34,20 +33,16 @@
 
         .bg-image {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             object-fit: cover;
             z-index: -2;
         }
 
         .ambient-bg {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: radial-gradient(circle at center, rgba(5, 3, 10, 0.8) 0%, rgba(5, 3, 10, 0.95) 100%);
             backdrop-filter: blur(3px);
             z-index: -1;
@@ -63,6 +58,34 @@
             text-transform: uppercase;
             color: var(--text-muted);
             z-index: 5;
+        }
+
+        /* --- SELECTOR DE IDIOMA --- */
+        .lang-switcher {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--vz-violet);
+            color: white;
+            padding: 5px 12px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--vz-violet);
+            box-shadow: 0 0 10px var(--vz-violet-glow);
         }
 
         .hero-container {
@@ -127,13 +150,11 @@
             transform: translateY(-5px);
         }
 
-        /* --- GAVETA DE FEEDBACK --- */
+        /* --- GAVETA FEEDBACK --- */
         .feedback-drawer {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100vw;
-            height: 70vh; 
+            bottom: 0; left: 0;
+            width: 100vw; height: 70vh; 
             background: rgba(5, 3, 10, 0.98);
             backdrop-filter: blur(20px);
             border-top: 2px solid var(--vz-violet);
@@ -148,8 +169,7 @@
 
         .feedback-trigger {
             position: fixed;
-            bottom: 0;
-            left: 50%;
+            bottom: 0; left: 50%;
             transform: translateX(-50%);
             padding: 12px 30px;
             background: rgba(5, 3, 10, 0.95);
@@ -182,7 +202,6 @@
             text-align: center;
         }
 
-        /* --- TESTIMONIOS GRID --- */
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -194,53 +213,23 @@
             border: 1px solid rgba(108, 75, 255, 0.2);
             padding: 25px;
             border-radius: 15px;
-            transition: 0.3s;
             text-align: left;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        .testimonial-card:hover {
-            border-color: var(--vz-violet);
-            background: rgba(108, 75, 255, 0.05);
-            transform: translateY(-5px);
-        }
-
-        .client-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 5px;
-        }
-
-        .client-img {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--vz-violet);
-            box-shadow: 0 0 10px var(--vz-violet-glow);
-        }
-
-        .client-info-text {
-            display: flex;
-            flex-direction: column;
-        }
-
+        .client-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--vz-violet); }
         .client-name { color: white; font-weight: bold; font-size: 1.1rem; }
-        .client-project { color: var(--vz-violet); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
-        .stars { color: var(--star-color); font-size: 1.1rem; margin-top: 5px; }
-        .quote { font-style: italic; line-height: 1.6; color: var(--text-main); font-size: 0.95rem; margin-top: 5px; }
+        .client-project { color: var(--vz-violet); font-size: 0.75rem; text-transform: uppercase; }
+        .stars { color: var(--star-color); }
+        .quote { font-style: italic; line-height: 1.6; color: var(--text-main); font-size: 0.95rem; }
 
         /* --- PANEL BIOGRAFÍA --- */
         .bio-panel {
             position: fixed;
-            top: 0;
-            right: -100%;
-            width: 380px;
-            max-width: 100%;
-            height: 100vh;
+            top: 0; right: -100%;
+            width: 380px; max-width: 100%; height: 100vh;
             background: rgba(5, 3, 10, 0.95);
             backdrop-filter: blur(15px);
             border-left: 1px solid var(--vz-violet);
@@ -255,11 +244,9 @@
 
         .bio-tab {
             position: fixed;
-            right: 0;
-            top: 50%;
+            right: 0; top: 50%;
             transform: translateY(-50%);
-            width: 42px;
-            height: 160px;
+            width: 42px; height: 160px;
             background: rgba(5, 3, 10, 0.9);
             border: 1px solid var(--vz-violet);
             border-right: none;
@@ -269,7 +256,7 @@
             justify-content: center;
             border-radius: 10px 0 0 10px;
             z-index: 1001;
-            transition: right 0.5s ease, opacity 0.3s ease;
+            transition: right 0.5s ease;
         }
 
         @media (min-width: 769px) {
@@ -283,11 +270,10 @@
             letter-spacing: 3px;
             font-size: 0.8rem;
             font-family: 'Courier New', monospace;
-            white-space: nowrap;
         }
 
         .bio-content { padding: 60px 30px; text-align: center; width: 100%; }
-        .bio-photo { width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--vz-violet); margin-bottom: 25px; object-fit: cover; box-shadow: 0 0 20px var(--vz-violet-glow); }
+        .bio-photo { width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--vz-violet); margin-bottom: 25px; object-fit: cover; }
 
         .mobile-back-btn {
             display: none;
@@ -297,24 +283,13 @@
             background: rgba(108, 75, 255, 0.1);
             color: white;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.75rem;
-            cursor: pointer;
             border-radius: 5px;
         }
 
         @media (max-width: 768px) {
             header { display: none; }
-            .bio-panel { width: 100%; border-left: none; }
-            .bio-tab { 
-                top: 25px; 
-                right: 0; 
-                transform: none; 
-                height: 40px; 
-                width: auto; 
-                padding: 0 15px; 
-                border-radius: 10px 0 0 10px; 
-            }
+            .bio-panel { width: 100%; }
+            .bio-tab { top: 70px; right: 0; transform: none; height: 40px; width: auto; padding: 0 15px; border-radius: 10px 0 0 10px; }
             .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
             .bio-panel.open ~ .bio-tab { opacity: 0; visibility: hidden; }
             .mobile-back-btn { display: block; }
@@ -326,44 +301,49 @@
     <img src="IMG/fondo mosaico.png" alt="Fondo" class="bg-image">
     <div class="ambient-bg"></div>
 
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLanguage('es')">ES</button>
+        <button class="lang-btn" onclick="setLanguage('en')">EN</button>
+    </div>
+
     <header>
         <div>SYS.VECONZETA // V.26</div>
-        <div>ARTISTA DIGITAL</div>
+        <div class="translate" data-es="ARTISTA DIGITAL" data-en="DIGITAL ARTIST">ARTISTA DIGITAL</div>
     </header>
 
     <main class="hero-container">
         <img src="IMG/321.png" alt="Logo" class="main-logo">
         <div class="nav-grid">
-            <a class="nav-btn">Fotografía</a>
-            <a class="nav-btn">Fotomontajes</a>
-            <a class="nav-btn">Edición de Video</a>
-            <a class="nav-btn">Diseño</a>
+            <a class="nav-btn translate" data-es="Fotografía" data-en="Photography">Fotografía</a>
+            <a class="nav-btn translate" data-es="Fotomontajes" data-en="Photomontage">Fotomontajes</a>
+            <a class="nav-btn translate" data-es="Edición de Video" data-en="Video Editing">Edición de Video</a>
+            <a class="nav-btn translate" data-es="Diseño" data-en="Design">Diseño</a>
         </div>
     </main>
 
-    <div class="feedback-trigger" id="feedbackTrigger">
+    <div class="feedback-trigger translate" id="feedbackTrigger" data-es="[ VER TESTIMONIOS ]" data-en="[ VIEW TESTIMONIALS ]">
         [ VER TESTIMONIOS ]
     </div>
 
     <div class="feedback-drawer" id="feedbackDrawer">
         <div class="feedback-content">
-            <h2 class="feedback-title">EXPERIENCIAS</h2>
+            <h2 class="feedback-title translate" data-es="EXPERIENCIAS" data-en="EXPERIENCES">EXPERIENCIAS</h2>
             
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <div class="client-header">
                         <img src="FEEDBACK/miiussette feedback.jpeg" alt="Miiussette A." class="client-img">
                         <div class="client-info-text">
-                            <span class="client-name">Miiussete A.</span>
-                            <span class="client-project">Sesión de fotos pareja</span>
+                            <span class="client-name">Miiussette A.</span>
+                            <span class="client-project translate" data-es="Sesión de fotos pareja" data-en="Couple photoshoot">Sesión de fotos pareja</span>
                         </div>
                     </div>
                     <div class="stars">★★★★★</div>
-                    <p class="quote">"Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso."</p>
-                </div>
-
-                <div class="testimonial-card" style="opacity: 0.4; border-style: dashed; justify-content: center; align-items: center;">
-                    <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; letter-spacing: 1px;">Siguiente proyecto en proceso...</p>
+                    <p class="quote translate" 
+                       data-es="Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso." 
+                       data-en="Excellent communication and space to work with his photography, attentive, clear and very respectful.">
+                       Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso.
+                    </p>
                 </div>
             </div>
         </div>
@@ -373,18 +353,20 @@
         <div class="bio-content">
             <img src="IMG/perfil.png" alt="Perfil" class="bio-photo">
             <h2 style="color: white; margin-bottom: 15px; font-size: 1.3rem;">DANILO HERNÁNDEZ A.</h2>
-            <p style="font-size: 0.95rem; line-height: 1.7; color: var(--text-muted); text-align: center;">
-                <strong>Artista Digital.</strong><br><br>
-                Tengo 33 años, vivo en Santiago de Chile. <br><br>
-                Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>
-                Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales.
+            <p class="translate" style="font-size: 0.95rem; line-height: 1.7; color: var(--text-muted); text-align: center;"
+               data-es="<strong>Artista Digital.</strong><br><br>Tengo 33 años, vivo en Santiago de Chile. Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales."
+               data-en="<strong>Digital Artist.</strong><br><br>I am 33 years old, living in Santiago, Chile. You can find me in roles such as photographer (portraits and events), graphic/audiovisual content editor, and digital retouching expert. Additionally, I love bringing abstract concepts to life through photomontage.<br><br>My creative engine is the construction of worlds and their stories. In every piece I develop, I seek to convey the soul and identity of each person I work with, ensuring they are reflected in the final results.">
+               <strong>Artista Digital.</strong><br><br>
+               Tengo 33 años, vivo en Santiago de Chile. <br><br>
+               Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>
+               Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales.
             </p>
-            <button class="mobile-back-btn" id="mobileBackBtn">[ VOLVER AL INICIO ]</button>
+            <button class="mobile-back-btn translate" id="mobileBackBtn" data-es="[ VOLVER AL INICIO ]" data-en="[ BACK TO HOME ]">[ VOLVER AL INICIO ]</button>
         </div>
     </div>
 
     <div class="bio-tab" id="bioTab">
-        <span>[ SOBRE MÍ ]</span>
+        <span class="translate" data-es="[ SOBRE MÍ ]" data-en="[ ABOUT ME ]">[ SOBRE MÍ ]</span>
     </div>
 
     <script>
@@ -394,15 +376,31 @@
         const fTrigger = document.getElementById('feedbackTrigger');
         const fDrawer = document.getElementById('feedbackDrawer');
 
-        function closeBio() {
-            bioPanel.classList.remove('open');
+        // LÓGICA DE IDIOMAS
+        function setLanguage(lang) {
+            // Actualizar botones del selector
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Traducir elementos con la clase .translate
+            const elements = document.querySelectorAll('.translate');
+            elements.forEach(el => {
+                el.innerHTML = el.getAttribute(`data-${lang}`);
+            });
+
+            // Ajustar texto dinámico del trigger de feedback si está abierto
+            if (fDrawer.classList.contains('open')) {
+                fTrigger.innerText = lang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]';
+            }
         }
+
+        // LÓGICA DE PANELES
+        function closeBio() { bioPanel.classList.remove('open'); }
 
         bioTab.addEventListener('click', (e) => {
             e.stopPropagation();
             bioPanel.classList.toggle('open');
             fDrawer.classList.remove('open');
-            fTrigger.innerText = '[ VER TESTIMONIOS ]';
         });
 
         mobileBackBtn.addEventListener('click', closeBio);
@@ -411,14 +409,20 @@
             e.stopPropagation();
             fDrawer.classList.toggle('open');
             closeBio();
-            fTrigger.innerText = fDrawer.classList.contains('open') ? '[ CERRAR ]' : '[ VER TESTIMONIOS ]';
+            const lang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
+            if (fDrawer.classList.contains('open')) {
+                fTrigger.innerText = lang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]';
+            } else {
+                fTrigger.innerText = lang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]';
+            }
         });
 
         document.addEventListener('click', (e) => {
             if (!bioPanel.contains(e.target) && !bioTab.contains(e.target)) closeBio();
             if (!fDrawer.contains(e.target) && !fTrigger.contains(e.target)) {
                 fDrawer.classList.remove('open');
-                fTrigger.innerText = '[ VER TESTIMONIOS ]';
+                const lang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
+                fTrigger.innerText = lang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]';
             }
         });
     </script>
