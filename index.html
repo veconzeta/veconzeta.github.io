@@ -12,6 +12,7 @@
             --bg-dark: #05030A;
             --text-main: #E0E0E0;
             --text-muted: #888899;
+            --star-color: #FFD700; /* Color dorado para las estrellas de calificación */
         }
 
         * {
@@ -128,19 +129,20 @@
         /* --- GAVETA DE FEEDBACK (DESLIZA HACIA ARRIBA) --- */
         .feedback-drawer {
             position: fixed;
-            bottom: -300px; /* Oculta por defecto abajo */
+            bottom: -500px; /* Oculta por defecto abajo (agrandada) */
             left: 0;
             width: 100vw;
-            height: 300px;
-            background: rgba(5, 3, 10, 0.85);
+            height: 500px; /* Alto agrandado */
+            background: rgba(5, 3, 10, 0.95); /* Más opaco para leer mejor */
             backdrop-filter: blur(15px);
-            border-top: 1px solid rgba(108, 75, 255, 0.3);
+            border-top: 2px solid rgba(108, 75, 255, 0.4); /* Borde superior más fuerte */
             box-shadow: 0 -10px 40px rgba(0,0,0,0.9);
             transition: bottom 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Transición suave */
             z-index: 90; /* Debajo del panel lateral, pero sobre el fondo */
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column; /* Organiza título y testimonios verticalmente */
+            justify-content: flex-start; /* Alinea al principio */
+            overflow-y: auto; /* Permite scroll si hay muchos testimonios */
         }
 
         .feedback-drawer.open {
@@ -150,31 +152,31 @@
         /* Botón/pestaña visible que abre la gaveta */
         .feedback-trigger {
             position: absolute;
-            top: -45px; /* Justo arriba del panel */
+            top: -50px; /* Justo arriba del panel (agrandado) */
             left: 50%;
             transform: translateX(-50%);
-            padding: 10px 25px;
-            background: rgba(5, 3, 10, 0.95);
-            border: 1px solid rgba(108, 75, 255, 0.4);
+            padding: 12px 30px; /* Padding agrandado */
+            background: rgba(5, 3, 10, 0.98);
+            border: 2px solid rgba(108, 75, 255, 0.5); /* Borde más fuerte */
             border-bottom: none;
-            border-radius: 8px 8px 0 0;
+            border-radius: 12px 12px 0 0; /* Radio de borde superior */
             cursor: pointer;
             font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
+            font-size: 0.9rem; /* Fuente agrandada */
+            letter-spacing: 1.5px;
             transition: all 0.3s ease;
             z-index: 91;
             box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
         }
 
         .feedback-trigger:hover {
-            background: rgba(108, 75, 255, 0.2);
-            box-shadow: 0 -5px 15px rgba(108, 75, 255, 0.3);
+            background: rgba(108, 75, 255, 0.25);
+            box-shadow: 0 -5px 20px rgba(108, 75, 255, 0.4);
         }
 
         .feedback-trigger span {
             color: var(--vz-violet);
-            text-shadow: 0 0 5px var(--vz-violet-glow);
+            text-shadow: 0 0 8px var(--vz-violet-glow);
         }
 
         .feedback-trigger .muted-text {
@@ -184,23 +186,107 @@
 
         /* Contenido interior de la gaveta de feedback */
         .feedback-content {
-            padding: 40px;
+            padding: 50px;
             text-align: center;
-            max-width: 800px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            line-height: 1.6;
+            width: 100%;
+            max-width: 1200px; /* Ancho máximo para el contenido */
+            margin: 0 auto; /* Centrado horizontalmente */
+            font-family: 'Inter', sans-serif; /* Usamos 'Inter' para el texto de los testimonios */
+            display: flex;
+            flex-direction: column;
+            gap: 30px; /* Espaciado entre elementos */
+        }
+
+        .feedback-header {
+            text-align: center;
+            margin-bottom: 20px;
         }
 
         .feedback-title {
             color: var(--text-main);
-            font-size: 1.1rem;
+            font-size: 1.5rem; /* Título agrandado */
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
             text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+            font-family: 'Courier New', monospace; /* Usamos Courier New para el título */
+        }
+
+        .feedback-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* --- CUADRÍCULA DE TESTIMONIOS (GRID) --- */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive: cuadrícula automática */
+            gap: 30px; /* Espaciado entre cuadros */
+            width: 100%;
+        }
+
+        /* --- CUADRO DE TESTIMONIO INDIVIDUAL --- */
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.03); /* Fondo muy sutil */
+            border: 1px solid rgba(108, 75, 255, 0.2);
+            padding: 30px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            text-align: left; /* Alineación del texto a la izquierda */
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            border-color: var(--vz-violet);
+            box-shadow: 0 5px 20px rgba(108, 75, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .testimonial-client-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .testimonial-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(108, 75, 255, 0.3);
+        }
+
+        .testimonial-client-meta {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .testimonial-name {
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .testimonial-company {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .testimonial-rating {
+            display: flex;
+            gap: 5px;
+            color: var(--star-color);
+            font-size: 1.2rem;
+        }
+
+        .testimonial-text {
+            color: var(--text-main);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-style: italic; /* Texto en cursiva para el testimonio */
         }
 
         /* --- PANEL LATERAL DE BIOGRAFÍA (SE MANTIENE IGUAL) --- */
@@ -340,13 +426,67 @@
 
    <div class="feedback-drawer" id="feedbackDrawer">
        <div class="feedback-trigger" id="feedbackTrigger">
-           <span>[ ABRIR MÓDULO DE FEEDBACK ]</span> <span class="muted-text">- Evaluaciones y comentarios.</span>
+           <span>[ EVALUACIONES DE CLIENTES ]</span> <span class="muted-text">- Testimonios y Calificaciones.</span>
        </div>
        
        <div class="feedback-content">
-           <div class="feedback-title">MÓDULO DE EVALUACIÓN Y COMENTARIOS DE PROYECTOS</div>
-           Aquí puedes integrar un formulario de contacto, un feed de comentarios o testimonios de clientes.<br><br>
-           [ESPACIO RESERVADO PARA CONTENIDO TÉCNICO]
+           <div class="feedback-header">
+               <div class="feedback-title">FEEDBACK Y EXPERIENCIAS</div>
+               <div class="feedback-subtitle">Lo que dicen mis clientes sobre trabajar conmigo.</div>
+           </div>
+
+           <div class="testimonials-grid">
+               
+               <div class="testimonial-card">
+                   <div class="testimonial-client-info">
+                       <img src="IMG/321.png" alt="Cliente Plantilla 1" class="testimonial-photo">
+                       <div class="testimonial-client-meta">
+                           <span class="testimonial-name">[Nombre del Cliente 1]</span>
+                           <span class="testimonial-company">[Cargo / Empresa]</span>
+                       </div>
+                   </div>
+                   <div class="testimonial-rating">
+                       ★★★★★
+                   </div>
+                   <p class="testimonial-text">
+                       "[Aquí irá el testimonio de texto que te dé el cliente. Espacio reservado para una experiencia positiva de trabajo.]"
+                   </p>
+               </div>
+
+               <div class="testimonial-card">
+                   <div class="testimonial-client-info">
+                       <img src="IMG/321.png" alt="Cliente Plantilla 2" class="testimonial-photo">
+                       <div class="testimonial-client-meta">
+                           <span class="testimonial-name">[Nombre del Cliente 2]</span>
+                           <span class="testimonial-company">[Cargo / Empresa]</span>
+                       </div>
+                   </div>
+                   <div class="testimonial-rating">
+                       ★★★★★
+                   </div>
+                   <p class="testimonial-text">
+                       "[Aquí irá el testimonio de texto que te dé el cliente. Espacio reservado para una experiencia positiva de trabajo.]"
+                   </p>
+               </div>
+
+               <div class="testimonial-card">
+                   <div class="testimonial-client-info">
+                       <img src="IMG/321.png" alt="Cliente Plantilla 3" class="testimonial-photo">
+                       <div class="testimonial-client-meta">
+                           <span class="testimonial-name">[Nombre del Cliente 3]</span>
+                           <span class="testimonial-company">[Cargo / Empresa]</span>
+                       </div>
+                   </div>
+                   <div class="testimonial-rating">
+                       ★★★★★
+                   </div>
+                   <p class="testimonial-text">
+                       "[Aquí irá el testimonio de texto que te dé el cliente. Espacio reservado para una experiencia positiva de trabajo.]"
+                   </p>
+               </div>
+
+           </div>
+           
        </div>
    </div>
 
