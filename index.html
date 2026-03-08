@@ -28,14 +28,15 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
+            width: 100vw;
         }
 
         .bg-image {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             z-index: -2;
         }
@@ -44,18 +45,17 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             background: radial-gradient(circle at center, rgba(5, 3, 10, 0.8) 0%, rgba(5, 3, 10, 0.95) 100%);
             backdrop-filter: blur(3px);
             z-index: -1;
-            pointer-events: none;
         }
 
         header {
             display: flex;
             justify-content: space-between;
-            padding: 20px 5% ;
+            padding: 20px 5%;
             font-family: 'Courier New', monospace;
             font-size: 0.75rem;
             letter-spacing: 1px;
@@ -77,7 +77,7 @@
 
         .main-logo {
             width: 750px;
-            max-width: 85vw;
+            max-width: 80vw;
             height: auto;
             margin-bottom: 40px;
             filter: drop-shadow(0 0 25px var(--vz-violet-glow));
@@ -86,7 +86,7 @@
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-12px); }
         }
 
         .nav-grid {
@@ -147,7 +147,7 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            padding: 10px 30px;
+            padding: 12px 30px;
             background: rgba(5, 3, 10, 0.95);
             border: 1px solid var(--vz-violet);
             border-bottom: none;
@@ -157,47 +157,14 @@
             font-size: 0.75rem;
             cursor: pointer;
             z-index: 95;
-            white-space: nowrap;
             transition: all 0.3s ease;
         }
 
-        .feedback-trigger:hover {
-            background: rgba(108, 75, 255, 0.2);
-            box-shadow: 0 0 15px var(--vz-violet-glow);
-        }
-
-        .feedback-content {
-            padding: 40px 20px;
-            overflow-y: auto;
-            width: 100%;
-        }
-
-        .feedback-title {
-            font-family: 'Courier New', monospace;
-            font-size: 1.4rem;
-            color: white;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .testimonial-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(108, 75, 255, 0.2);
-            padding: 20px;
-            border-radius: 12px;
-        }
-
-        /* --- PANEL BIOGRAFÍA CORREGIDO --- */
+        /* --- PANEL BIOGRAFÍA --- */
         .bio-panel {
             position: fixed;
             top: 0;
-            right: -400px; /* Ancho suficiente para esconderse */
+            right: -100%;
             width: 380px;
             max-width: 100%;
             height: 100vh;
@@ -205,17 +172,17 @@
             backdrop-filter: blur(15px);
             border-left: 1px solid var(--vz-violet);
             transition: right 0.5s ease;
-            z-index: 100;
+            z-index: 1000;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             overflow-y: auto;
         }
 
         .bio-panel.open { right: 0; }
 
         .bio-tab {
-            position: absolute;
-            left: -40px;
+            position: fixed; /* Cambiado a fixed para asegurar visibilidad */
+            right: 0;
             top: 50%;
             transform: translateY(-50%);
             width: 40px;
@@ -228,7 +195,7 @@
             align-items: center;
             justify-content: center;
             border-radius: 10px 0 0 10px;
-            z-index: 101;
+            z-index: 1001;
             transition: all 0.3s ease;
         }
 
@@ -241,32 +208,30 @@
             font-family: 'Courier New', monospace;
         }
 
-        .bio-tab:hover {
-            background: rgba(108, 75, 255, 0.2);
-            box-shadow: -5px 0 15px var(--vz-violet-glow);
-        }
-
-        .bio-content { padding: 40px 20px; text-align: center; width: 100%; }
+        .bio-content { padding: 60px 30px; text-align: center; width: 100%; }
         .bio-photo { width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--vz-violet); margin-bottom: 25px; object-fit: cover; }
 
-        /* --- MEDIA QUERIES PARA MÓVILES --- */
+        /* --- MEDIA QUERIES --- */
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 5px; text-align: center; }
-            .nav-grid { flex-direction: column; align-items: center; }
-            .nav-btn { width: 85%; }
-            .bio-panel { width: 100%; right: -100%; }
-            /* En móvil, movemos el botón a la esquina superior derecha */
+            header { display: none; } /* Ocultamos header en móvil para limpiar espacio */
+            
+            .nav-grid { flex-direction: column; align-items: center; gap: 10px; }
+            .nav-btn { width: 85%; min-width: unset; }
+
+            /* El botón de Bio en móvil se vuelve una pestaña superior derecha fija */
             .bio-tab { 
-                left: auto; 
-                right: 20px; 
-                top: 25px; 
-                transform: none; 
-                height: 45px; 
-                width: 90px; 
-                border-radius: 8px; 
-                border-right: 1px solid var(--vz-violet);
+                top: 20px; 
+                right: 0;
+                left: auto;
+                transform: none;
+                height: 40px; 
+                width: 100px; 
+                border-radius: 10px 0 0 10px;
+                border-right: none;
             }
             .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
+            
+            .bio-panel { width: 100%; }
         }
     </style>
 </head>
@@ -292,37 +257,27 @@
     </main>
 
     <div class="feedback-trigger" id="feedbackTrigger">
-        [ VER FEEDBACK CLIENTES ]
+        [ VER TESTIMONIOS ]
     </div>
 
     <div class="feedback-drawer" id="feedbackDrawer">
-        <div class="feedback-content">
-            <h2 class="feedback-title">EXPERIENCIAS</h2>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div style="color:white; font-weight:bold; margin-bottom:5px;">Nombre Cliente</div>
-                    <div class="stars" style="color:var(--star-color); margin-bottom:10px;">★★★★★</div>
-                    <p style="font-size:0.9rem; font-style:italic; color:var(--text-main);">"Excelente trabajo y narrativa visual."</p>
-                </div>
-                <div class="testimonial-card">
-                    <div style="color:white; font-weight:bold; margin-bottom:5px;">Nombre Cliente</div>
-                    <div class="stars" style="color:var(--star-color); margin-bottom:10px;">★★★★★</div>
-                    <p style="font-size:0.9rem; font-style:italic; color:var(--text-main);">"Fotomontajes de nivel cinematográfico."</p>
-                </div>
+        <div style="padding: 40px 20px; overflow-y: auto;">
+            <h2 style="text-align:center; font-family:'Courier New'; margin-bottom:30px;">EXPERIENCIAS</h2>
             </div>
-        </div>
+    </div>
+
+    <div class="bio-tab" id="bioTab">
+        <span>[ SOBRE MÍ ]</span>
     </div>
 
     <div class="bio-panel" id="bioPanel">
-        <div class="bio-tab" id="bioTab"><span>[ SOBRE MÍ ]</span></div>
         <div class="bio-content">
             <img src="IMG/perfil.png" alt="Perfil" class="bio-photo">
             <h2 style="color: white; margin-bottom: 15px; font-size: 1.3rem;">DANILO HERNÁNDEZ A.</h2>
-            <p style="font-size: 0.9rem; line-height: 1.7; color: var(--text-muted); text-align: center;">
+            <p style="font-size: 0.9rem; line-height: 1.7; color: var(--text-muted);">
                 <strong>Artista Digital.</strong><br><br>
-                Tengo 33 años, vivo en Santiago de Chile.<br><br>
-                Me puedes encontrar en roles como fotógrafo, editor de contenido y experto en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>
-                Mi motor creativo es la construcción de mundos y sus relatos visuales.
+                33 años, Santiago de Chile.<br><br>
+                Fotógrafo, editor y experto en retoque digital. Mi motor creativo es la construcción de mundos y relatos visuales.
             </p>
         </div>
     </div>
@@ -333,28 +288,25 @@
         const fTrigger = document.getElementById('feedbackTrigger');
         const fDrawer = document.getElementById('feedbackDrawer');
 
-        // Abrir/Cerrar Bio
         bioTab.addEventListener('click', (e) => {
             e.stopPropagation();
             bioPanel.classList.toggle('open');
             fDrawer.classList.remove('open');
-            fTrigger.innerText = '[ VER FEEDBACK CLIENTES ]';
+            fTrigger.innerText = '[ VER TESTIMONIOS ]';
         });
 
-        // Abrir/Cerrar Feedback
         fTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
             fDrawer.classList.toggle('open');
             bioPanel.classList.remove('open');
-            fTrigger.innerText = fDrawer.classList.contains('open') ? '[ CERRAR ]' : '[ VER FEEDBACK CLIENTES ]';
+            fTrigger.innerText = fDrawer.classList.contains('open') ? '[ CERRAR ]' : '[ VER TESTIMONIOS ]';
         });
 
-        // Cerrar al clickear fuera
         document.addEventListener('click', (e) => {
             if (!bioPanel.contains(e.target) && !bioTab.contains(e.target)) bioPanel.classList.remove('open');
             if (!fDrawer.contains(e.target) && !fTrigger.contains(e.target)) {
                 fDrawer.classList.remove('open');
-                fTrigger.innerText = '[ VER FEEDBACK CLIENTES ]';
+                fTrigger.innerText = '[ VER TESTIMONIOS ]';
             }
         });
     </script>
