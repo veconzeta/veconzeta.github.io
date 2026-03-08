@@ -40,17 +40,17 @@
             z-index: -2;
         }
 
-        /* --- CAPA DE CRISTAL OSCURO Y BLUR (MEJORADA) --- */
+        /* --- CAPA DE CRISTAL OSCURO Y BLUR (VERSION 2 - MENOS DIFUSO) --- */
         .ambient-bg {
             position: absolute;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* Centro más oscuro para legibilidad (0.6 de opacidad) hacia bordes casi negros (0.95) */
-            background: radial-gradient(circle at center, rgba(5, 3, 10, 0.6) 0%, rgba(5, 3, 10, 0.95) 100%);
-            /* Desenfoque tipo cristal para suavizar los detalles del mosaico */
-            backdrop-filter: blur(8px);
+            /* CAMBIO 1: OSCURECIMIENTO. Aumentamos la opacidad central de 0.6 a 0.8 para compensar la falta de blur. */
+            background: radial-gradient(circle at center, rgba(5, 3, 10, 0.8) 0%, rgba(5, 3, 10, 0.95) 100%);
+            /* CAMBIO 2: NITIDEZ. Reducimos el blur de 8px a solo 3px. Ahora se distinguen las pantallas. */
+            backdrop-filter: blur(3px);
             z-index: -1;
             pointer-events: none;
         }
@@ -64,7 +64,7 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             color: var(--text-muted);
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8); /* Sombra para separar del fondo */
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
         }
 
         .hero-container {
@@ -82,7 +82,6 @@
             max-width: 90vw;
             height: auto;
             margin-bottom: 40px;
-            /* Refuerzo del resplandor del logo */
             filter: drop-shadow(0 0 35px rgba(108, 75, 255, 0.8)) drop-shadow(0 5px 15px rgba(0,0,0,0.8));
             animation: float 6s ease-in-out infinite;
         }
@@ -95,8 +94,8 @@
 
         .subtitle {
             font-size: 1.1rem;
-            color: #ffffff; /* Blanco puro para máximo contraste */
-            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0,0,0,0.5); /* Sombras dobles para máxima lectura */
+            color: #ffffff;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0,0,0,0.5);
             max-width: 650px;
             line-height: 1.6;
             margin-bottom: 50px;
@@ -109,7 +108,7 @@
         }
 
         .nav-btn {
-            background: rgba(0, 0, 0, 0.4); /* Fondo un poco más sólido */
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(108, 75, 255, 0.5);
             padding: 15px 30px;
             color: #ffffff;
