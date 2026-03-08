@@ -87,10 +87,12 @@
         }
 
         .lang-btn:hover { color: var(--vz-violet); }
+        
+        /* Ajuste: Resplandor para el idioma activo */
         .lang-btn.active {
             color: white;
-            text-shadow: 0 0 8px var(--vz-violet-glow);
-            border-bottom: 1px solid var(--vz-violet);
+            text-shadow: 0 0 10px var(--vz-violet-glow);
+            border-bottom: 2px solid var(--vz-violet);
         }
 
         .hero-container {
@@ -104,18 +106,25 @@
             padding: 20px;
         }
 
+        /* Ajuste: Efecto Glitch sutil para el logo */
         .main-logo {
             width: 750px;
             max-width: 80vw;
             height: auto;
             margin-bottom: 40px;
             filter: drop-shadow(0 0 25px var(--vz-violet-glow));
-            animation: float 6s ease-in-out infinite;
+            animation: float 6s ease-in-out infinite, glitch 10s step-end infinite;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-12px); }
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); filter: drop-shadow(0 0 25px var(--vz-violet-glow)); }
+            92% { transform: translate(2px, -2px); filter: hue-rotate(90deg); }
+            94% { transform: translate(-2px, 2px); }
         }
 
         .nav-grid {
@@ -155,7 +164,7 @@
             transform: translateY(-5px);
         }
 
-        /* --- BOTONES FLOTANTES DE CONTACTO ACTUALIZADOS --- */
+        /* --- BOTONES FLOTANTES CON PULSO --- */
         .floating-contact {
             position: fixed;
             bottom: 80px;
@@ -164,6 +173,13 @@
             flex-direction: column;
             gap: 15px;
             z-index: 1500;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        /* Ocultar iconos cuando los paneles están abiertos */
+        body.panel-open .floating-contact {
+            opacity: 0;
+            visibility: hidden;
         }
 
         .contact-icon {
@@ -180,18 +196,21 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             backdrop-filter: blur(5px);
             padding: 10px;
+            animation: pulse-border 3s infinite;
         }
 
-        .contact-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(108, 75, 255, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(108, 75, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(108, 75, 255, 0); }
         }
+
+        .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
 
         .contact-icon:hover {
             transform: scale(1.15) rotate(5deg);
             background: rgba(108, 75, 255, 0.2);
-            box-shadow: 0 0 20px var(--vz-violet-glow);
+            box-shadow: 0 0 25px var(--vz-violet-glow);
             border-color: white;
         }
 
@@ -205,7 +224,7 @@
             border-top: 2px solid var(--vz-violet);
             transform: translateY(100%);
             transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-            z-index: 90;
+            z-index: 2000;
             display: flex;
             flex-direction: column;
         }
@@ -225,12 +244,11 @@
             font-family: 'Courier New', monospace;
             font-size: 0.75rem;
             cursor: pointer;
-            z-index: 95;
+            z-index: 2005;
             transition: all 0.3s ease;
             white-space: nowrap;
         }
 
-        /* --- TESTIMONIOS --- */
         .feedback-content { padding: 40px 20px; overflow-y: auto; width: 100%; max-width: 1200px; margin: 0 auto; }
         .feedback-title { font-family: 'Courier New', monospace; font-size: 1.6rem; letter-spacing: 4px; color: white; margin-bottom: 30px; text-align: center; }
         .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
@@ -251,7 +269,7 @@
             backdrop-filter: blur(15px);
             border-left: 1px solid var(--vz-violet);
             transition: right 0.5s ease;
-            z-index: 1000;
+            z-index: 1900;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
@@ -272,37 +290,17 @@
             align-items: center;
             justify-content: center;
             border-radius: 10px 0 0 10px;
-            z-index: 1001;
+            z-index: 1905;
             transition: right 0.5s ease;
         }
 
-        @media (min-width: 769px) {
-            .bio-panel.open ~ .bio-tab { right: 380px; }
-        }
+        @media (min-width: 769px) { .bio-panel.open ~ .bio-tab { right: 380px; } }
 
-        .bio-tab span {
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
-            color: white;
-            letter-spacing: 3px;
-            font-size: 0.8rem;
-            font-family: 'Courier New', monospace;
-        }
-
+        .bio-tab span { writing-mode: vertical-rl; transform: rotate(180deg); color: white; letter-spacing: 3px; font-size: 0.8rem; font-family: 'Courier New', monospace; }
         .bio-content { padding: 60px 30px; text-align: center; width: 100%; }
-        .bio-photo { width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--vz-violet); margin-bottom: 25px; object-fit: cover; }
+        .bio-photo { width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--vz-violet); margin-bottom: 25px; object-fit: cover; box-shadow: 0 0 20px var(--vz-violet-glow); }
 
-        .mobile-back-btn {
-            display: none;
-            margin: 30px auto 0;
-            padding: 12px 25px;
-            border: 1px solid var(--vz-violet);
-            background: rgba(108, 75, 255, 0.1);
-            color: white;
-            text-transform: uppercase;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        .mobile-back-btn { display: none; margin: 30px auto 0; padding: 12px 25px; border: 1px solid var(--vz-violet); background: rgba(108, 75, 255, 0.1); color: white; text-transform: uppercase; border-radius: 5px; cursor: pointer; }
 
         @media (max-width: 768px) {
             header { padding-top: 50px; }
@@ -319,12 +317,12 @@
         }
     </style>
 </head>
-<body>
+<body id="mainBody">
     
     <img src="IMG/fondo mosaico.png" alt="Fondo" class="bg-image">
     <div class="ambient-bg"></div>
 
-    <div class="floating-contact">
+    <div class="floating-contact" id="contactButtons">
         <a href="https://wa.me/56932751639" target="_blank" class="contact-icon" title="WhatsApp">
             <img src="ICON/social.png" alt="WhatsApp">
         </a>
@@ -402,6 +400,7 @@
     </div>
 
     <script>
+        const body = document.getElementById('mainBody');
         const bioTab = document.getElementById('bioTab');
         const bioPanel = document.getElementById('bioPanel');
         const mobileBackBtn = document.getElementById('mobileBackBtn');
@@ -419,20 +418,31 @@
             }
         }
 
-        function closeBio() { bioPanel.classList.remove('open'); }
+        // Función centralizada para manejar visibilidad de iconos de contacto
+        function toggleUI(isOpen) {
+            if (isOpen) body.classList.add('panel-open');
+            else body.classList.remove('panel-open');
+        }
+
+        function closeBio() { 
+            bioPanel.classList.remove('open');
+            toggleUI(false);
+        }
 
         bioTab.addEventListener('click', (e) => {
             e.stopPropagation();
-            bioPanel.classList.toggle('open');
+            const isOpen = bioPanel.classList.toggle('open');
             fDrawer.classList.remove('open');
+            toggleUI(isOpen);
         });
 
         mobileBackBtn.addEventListener('click', closeBio);
 
         fTrigger.addEventListener('click', (e) => {
             e.stopPropagation();
-            fDrawer.classList.toggle('open');
+            const isOpen = fDrawer.classList.toggle('open');
             closeBio();
+            toggleUI(isOpen);
             const currentLang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
             if (fDrawer.classList.contains('open')) {
                 fTrigger.innerText = currentLang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]';
@@ -445,6 +455,7 @@
             if (!bioPanel.contains(e.target) && !bioTab.contains(e.target)) closeBio();
             if (!fDrawer.contains(e.target) && !fTrigger.contains(e.target)) {
                 fDrawer.classList.remove('open');
+                toggleUI(false);
                 const currentLang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
                 fTrigger.innerText = currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]';
             }
