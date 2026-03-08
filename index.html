@@ -8,6 +8,7 @@
         :root {
             --vz-violet: #6C4BFF;
             --vz-violet-glow: rgba(108, 75, 255, 0.6);
+            --vz-neon-pink: #FF2A6D;
             --bg-dark: #05030A;
             --text-main: #E0E0E0;
             --text-muted: #888899;
@@ -51,6 +52,7 @@
         header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 20px 5%;
             font-family: 'Courier New', monospace;
             font-size: 0.75rem;
@@ -60,32 +62,40 @@
             z-index: 5;
         }
 
-        /* --- SELECTOR DE IDIOMA --- */
-        .lang-switcher {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2000;
+        /* --- CONTENEDOR IZQUIERDO DEL HEADER --- */
+        .header-left {
             display: flex;
-            gap: 10px;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* --- SELECTOR DE IDIOMA INTEGRADO --- */
+        .lang-switcher {
+            display: flex;
+            gap: 8px;
+            border-left: 1px solid rgba(136, 136, 153, 0.3);
+            padding-left: 15px;
         }
 
         .lang-btn {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--vz-violet);
-            color: white;
-            padding: 5px 12px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
             cursor: pointer;
             font-family: 'Courier New', monospace;
-            font-size: 0.7rem;
-            border-radius: 4px;
+            font-size: 0.75rem;
             transition: all 0.3s ease;
+            padding: 2px 5px;
+        }
+
+        .lang-btn:hover {
+            color: var(--vz-violet);
         }
 
         .lang-btn.active {
-            background: var(--vz-violet);
-            box-shadow: 0 0 10px var(--vz-violet-glow);
+            color: white;
+            text-shadow: 0 0 8px var(--vz-violet-glow);
+            border-bottom: 1px solid var(--vz-violet);
         }
 
         .hero-container {
@@ -217,8 +227,15 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            transition: all 0.3s ease;
         }
 
+        .testimonial-card:hover {
+            border-color: var(--vz-violet);
+            transform: translateY(-5px);
+        }
+
+        .client-header { display: flex; align-items: center; gap: 15px; }
         .client-img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--vz-violet); }
         .client-name { color: white; font-weight: bold; font-size: 1.1rem; }
         .client-project { color: var(--vz-violet); font-size: 0.75rem; text-transform: uppercase; }
@@ -284,12 +301,16 @@
             color: white;
             text-transform: uppercase;
             border-radius: 5px;
+            cursor: pointer;
         }
 
         @media (max-width: 768px) {
-            header { display: none; }
+            header { padding-top: 50px; } /* Espacio para el selector en móvil */
+            .lang-switcher { border-left: none; padding-left: 0; }
+            .header-left { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .main-logo { margin-bottom: 30px; }
             .bio-panel { width: 100%; }
-            .bio-tab { top: 70px; right: 0; transform: none; height: 40px; width: auto; padding: 0 15px; border-radius: 10px 0 0 10px; }
+            .bio-tab { top: 25px; right: 0; transform: none; height: 40px; width: auto; padding: 0 15px; border-radius: 10px 0 0 10px; }
             .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
             .bio-panel.open ~ .bio-tab { opacity: 0; visibility: hidden; }
             .mobile-back-btn { display: block; }
@@ -301,13 +322,14 @@
     <img src="IMG/fondo mosaico.png" alt="Fondo" class="bg-image">
     <div class="ambient-bg"></div>
 
-    <div class="lang-switcher">
-        <button class="lang-btn active" onclick="setLanguage('es')">ES</button>
-        <button class="lang-btn" onclick="setLanguage('en')">EN</button>
-    </div>
-
     <header>
-        <div>SYS.VECONZETA // V.26</div>
+        <div class="header-left">
+            <div>SYS.VECONZETA // V.26</div>
+            <div class="lang-switcher">
+                <button class="lang-btn active" onclick="setLanguage('es', event)">ES</button>
+                <button class="lang-btn" onclick="setLanguage('en', event)">EN</button>
+            </div>
+        </div>
         <div class="translate" data-es="ARTISTA DIGITAL" data-en="DIGITAL ARTIST">ARTISTA DIGITAL</div>
     </header>
 
@@ -328,7 +350,6 @@
     <div class="feedback-drawer" id="feedbackDrawer">
         <div class="feedback-content">
             <h2 class="feedback-title translate" data-es="EXPERIENCIAS" data-en="EXPERIENCES">EXPERIENCIAS</h2>
-            
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <div class="client-header">
@@ -376,25 +397,17 @@
         const fTrigger = document.getElementById('feedbackTrigger');
         const fDrawer = document.getElementById('feedbackDrawer');
 
-        // LÓGICA DE IDIOMAS
-        function setLanguage(lang) {
-            // Actualizar botones del selector
+        function setLanguage(lang, event) {
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-
-            // Traducir elementos con la clase .translate
-            const elements = document.querySelectorAll('.translate');
-            elements.forEach(el => {
+            document.querySelectorAll('.translate').forEach(el => {
                 el.innerHTML = el.getAttribute(`data-${lang}`);
             });
-
-            // Ajustar texto dinámico del trigger de feedback si está abierto
             if (fDrawer.classList.contains('open')) {
                 fTrigger.innerText = lang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]';
             }
         }
 
-        // LÓGICA DE PANELES
         function closeBio() { bioPanel.classList.remove('open'); }
 
         bioTab.addEventListener('click', (e) => {
@@ -409,11 +422,11 @@
             e.stopPropagation();
             fDrawer.classList.toggle('open');
             closeBio();
-            const lang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
+            const currentLang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
             if (fDrawer.classList.contains('open')) {
-                fTrigger.innerText = lang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]';
+                fTrigger.innerText = currentLang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]';
             } else {
-                fTrigger.innerText = lang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]';
+                fTrigger.innerText = currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]';
             }
         });
 
@@ -421,8 +434,8 @@
             if (!bioPanel.contains(e.target) && !bioTab.contains(e.target)) closeBio();
             if (!fDrawer.contains(e.target) && !fTrigger.contains(e.target)) {
                 fDrawer.classList.remove('open');
-                const lang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
-                fTrigger.innerText = lang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]';
+                const currentLang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
+                fTrigger.innerText = currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]';
             }
         });
     </script>
