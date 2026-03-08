@@ -91,12 +91,15 @@
 
         .nav-grid {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
             z-index: 10;
             width: 100%;
-            max-width: 900px;
+        }
+
+        @media (min-width: 769px) {
+            .nav-grid { flex-direction: row; justify-content: center; gap: 15px; }
         }
 
         .nav-btn {
@@ -111,7 +114,8 @@
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
             cursor: pointer;
-            min-width: 160px;
+            width: 85%;
+            max-width: 200px;
             text-align: center;
         }
 
@@ -139,7 +143,7 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            padding: 12px 35px;
+            padding: 12px 30px;
             background: rgba(5, 3, 10, 0.95);
             border: 1px solid var(--vz-violet);
             border-bottom: none;
@@ -150,7 +154,7 @@
             cursor: pointer;
             z-index: 95;
             transition: all 0.3s ease;
-            white-space: nowrap; /* Evita saltos de línea */
+            white-space: nowrap;
         }
 
         /* --- PANEL BIOGRAFÍA --- */
@@ -189,13 +193,12 @@
             justify-content: center;
             border-radius: 10px 0 0 10px;
             z-index: 1001;
-            transition: all 0.5s ease; /* Sincronizado con el panel */
+            transition: right 0.5s ease;
         }
 
-        /* Mueve el botón junto con el panel para que no tape el texto */
-        .bio-panel.open + .bio-tab,
-        body:has(.bio-panel.open) .bio-tab {
-            right: 380px;
+        /* En escritorio, el botón se mueve a la par del panel */
+        @media (min-width: 769px) {
+            .bio-panel.open ~ .bio-tab { right: 380px; }
         }
 
         .bio-tab span {
@@ -209,35 +212,24 @@
         }
 
         .bio-content { padding: 60px 30px; text-align: center; width: 100%; }
-        .bio-photo { width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--vz-violet); margin-bottom: 25px; object-fit: cover; }
+        .bio-photo { width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--vz-violet); margin-bottom: 25px; object-fit: cover; box-shadow: 0 0 20px var(--vz-violet-glow); }
 
-        /* --- MEDIA QUERIES --- */
+        /* --- MEDIA QUERIES MOBILE --- */
         @media (max-width: 768px) {
             header { display: none; }
-            .nav-grid { flex-direction: column; align-items: center; gap: 8px; }
-            .nav-btn { width: 85%; min-width: unset; padding: 10px; font-size: 0.75rem; }
-
-            /* Fix para botón Bio en móvil */
-            .bio-tab { 
-                top: 20px; 
-                right: 0;
-                left: auto;
-                transform: none;
-                height: 40px; 
-                width: auto; /* Ancho automático según contenido */
-                padding: 0 15px;
-                border-radius: 8px 0 0 8px;
-            }
-            
-            .bio-panel.open + .bio-tab,
-            body:has(.bio-panel.open) .bio-tab {
-                right: 0; /* En móvil no lo desplazamos para que no se pierda */
-                opacity: 0; /* Lo ocultamos al abrir para que no moleste */
-            }
-
-            .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
+            .main-logo { margin-bottom: 30px; }
             .bio-panel { width: 100%; }
-            .feedback-trigger { width: auto; padding: 10px 20px; font-size: 0.7rem; }
+            .bio-tab { 
+                top: 25px; 
+                right: 0; 
+                transform: none; 
+                height: 40px; 
+                width: auto; 
+                padding: 0 15px; 
+                border-radius: 10px 0 0 10px; 
+            }
+            .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
+            .bio-panel.open ~ .bio-tab { opacity: 0; visibility: hidden; } /* Se oculta al abrir en móvil */
         }
     </style>
 </head>
@@ -267,26 +259,26 @@
     </div>
 
     <div class="feedback-drawer" id="feedbackDrawer">
-        <div style="padding: 40px 20px; overflow-y: auto;">
-            <h2 style="text-align:center; font-family:'Courier New'; margin-bottom:30px; color:white;">EXPERIENCIAS</h2>
-            <p style="text-align:center; color:var(--text-muted);">Próximamente los testimonios de mis clientes.</p>
+        <div style="padding: 40px 20px; overflow-y: auto; text-align: center;">
+            <h2 style="font-family:'Courier New'; margin-bottom:20px; color:white;">EXPERIENCIAS</h2>
+            <p style="color:var(--text-muted);">Próximamente los testimonios de mis clientes.</p>
         </div>
-    </div>
-
-    <div class="bio-tab" id="bioTab">
-        <span>[ SOBRE MÍ ]</span>
     </div>
 
     <div class="bio-panel" id="bioPanel">
         <div class="bio-content">
             <img src="IMG/perfil.png" alt="Perfil" class="bio-photo">
             <h2 style="color: white; margin-bottom: 15px; font-size: 1.3rem;">DANILO HERNÁNDEZ A.</h2>
-            <p style="font-size: 0.9rem; line-height: 1.7; color: var(--text-muted);">
+            <p style="font-size: 0.95rem; line-height: 1.7; color: var(--text-muted); text-align: center;">
                 <strong>Artista Digital.</strong><br><br>
-                Tengo 33 años, vivo en Santiago de Chile.<br><br>
-                Me puedes encontrar en roles como fotógrafo, editor de contenido y experto en retoque digital. Mi motor creativo es la construcción de mundos y relatos visuales.
+                Tengo 33 años, vivo en Santiago de Chile. Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>
+                Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales.
             </p>
         </div>
+    </div>
+
+    <div class="bio-tab" id="bioTab">
+        <span>[ SOBRE MÍ ]</span>
     </div>
 
     <script>
