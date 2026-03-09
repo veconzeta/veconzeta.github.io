@@ -67,7 +67,7 @@
 
         .page-title {
             text-align: center;
-            margin: 20px 0 40px;
+            margin: 10px 0 40px;
             font-family: 'Courier New', monospace;
             font-size: 2.5rem;
             letter-spacing: 8px;
@@ -98,17 +98,16 @@
         .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
 
         /* =========================================
-           CARRUSEL DE ÁLBUMES (NUEVO)
+           CARRUSEL DE ÁLBUMES 3D (COVER FLOW)
            ========================================= */
         .carousel-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 100%;
-            height: 50vh; /* Ocupa la mitad de la pantalla */
+            height: 55vh;
             position: relative;
             z-index: 10;
-            margin-top: 20px;
         }
 
         .nav-arrow {
@@ -121,7 +120,10 @@
             z-index: 20;
             transition: all 0.3s ease;
             text-shadow: 0 0 10px rgba(0,0,0,0.8);
+            position: absolute;
         }
+        #prevBtn { left: 5%; }
+        #nextBtn { right: 5%; }
 
         .nav-arrow:hover {
             color: white;
@@ -129,53 +131,57 @@
             transform: scale(1.2);
         }
 
+        /* Contenedor con Perspectiva 3D */
         .carousel-track-container {
-            width: 800px;
-            max-width: 75vw;
+            width: 100%;
+            max-width: 1200px;
             height: 100%;
-            overflow: hidden;
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
+            perspective: 1200px; /* Da la profundidad al 3D */
         }
 
         .carousel-track {
-            display: flex;
-            align-items: center;
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-            gap: 20px;
+            position: relative;
+            width: 300px; /* Ancho base de una tarjeta */
+            height: 420px; /* Alto base de una tarjeta */
+            transform-style: preserve-3d;
         }
 
         .album-card {
-            min-width: 250px;
-            height: 350px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(10, 5, 20, 0.9);
             border: 2px solid rgba(108, 75, 255, 0.2);
             border-radius: 12px;
             display: flex;
             flex-direction: column;
-            opacity: 0.4;
-            transform: scale(0.85);
-            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
             cursor: pointer;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            transform-origin: center center;
+            /* La transición fluida es clave para el efecto */
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                        opacity 0.6s ease, 
+                        filter 0.6s ease, 
+                        border-color 0.6s ease, 
+                        box-shadow 0.6s ease;
         }
 
-        /* ESTADO ACTIVO (El álbum del centro) */
         .album-card.active {
-            opacity: 1;
-            transform: scale(1.15);
             border-color: var(--vz-violet);
             box-shadow: 0 0 40px var(--vz-violet-glow);
-            z-index: 15;
         }
 
         .album-cover {
             width: 100%;
             height: 75%;
-            background: #2a2a35; /* Color temporal hasta que pongas tus fotos */
+            background: #2a2a35; /* Color temporal */
             object-fit: cover;
         }
 
@@ -191,28 +197,29 @@
 
         .album-info h3 {
             font-family: 'Courier New', monospace;
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: white;
             letter-spacing: 2px;
             margin-bottom: 5px;
         }
 
         .album-info p {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: var(--vz-violet);
             text-transform: uppercase;
         }
 
         @media (max-width: 768px) {
             header { flex-direction: column-reverse; gap: 20px; }
-            .page-title { font-size: 1.8rem; letter-spacing: 4px; }
+            .page-title { font-size: 1.8rem; letter-spacing: 4px; margin-bottom: 20px;}
             .floating-contact { bottom: 65px; right: 15px; gap: 12px; }
             .contact-icon { width: 55px; height: 55px; }
             
-            /* Ajustes del carrusel en móvil */
-            .album-card { min-width: 200px; height: 280px; }
-            .carousel-track-container { max-width: 65vw; }
-            .nav-arrow { font-size: 2rem; padding: 10px; }
+            /* Tamaños ajustados para móvil */
+            .carousel-track { width: 220px; height: 320px; }
+            .nav-arrow { font-size: 2.5rem; padding: 10px; }
+            #prevBtn { left: 2%; }
+            #nextBtn { right: 2%; }
         }
     </style>
 </head>
@@ -236,10 +243,12 @@
     <h1 class="page-title">FOTOGRAFÍA</h1>
 
     <div class="carousel-wrapper">
-        <button class="nav-arrow" id="prevBtn">&#10094;</button> <div class="carousel-track-container">
+        <button class="nav-arrow" id="prevBtn">&#10094;</button>
+        
+        <div class="carousel-track-container">
             <div class="carousel-track" id="track">
                 
-                <div class="album-card active">
+                <div class="album-card">
                     <img src="" class="album-cover" alt="">
                     <div class="album-info">
                         <h3>ÁLBUM 01</h3>
@@ -262,37 +271,66 @@
                         <p>Eventos</p>
                     </div>
                 </div>
+                
+                <div class="album-card">
+                    <img src="" class="album-cover" alt="">
+                    <div class="album-info">
+                        <h3>ÁLBUM 04</h3>
+                        <p>Productos</p>
+                    </div>
+                </div>
 
             </div>
         </div>
 
-        <button class="nav-arrow" id="nextBtn">&#10095;</button> </div>
+        <button class="nav-arrow" id="nextBtn">&#10095;</button>
+    </div>
 
     <script>
         const track = document.getElementById('track');
-        const cards = Array.from(track.children);
+        const cards = Array.from(track.querySelectorAll('.album-card'));
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
         
         let currentIndex = 0;
 
         function updateCarousel() {
-            // Actualizar clases activa/inactiva
+            const isMobile = window.innerWidth <= 768;
+            // Configuración de distancias (X = Lados, Z = Profundidad)
+            const xOffset = isMobile ? 120 : 250; // Cuánto se separan a los lados
+            const zOffset = isMobile ? -80 : -100; // Cuánto se hunden hacia el fondo
+            const rotation = isMobile ? 15 : 25; // Grados que giran mirando al centro
+
             cards.forEach((card, index) => {
-                if (index === currentIndex) {
+                // Matemáticas: ¿A cuántos lugares de distancia está esta tarjeta del centro?
+                let offset = index - currentIndex; 
+                let direction = offset > 0 ? 1 : -1; // 1 = Derecha, -1 = Izquierda
+                let distance = Math.abs(offset);
+
+                if (offset === 0) {
+                    // EL REY DEL CENTRO
+                    card.style.transform = `translateX(0px) translateZ(50px) rotateY(0deg) scale(1.15)`;
+                    card.style.zIndex = 100;
+                    card.style.opacity = 1;
+                    card.style.filter = 'none';
                     card.classList.add('active');
                 } else {
+                    // LOS VASALLOS A LOS LADOS
+                    // Se multiplican por su distancia para irse más y más lejos
+                    let moveX = direction * (xOffset + (distance * (xOffset * 0.4))); 
+                    let moveZ = zOffset * distance;
+                    let rotateY = direction * -rotation; // Giran mirando hacia el centro
+                    
+                    card.style.transform = `translateX(${moveX}px) translateZ(${moveZ}px) rotateY(${rotateY}deg) scale(0.85)`;
+                    card.style.zIndex = 50 - distance; // Mientras más lejos, más bajo el z-index
+                    card.style.opacity = Math.max(1 - (distance * 0.3), 0); // Se van haciendo transparentes
+                    card.style.filter = `blur(${distance * 2}px)`; // Se desenfocan
                     card.classList.remove('active');
                 }
             });
-
-            // Mover el contenedor para centrar la tarjeta activa
-            const cardWidth = cards[0].getBoundingClientRect().width;
-            const gap = 20; // El gap que pusimos en el CSS
-            const moveAmount = (cardWidth + gap) * currentIndex;
-            track.style.transform = `translateX(-${moveAmount}px)`;
         }
 
+        // Flechas
         nextBtn.addEventListener('click', () => {
             if (currentIndex < cards.length - 1) {
                 currentIndex++;
@@ -307,21 +345,24 @@
             }
         });
 
-        // Permitir hacer clic directamente en una tarjeta lateral para centrarla
+        // Click en tarjetas laterales
         cards.forEach((card, index) => {
             card.addEventListener('click', () => {
-                // Si la tarjeta NO es la activa, la centramos
                 if (currentIndex !== index) {
+                    // Si tocas uno lateral, viaja al centro
                     currentIndex = index;
                     updateCarousel();
                 } else {
-                    // Si YA ES la activa, aquí programaremos que se abran las fotos (Paso 3)
-                    console.log("Abrir álbum: " + index);
+                    // Si tocas el del centro, ABRIMOS EL ÁLBUM (Próximo paso)
+                    console.log("¡ÁLBUM " + (index + 1) + " SE ABRE AQUÍ!");
                 }
             });
         });
 
-        // Inicializar posición
+        // Reposicionar al cambiar tamaño de pantalla
+        window.addEventListener('resize', updateCarousel);
+
+        // Inicializar
         updateCarousel();
     </script>
 </body>
