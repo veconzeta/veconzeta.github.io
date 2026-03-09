@@ -27,6 +27,7 @@
             width: 100vw;
         }
 
+        /* --- VIDEO DE FONDO --- */
         .bg-image { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
             object-fit: cover; z-index: -2; 
@@ -58,6 +59,7 @@
             z-index: 5; padding: 20px;
         }
 
+        /* --- LOGO: AGRANDADO + FLOTACIÓN + PULSO + SOMBRA DIFUSA --- */
         .main-logo {
             width: 850px; max-width: 90vw; height: auto; margin-bottom: 40px;
             filter: drop-shadow(0 0 10px rgba(0,0,0,0.8)) drop-shadow(0 0 25px var(--vz-violet-glow));
@@ -157,38 +159,38 @@
         .bio-content { padding: 60px 30px 100px; text-align: center; width: 100%; }
         .bio-photo { width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--vz-violet); margin-bottom: 25px; object-fit: cover; box-shadow: 0 0 20px var(--vz-violet-glow); }
 
-        /* --- BOTONES DE CIERRE MÓVIL --- */
-        .mobile-back-btn { display: none; margin: 30px auto 0; padding: 12px 25px; border: 1px solid var(--vz-violet); background: rgba(108, 75, 255, 0.1); color: white; text-transform: uppercase; border-radius: 5px; cursor: pointer; }
+        /* Ajuste: Botón de cierre Sticky en móvil */
+        .mobile-back-btn { 
+            position: sticky; bottom: 20px; left: 50%; transform: translateX(-50%);
+            margin-top: 30px; padding: 12px 25px; border: 1px solid var(--vz-violet); 
+            background: rgba(5, 3, 10, 0.95); color: white; text-transform: uppercase; 
+            border-radius: 8px; cursor: pointer; z-index: 2010; box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            display: none; width: auto; min-width: 200px;
+        }
 
         @media (max-width: 768px) {
             header { padding-top: 50px; position: relative; flex-direction: column; align-items: center; text-align: center; }
             .lang-switcher { border-left: none; padding-left: 0; margin-top: 10px; }
             .header-left { flex-direction: column; align-items: center; gap: 5px; }
             
-            /* Ajuste Solución 1: Logo Imponente en Móvil */
-            .hero-container { padding-top: 100px; }
-            .main-logo { margin-bottom: 40px; width: 800px; max-width: 80vw; } /* Llenar ancho de pantalla */
+            /* Ajuste: Logo mucho más grande en móvil */
+            .main-logo { margin-bottom: 30px; width: 800px; max-width: 80vw; } 
             
-            /* Ajuste: Tab "Sobre Mí" vertical y bajado */
+            .bio-panel { width: 100%; }
+            
+            /* Ajuste: Tab "Sobre Mí" vertical y bajado para no tapar el header */
             .bio-tab { top: 300px; transform: none; height: 160px; width: 42px; border-radius: 10px 0 0 10px; }
             .bio-tab span { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 0.8rem; }
             
             .bio-panel.open ~ .bio-tab { opacity: 0; visibility: hidden; }
-            
-            /* Ajuste Solución 2: Botón de Cierre Fixed en Móvil */
-            #bioCloseBtn { 
-                display: block; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-                padding: 12px 30px; border: 1px solid var(--vz-violet); background: rgba(5, 3, 10, 0.95);
-                color: white; text-transform: uppercase; border-radius: 8px; cursor: pointer;
-                z-index: 2010; box-shadow: 0 0 15px rgba(0,0,0,0.5); width: auto; min-width: 200px;
-                text-align: center; margin: 0;
-            }
-            .mobile-back-btn { display: none; } /* Ocultar el botón sticky viejo */
-
+            .mobile-back-btn { display: block; }
             .floating-contact { bottom: 65px; right: 15px; gap: 12px; }
             .contact-icon { width: 55px; height: 55px; }
 
-            body.panel-open .feedback-trigger { display: none; }
+            /* Ajuste: Ocultar botón testimonios si el panel bio está abierto para evitar solapamiento */
+            body.panel-open .feedback-trigger {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -251,7 +253,7 @@
             <h2 style="color: white; margin-bottom: 15px; font-size: 1.3rem;">DANILO HERNÁNDEZ A.</h2>
             <p class="translate" style="font-size: 0.95rem; line-height: 1.7; color: var(--text-muted); text-align: center;" data-es="<strong>Artista Digital.</strong><br><br>Tengo 33 años, vivo en Santiago de Chile. Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales." data-en="<strong>Digital Artist.</strong><br><br>I am 33 years old, living in Santiago, Chile. You can find me in roles such as photographer (portraits and events), graphic/audiovisual content editor, and digital retouching expert. Additionally, I love bringing abstract concepts to life through photomontage.<br><br>My creative engine is the construction of worlds and their stories. In every piece I develop, I seek to convey the soul and identity of each person I work with, ensuring they are reflected in the final results."><strong>Artista Digital.</strong><br><br>Tengo 33 años, vivo en Santiago de Chile. <br><br>Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales.</p>
         </div>
-        <button class="translate" id="bioCloseBtn" onclick="closeAllPanels()" data-es="[ VOLVER AL INICIO ]" data-en="[ BACK TO HOME ]">[ VOLVER AL INICIO ]</button>
+        <button class="mobile-back-btn translate" onclick="closeAllPanels()" data-es="[ VOLVER AL INICIO ]" data-en="[ BACK TO HOME ]">[ VOLVER AL INICIO ]</button>
     </div>
 
     <div class="bio-tab" id="bioTab"><span class="translate" data-es="[ SOBRE MÍ ]" data-en="[ ABOUT ME ]">[ SOBRE MÍ ]</span></div>
@@ -263,6 +265,7 @@
         const fTrigger = document.getElementById('feedbackTrigger');
         const fDrawer = document.getElementById('feedbackDrawer');
 
+        // Lógica de salto aleatorio
         const navBtns = Array.from(document.querySelectorAll('.nav-btn'));
         let jumpQueue = [];
 
