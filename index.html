@@ -121,7 +121,7 @@
             border-top: 2px solid var(--vz-violet); transform: translateY(100%);
             transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); z-index: 2000;
             display: flex; flex-direction: column;
-            overflow-y: auto; /* Permite scroll si hay muchos testimonios */
+            overflow-y: auto; 
         }
         .feedback-drawer.open { transform: translateY(0); }
 
@@ -215,28 +215,32 @@
             
             .bio-panel { width: 100%; }
 
-            /* ESPACIO EXTRA PARA QUE EL TEXTO NO CHOQUE CON EL BOTÓN */
+            /* Padding normalizado, ya no necesitamos el espacio gigante abajo */
             .bio-content, .feedback-content {
-                padding: 40px 25px 220px !important; /* Aumentado a 220px para asegurar espacio limpio al final */
+                padding: 60px 25px 60px !important; 
             }
 
+            /* === CAMBIO CLAVE: BOTÓN MOVIDO A LA ESQUINA SUPERIOR DERECHA === */
             .mobile-back-btn { 
-                position: fixed !important; 
-                bottom: 25px; 
-                left: 50%; 
-                transform: translateX(-50%);
-                padding: 14px 40px; 
+                position: absolute !important; /* Cambiado de fixed a absolute */
+                top: 20px;  /* Pegado arriba */
+                right: 20px; /* Pegado a la derecha */
+                bottom: auto;
+                left: auto;
+                transform: none;
+                padding: 10px 20px; 
                 border: 2px solid var(--vz-violet); 
-                background: rgba(10, 5, 20, 0.98); 
+                background: rgba(10, 5, 20, 0.9); 
                 color: white; 
                 text-transform: uppercase; 
-                border-radius: 10px; 
+                border-radius: 8px;
+                font-size: 0.7rem; 
                 cursor: pointer; 
                 z-index: 2010; 
-                box-shadow: 0 0 20px rgba(0,0,0,0.8), 0 0 15px var(--vz-violet-glow);
+                box-shadow: 0 0 15px rgba(0,0,0,0.5);
                 font-weight: bold; 
                 letter-spacing: 1px;
-                width: max-content;
+                backdrop-filter: blur(5px);
             }
             .bio-panel.open .mobile-back-btn, 
             .feedback-drawer.open .mobile-back-btn { 
@@ -284,8 +288,8 @@
     <div class="feedback-trigger translate" id="feedbackTrigger" data-es="[ VER TESTIMONIOS ]" data-en="[ VIEW TESTIMONIALS ]">[ VER TESTIMONIOS ]</div>
 
     <div class="feedback-drawer" id="feedbackDrawer">
-        <div class="feedback-content" style="text-align: center; padding: 40px 20px;">
-            <h2 class="translate" data-es="EXPERIENCIAS" data-en="EXPERIENCES" style="font-family:'Courier New', monospace; font-size:1.6rem; letter-spacing:4px; margin-bottom:30px;">EXPERIENCIAS</h2>
+        <div class="feedback-content" style="text-align: center;">
+            <h2 class="translate" data-es="EXPERIENCIAS" data-en="EXPERIENCES" style="font-family:'Courier New', monospace; font-size:1.6rem; letter-spacing:4px; margin-bottom:30px; margin-top: 30px;">EXPERIENCIAS</h2>
             
             <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,75,255,0.2); padding:25px; border-radius:15px; display:inline-block; text-align:left; max-width:500px; margin: 10px; vertical-align: top;">
                 <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
@@ -321,7 +325,7 @@
             <h2 style="color: white; margin-bottom: 15px; font-size: 1.3rem;">DANILO HERNÁNDEZ A.</h2>
             <p class="translate" style="font-size: 0.95rem; line-height: 1.7; color: var(--text-muted); text-align: center;" data-es="<strong>Artista Digital.</strong><br><br>Tengo 33 años, vivo en Santiago de Chile. Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales." data-en="<strong>Digital Artist.</strong><br><br>I am 33 years old, living in Santiago, Chile. You can find me in roles such as photographer (portraits and events), graphic/audiovisual content editor, and digital retouching expert. Additionally, I love bringing abstract concepts to life through photomontage.<br><br>My creative engine is the construction of worlds and their stories. In every piece I develop, I seek to convey the soul and identity of each person I work with, ensuring they are reflected in the final results."><strong>Artista Digital.</strong><br><br>Tengo 33 años, vivo en Santiago de Chile. <br><br>Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales.</p>
         </div>
-        <button class="mobile-back-btn translate" onclick="closeAllPanels()" data-es="[ VOLVER AL INICIO ]" data-en="[ BACK TO HOME ]">[ VOLVER AL INICIO ]</button>
+        <button class="mobile-back-btn translate" onclick="closeAllPanels()" data-es="[ VOLVER ]" data-en="[ BACK ]">[ VOLVER ]</button>
     </div>
 
     <div class="bio-tab" id="bioTab"><span class="translate" data-es="[ SOBRE MÍ ]" data-en="[ ABOUT ME ]">[ SOBRE MÍ ]</span></div>
