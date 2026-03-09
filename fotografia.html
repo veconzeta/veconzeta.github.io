@@ -67,7 +67,7 @@
 
         .page-title {
             text-align: center;
-            margin: 40px 0 20px;
+            margin: 20px 0 40px;
             font-family: 'Courier New', monospace;
             font-size: 2.5rem;
             letter-spacing: 8px;
@@ -97,18 +97,122 @@
         }
         .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
 
-        /* --- RESPONSIVE BÁSICO --- */
+        /* =========================================
+           CARRUSEL DE ÁLBUMES (NUEVO)
+           ========================================= */
+        .carousel-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 50vh; /* Ocupa la mitad de la pantalla */
+            position: relative;
+            z-index: 10;
+            margin-top: 20px;
+        }
+
+        .nav-arrow {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 3rem;
+            cursor: pointer;
+            padding: 20px;
+            z-index: 20;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .nav-arrow:hover {
+            color: white;
+            text-shadow: 0 0 20px var(--vz-violet-glow);
+            transform: scale(1.2);
+        }
+
+        .carousel-track-container {
+            width: 800px;
+            max-width: 75vw;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .carousel-track {
+            display: flex;
+            align-items: center;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            gap: 20px;
+        }
+
+        .album-card {
+            min-width: 250px;
+            height: 350px;
+            background: rgba(10, 5, 20, 0.9);
+            border: 2px solid rgba(108, 75, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0.4;
+            transform: scale(0.85);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        /* ESTADO ACTIVO (El álbum del centro) */
+        .album-card.active {
+            opacity: 1;
+            transform: scale(1.15);
+            border-color: var(--vz-violet);
+            box-shadow: 0 0 40px var(--vz-violet-glow);
+            z-index: 15;
+        }
+
+        .album-cover {
+            width: 100%;
+            height: 75%;
+            background: #2a2a35; /* Color temporal hasta que pongas tus fotos */
+            object-fit: cover;
+        }
+
+        .album-info {
+            height: 25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid rgba(108, 75, 255, 0.3);
+            background: linear-gradient(to top, rgba(108, 75, 255, 0.1), transparent);
+        }
+
+        .album-info h3 {
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            color: white;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        .album-info p {
+            font-size: 0.7rem;
+            color: var(--vz-violet);
+            text-transform: uppercase;
+        }
+
         @media (max-width: 768px) {
-            header { 
-                flex-direction: column-reverse; 
-                gap: 20px;
-            }
-            .page-title { 
-                font-size: 1.8rem; 
-                letter-spacing: 4px; 
-            }
+            header { flex-direction: column-reverse; gap: 20px; }
+            .page-title { font-size: 1.8rem; letter-spacing: 4px; }
             .floating-contact { bottom: 65px; right: 15px; gap: 12px; }
             .contact-icon { width: 55px; height: 55px; }
+            
+            /* Ajustes del carrusel en móvil */
+            .album-card { min-width: 200px; height: 280px; }
+            .carousel-track-container { max-width: 65vw; }
+            .nav-arrow { font-size: 2rem; padding: 10px; }
         }
     </style>
 </head>
@@ -131,5 +235,94 @@
 
     <h1 class="page-title">FOTOGRAFÍA</h1>
 
-    </body>
+    <div class="carousel-wrapper">
+        <button class="nav-arrow" id="prevBtn">&#10094;</button> <div class="carousel-track-container">
+            <div class="carousel-track" id="track">
+                
+                <div class="album-card active">
+                    <img src="" class="album-cover" alt="">
+                    <div class="album-info">
+                        <h3>ÁLBUM 01</h3>
+                        <p>Retratos</p>
+                    </div>
+                </div>
+
+                <div class="album-card">
+                    <img src="" class="album-cover" alt="">
+                    <div class="album-info">
+                        <h3>ÁLBUM 02</h3>
+                        <p>Cosplay</p>
+                    </div>
+                </div>
+
+                <div class="album-card">
+                    <img src="" class="album-cover" alt="">
+                    <div class="album-info">
+                        <h3>ÁLBUM 03</h3>
+                        <p>Eventos</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <button class="nav-arrow" id="nextBtn">&#10095;</button> </div>
+
+    <script>
+        const track = document.getElementById('track');
+        const cards = Array.from(track.children);
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        
+        let currentIndex = 0;
+
+        function updateCarousel() {
+            // Actualizar clases activa/inactiva
+            cards.forEach((card, index) => {
+                if (index === currentIndex) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+
+            // Mover el contenedor para centrar la tarjeta activa
+            const cardWidth = cards[0].getBoundingClientRect().width;
+            const gap = 20; // El gap que pusimos en el CSS
+            const moveAmount = (cardWidth + gap) * currentIndex;
+            track.style.transform = `translateX(-${moveAmount}px)`;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < cards.length - 1) {
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+
+        // Permitir hacer clic directamente en una tarjeta lateral para centrarla
+        cards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                // Si la tarjeta NO es la activa, la centramos
+                if (currentIndex !== index) {
+                    currentIndex = index;
+                    updateCarousel();
+                } else {
+                    // Si YA ES la activa, aquí programaremos que se abran las fotos (Paso 3)
+                    console.log("Abrir álbum: " + index);
+                }
+            });
+        });
+
+        // Inicializar posición
+        updateCarousel();
+    </script>
+</body>
 </html>
