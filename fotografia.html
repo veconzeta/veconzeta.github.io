@@ -98,7 +98,7 @@
         .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
 
         /* =========================================
-           CARRUSEL DE ÁLBUMES 3D (FORMATO 16:9)
+           CARRUSEL DE ÁLBUMES 3D (FORMATO 16:9 PURO)
            ========================================= */
         .carousel-wrapper {
             display: flex;
@@ -122,7 +122,7 @@
             text-shadow: 0 0 10px rgba(0,0,0,0.8);
             position: absolute;
         }
-        #prevBtn { left: 2%; } /* Un poco más a los bordes por el ancho */
+        #prevBtn { left: 2%; }
         #nextBtn { right: 2%; }
 
         .nav-arrow:hover {
@@ -133,7 +133,7 @@
 
         .carousel-track-container {
             width: 100%;
-            max-width: 1400px; /* Aumentado para el formato ancho */
+            max-width: 1400px;
             height: 100%;
             position: relative;
             display: flex;
@@ -142,22 +142,20 @@
             perspective: 1200px;
         }
 
-        /* --- CAMBIO DE DIMENSIONES A 16:9 --- */
+        /* Dimensiones base de la tarjeta completa */
         .carousel-track {
             position: relative;
-            width: 480px;  /* Ancho base PC (Formato 16:9 aprox) */
-            height: 270px; /* Alto base PC */
+            width: 500px;  /* Ancho base PC */
+            /* La altura ahora es automática según el contenido */
             transform-style: preserve-3d;
-            /* Transición suave para el movimiento */
             transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .album-card {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%;
+            /* Altura automática */
+            height: auto; 
             background: rgba(10, 5, 20, 0.9);
             border: 2px solid rgba(108, 75, 255, 0.2);
             border-radius: 12px;
@@ -179,16 +177,18 @@
             box-shadow: 0 0 40px var(--vz-violet-glow);
         }
 
-        /* Ajuste de proporciones internas para el formato ancho */
+        /* --- EL CAMBIO CLAVE: PORTADA 16:9 EXACTA --- */
         .album-cover {
             width: 100%;
-            height: 80%; /* Más espacio para la foto */
+            aspect-ratio: 16 / 9; /* Fuerza matemáticamente el formato cine */
             background: #2a2a35;
             object-fit: cover;
+            flex-grow: 0; /* Evita que se estire */
         }
 
         .album-info {
-            height: 20%; /* Menos espacio para el texto */
+            /* Altura automática con padding */
+            padding: 15px 10px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -199,10 +199,10 @@
 
         .album-info h3 {
             font-family: 'Courier New', monospace;
-            font-size: 1rem; /* Un poco más pequeño para que quepa bien */
+            font-size: 1rem;
             color: white;
             letter-spacing: 2px;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
 
         .album-info p {
@@ -217,8 +217,9 @@
             .floating-contact { bottom: 65px; right: 15px; gap: 12px; }
             .contact-icon { width: 55px; height: 55px; }
             
-            /* --- CAMBIO DE DIMENSIONES MÓVIL A 16:9 --- */
-            .carousel-track { width: 300px; height: 169px; } /* Formato 16:9 móvil */
+            /* Ancho base para móvil */
+            .carousel-track { width: 320px; } 
+            .album-info { padding: 12px 5px; }
             .nav-arrow { font-size: 2.5rem; padding: 10px; }
             #prevBtn { left: 1%; }
             #nextBtn { right: 1%; }
@@ -299,11 +300,10 @@
         function updateCarousel() {
             const isMobile = window.innerWidth <= 768;
             
-            // --- MATEMÁTICA RECALCULADA PARA FORMATO ANCHO ---
-            // Al ser más anchas, necesitan más separación lateral (xOffset)
-            const xOffset = isMobile ? 220 : 420; 
-            // Y un poco más de profundidad para que el giro se note bien
-            const zOffset = isMobile ? -120 : -180; 
+            // --- MATEMÁTICA RECALCULADA ---
+            // Ajuste fino de distancias para las nuevas proporciones
+            const xOffset = isMobile ? 240 : 450; 
+            const zOffset = isMobile ? -120 : -200; 
             const rotation = isMobile ? 15 : 25; 
 
             cards.forEach((card, index) => {
@@ -320,14 +320,15 @@
                     card.classList.add('active');
                 } else {
                     // LOS VASALLOS A LOS LADOS
-                    let moveX = direction * (xOffset + (distance * (xOffset * 0.3))); 
+                    let moveX = direction * (xOffset + (distance * (xOffset * 0.25))); 
                     let moveZ = zOffset * distance;
                     let rotateY = direction * -rotation;
                     
-                    card.style.transform = `translateX(${moveX}px) translateZ(${moveZ}px) rotateY(${rotateY}deg) scale(0.85)`;
+                    // Usamos translate3d para mejor rendimiento
+                    card.style.transform = `translate3d(${moveX}px, 0, ${moveZ}px) rotateY(${rotateY}deg) scale(0.85)`;
                     card.style.zIndex = 50 - distance; 
                     card.style.opacity = Math.max(1 - (distance * 0.3), 0); 
-                    card.style.filter = `blur(${distance * 1.5}px) grayscale(50%)`; // Añadí un poco de escala de grises para más efecto
+                    card.style.filter = `blur(${distance * 2}px) grayscale(50%)`;
                     card.classList.remove('active');
                 }
             });
