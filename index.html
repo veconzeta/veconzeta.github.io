@@ -8,6 +8,7 @@
         :root {
             --vz-violet: #6C4BFF;
             --vz-violet-glow: rgba(108, 75, 255, 0.6);
+            --vz-neon-pink: #FF2A6D;
             --bg-dark: #05030A;
             --text-main: #E0E0E0;
             --text-muted: #888899;
@@ -27,13 +28,19 @@
             width: 100vw;
         }
 
-        .bg-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
-        .ambient-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(5, 3, 10, 0.8) 0%, rgba(5, 3, 10, 0.95) 100%);
-            backdrop-filter: blur(3px); z-index: -1;
+        /* --- VIDEO DE FONDO VIVO --- */
+        .bg-image { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            object-fit: cover; z-index: -2; 
         }
 
+        .ambient-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(5, 3, 10, 0.7) 0%, rgba(5, 3, 10, 0.95) 100%);
+            backdrop-filter: blur(2px); z-index: -1;
+        }
+
+        /* --- HEADER Y SELECTOR DE IDIOMA --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px 5%; font-family: 'Courier New', monospace;
@@ -46,13 +53,13 @@
         .lang-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-family: 'Courier New', monospace; font-size: 0.75rem; transition: all 0.3s ease; padding: 2px 5px; }
         .lang-btn.active { color: white; text-shadow: 0 0 10px var(--vz-violet-glow); border-bottom: 2px solid var(--vz-violet); }
 
+        /* --- HERO Y LOGO (AGRANDADO + FLOTACIÓN + PULSO) --- */
         .hero-container {
             flex-grow: 1; display: flex; flex-direction: column;
             align-items: center; justify-content: center; text-align: center;
             z-index: 5; padding: 20px;
         }
 
-        /* --- LOGO: AGRANDADO + FLOTACIÓN + PULSO --- */
         .main-logo {
             width: 850px; max-width: 90vw; height: auto; margin-bottom: 40px;
             filter: drop-shadow(0 0 25px var(--vz-violet-glow));
@@ -64,13 +71,12 @@
             50% { transform: translateY(-20px); filter: drop-shadow(0 0 45px var(--vz-violet-glow)); }
         }
 
+        /* --- NAVEGACIÓN Y ANIMACIÓN DE SALTO (VIDA PROPIA) --- */
         .nav-grid { display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 10; width: 100%; }
         @media (min-width: 769px) { .nav-grid { flex-direction: row; justify-content: center; gap: 15px; } }
 
-        /* --- BOTONES NAVEGACIÓN: EFECTO SALTO --- */
         .nav-btn {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(108, 75, 255, 0.3);
+            background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(108, 75, 255, 0.3);
             padding: 12px 20px; color: #ffffff; text-decoration: none;
             text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem;
             backdrop-filter: blur(10px); transition: all 0.3s ease;
@@ -80,14 +86,13 @@
 
         .nav-btn:hover { background: rgba(108, 75, 255, 0.15); border-color: var(--vz-violet); box-shadow: 0 0 20px var(--vz-violet-glow); transform: translateY(-5px); }
 
-        /* Animación de salto rápido */
         .jump-anim { animation: quick-jump 0.4s ease-out; }
         @keyframes quick-jump {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-12px); border-color: white; box-shadow: 0 0 15px var(--vz-violet-glow); }
         }
 
-        /* --- CONTACTO: AGRANDADO + PULSO --- */
+        /* --- CONTACTO POTENCIADO (AGRANDADO + PULSO) --- */
         .floating-contact {
             position: fixed; bottom: 80px; right: 25px;
             display: flex; flex-direction: column; gap: 15px; z-index: 1500;
@@ -119,6 +124,7 @@
             display: flex; flex-direction: column;
         }
         .feedback-drawer.open { transform: translateY(0); }
+
         .feedback-trigger {
             position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
             padding: 12px 30px; background: rgba(5, 3, 10, 0.95);
@@ -141,10 +147,13 @@
             cursor: pointer; display: flex; align-items: center; justify-content: center;
             border-radius: 10px 0 0 10px; z-index: 1905; transition: right 0.5s ease;
         }
+
         @media (min-width: 769px) { .bio-panel.open ~ .bio-tab { right: 380px; } }
         .bio-tab span { writing-mode: vertical-rl; transform: rotate(180deg); color: white; letter-spacing: 3px; font-size: 0.8rem; font-family: 'Courier New', monospace; }
         .bio-content { padding: 60px 30px; text-align: center; width: 100%; }
         .bio-photo { width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--vz-violet); margin-bottom: 25px; object-fit: cover; box-shadow: 0 0 20px var(--vz-violet-glow); }
+
+        .mobile-back-btn { display: none; margin: 30px auto 0; padding: 12px 25px; border: 1px solid var(--vz-violet); background: rgba(108, 75, 255, 0.1); color: white; text-transform: uppercase; border-radius: 5px; cursor: pointer; }
 
         @media (max-width: 768px) {
             header { padding-top: 50px; }
@@ -155,13 +164,17 @@
             .bio-tab { top: 70px; right: 0; transform: none; height: 40px; width: auto; padding: 0 15px; border-radius: 10px 0 0 10px; }
             .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
             .bio-panel.open ~ .bio-tab { opacity: 0; visibility: hidden; }
+            .mobile-back-btn { display: block; }
             .floating-contact { bottom: 65px; right: 15px; gap: 12px; }
             .contact-icon { width: 55px; height: 55px; }
         }
     </style>
 </head>
 <body id="mainBody">
-    <img src="IMG/fondo mosaico.png" alt="Fondo" class="bg-image">
+    
+    <video autoplay muted loop playsinline class="bg-image">
+        <source src="VIDEO/webbg.mp4" type="video/mp4">
+    </video>
     <div class="ambient-bg"></div>
 
     <div class="floating-contact" id="contactButtons">
@@ -226,26 +239,23 @@
         const fTrigger = document.getElementById('feedbackTrigger');
         const fDrawer = document.getElementById('feedbackDrawer');
 
-        // Lógica de salto aleatorio
+        // Lógica de salto aleatorio mejorada
         const navBtns = Array.from(document.querySelectorAll('.nav-btn'));
         let jumpQueue = [];
 
         function startJumpCycle() {
             if (jumpQueue.length === 0) {
-                jumpQueue = [...navBtns].sort(() => Math.random() - 0.5); // Barajado aleatorio
+                jumpQueue = [...navBtns].sort(() => Math.random() - 0.5); 
             }
-            
             const nextBtn = jumpQueue.shift();
             nextBtn.classList.add('jump-anim');
-            
             setTimeout(() => {
                 nextBtn.classList.remove('jump-anim');
-                const nextInterval = Math.random() * (5000 - 3000) + 3000; // Entre 3 y 5 segundos
+                const nextInterval = Math.random() * (5000 - 3000) + 3000;
                 setTimeout(startJumpCycle, nextInterval);
-            }, 500); // Duración de la animación
+            }, 400); 
         }
-        
-        setTimeout(startJumpCycle, 2000); // Iniciar después de 2 seg
+        setTimeout(startJumpCycle, 2000);
 
         function setLanguage(lang, event) {
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
