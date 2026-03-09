@@ -186,9 +186,14 @@
                 margin-top: 0; 
             }
 
-            .hero-container { padding-top: 40px; }
+            /* --- AQUÍ ESTÁN TUS CAMBIOS DE POSICIÓN Y TAMAÑO --- */
+            .hero-container { 
+                justify-content: flex-start !important; /* Apaga el imán central */
+                padding-top: 10vh; /* Sube el bloque completo. Cambia este valor a tu gusto (ej: 5vh o 15vh) */
+            }
+
             .main-logo { 
-                width: 200px !important; /* Ajustado el tamaño para móvil (limpio de bordes) */
+                width: 250px !important; /* Logo más grande. Cambia este valor a tu gusto (ej: 280px) */
                 max-width: 90vw !important; 
                 margin-bottom: 40px;
                 transform: scale(1) !important; 
