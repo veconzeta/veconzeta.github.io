@@ -7,7 +7,7 @@
     <style>
         :root {
             --vz-violet: #6C4BFF;
-            --vz-violet-glow: rgba(108, 75, 255, 0.7);
+            --vz-violet-glow: rgba(108, 75, 255, 0.6);
             --bg-dark: #05030A;
             --text-main: #E0E0E0;
             --text-muted: #888899;
@@ -27,15 +27,17 @@
             width: 100vw;
         }
 
+        /* --- VIDEO DE FONDO --- */
         .bg-image { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
             object-fit: cover; z-index: -2; 
         }
 
+        /* Ajuste calibrado: 5px para suavizar sin perder la forma */
         .ambient-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, rgba(5, 3, 10, 0.5) 0%, rgba(5, 3, 10, 0.95) 100%);
-            backdrop-filter: blur(5px); 
+            backdrop-filter: blur(5px); /* Calibrado a 5px */
             -webkit-backdrop-filter: blur(5px);
             z-index: -1;
         }
@@ -60,19 +62,13 @@
 
         .main-logo {
             width: 850px; max-width: 90vw; height: auto; margin-bottom: 40px;
-            filter: drop-shadow(0 0 10px rgba(0,0,0,0.8)) drop-shadow(0 0 25px var(--vz-violet-glow));
+            filter: drop-shadow(0 0 25px var(--vz-violet-glow));
             animation: hero-float-pulse 6s ease-in-out infinite;
         }
 
         @keyframes hero-float-pulse {
-            0%, 100% { 
-                transform: translateY(0px); 
-                filter: drop-shadow(0 0 10px rgba(0,0,0,0.8)) drop-shadow(0 0 25px var(--vz-violet-glow)); 
-            }
-            50% { 
-                transform: translateY(-20px); 
-                filter: drop-shadow(0 0 15px rgba(0,0,0,0.9)) drop-shadow(0 0 45px var(--vz-violet-glow)); 
-            }
+            0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 25px var(--vz-violet-glow)); }
+            50% { transform: translateY(-20px); filter: drop-shadow(0 0 45px var(--vz-violet-glow)); }
         }
 
         .nav-grid { display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 10; width: 100%; }
@@ -117,7 +113,6 @@
         }
         .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
 
-        /* --- PANELES --- */
         .feedback-drawer {
             position: fixed; bottom: 0; left: 0; width: 100vw; height: 70vh; 
             background: rgba(5, 3, 10, 0.98); backdrop-filter: blur(20px);
@@ -143,7 +138,6 @@
             z-index: 1900; display: flex; flex-direction: column; overflow-y: auto;
         }
         .bio-panel.open { right: 0; }
-        
         .bio-tab {
             position: fixed; right: 0; top: 50%; transform: translateY(-50%);
             width: 42px; height: 160px; background: rgba(5, 3, 10, 0.9);
@@ -160,28 +154,17 @@
         .mobile-back-btn { display: none; margin: 30px auto 0; padding: 12px 25px; border: 1px solid var(--vz-violet); background: rgba(108, 75, 255, 0.1); color: white; text-transform: uppercase; border-radius: 5px; cursor: pointer; }
 
         @media (max-width: 768px) {
-            header { padding-top: 50px; position: relative; }
+            header { padding-top: 50px; }
             .lang-switcher { border-left: none; padding-left: 0; }
             .header-left { flex-direction: column; align-items: flex-start; gap: 5px; }
-            
-            /* Ajuste: Logo más grande en móvil */
-            .main-logo { margin-bottom: 30px; width: 160vw; max-width: 280px; }
-            
+            .main-logo { margin-bottom: 30px; width: 85vw; }
             .bio-panel { width: 100%; }
-            
-            /* Ajuste: Tab "Sobre Mí" bajado para no tapar el header */
-            .bio-tab { top: 180px; right: 0; transform: none; height: 40px; width: auto; padding: 0 15px; border-radius: 10px 0 0 10px; }
+            .bio-tab { top: 70px; right: 0; transform: none; height: 40px; width: auto; padding: 0 15px; border-radius: 10px 0 0 10px; }
             .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
-            
             .bio-panel.open ~ .bio-tab { opacity: 0; visibility: hidden; }
             .mobile-back-btn { display: block; }
             .floating-contact { bottom: 65px; right: 15px; gap: 12px; }
             .contact-icon { width: 55px; height: 55px; }
-
-            /* Ajuste: Ocultar botón testimonios si el panel bio está abierto para evitar solapamiento */
-            body.panel-open .feedback-trigger {
-                display: none;
-            }
         }
     </style>
 </head>
@@ -234,7 +217,6 @@
                 <div style="color:var(--star-color); margin-bottom:10px;">★★★★★</div>
                 <p class="translate" style="font-style:italic; font-size:0.95rem;" data-es="Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso." data-en="Excellent communication and space to work with his photography, attentive, clear and very respectful.">Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso.</p>
             </div>
-            <button class="mobile-back-btn translate" onclick="closeAllPanels()" data-es="[ CERRAR ]" data-en="[ CLOSE ]">[ CERRAR ]</button>
         </div>
     </div>
 
@@ -243,7 +225,6 @@
             <img src="IMG/perfil.png" alt="Perfil" class="bio-photo">
             <h2 style="color: white; margin-bottom: 15px; font-size: 1.3rem;">DANILO HERNÁNDEZ A.</h2>
             <p class="translate" style="font-size: 0.95rem; line-height: 1.7; color: var(--text-muted); text-align: center;" data-es="<strong>Artista Digital.</strong><br><br>Tengo 33 años, vivo en Santiago de Chile. Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales." data-en="<strong>Digital Artist.</strong><br><br>I am 33 years old, living in Santiago, Chile. You can find me in roles such as photographer (portraits and events), graphic/audiovisual content editor, and digital retouching expert. Additionally, I love bringing abstract concepts to life through photomontage.<br><br>My creative engine is the construction of worlds and their stories. In every piece I develop, I seek to convey the soul and identity of each person I work with, ensuring they are reflected in the final results."><strong>Artista Digital.</strong><br><br>Tengo 33 años, vivo en Santiago de Chile. <br><br>Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales.</p>
-            <button class="mobile-back-btn translate" onclick="closeAllPanels()" data-es="[ VOLVER AL INICIO ]" data-en="[ BACK TO HOME ]">[ VOLVER AL INICIO ]</button>
         </div>
     </div>
 
@@ -256,7 +237,7 @@
         const fTrigger = document.getElementById('feedbackTrigger');
         const fDrawer = document.getElementById('feedbackDrawer');
 
-        // Lógica de salto aleatorio
+        // Lógica de salto aleatorio mejorada
         const navBtns = Array.from(document.querySelectorAll('.nav-btn'));
         let jumpQueue = [];
 
@@ -281,38 +262,21 @@
             if (fDrawer.classList.contains('open')) { fTrigger.innerText = lang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]'; }
         }
 
-        function toggleUI(isOpen) { 
-            if (isOpen) body.classList.add('panel-open'); 
-            else body.classList.remove('panel-open'); 
-        }
+        function toggleUI(isOpen) { if (isOpen) body.classList.add('panel-open'); else body.classList.remove('panel-open'); }
 
-        function closeAllPanels() {
-            bioPanel.classList.remove('open');
-            fDrawer.classList.remove('open');
-            toggleUI(false);
-            const currentLang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
-            fTrigger.innerText = currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]';
-        }
-
-        bioTab.addEventListener('click', (e) => { 
-            e.stopPropagation(); 
-            const isOpen = bioPanel.classList.toggle('open'); 
-            fDrawer.classList.remove('open'); 
-            toggleUI(isOpen); 
-        });
-
+        bioTab.addEventListener('click', (e) => { e.stopPropagation(); const isOpen = bioPanel.classList.toggle('open'); fDrawer.classList.remove('open'); toggleUI(isOpen); });
         fTrigger.addEventListener('click', (e) => {
-            e.stopPropagation(); 
-            const isOpen = fDrawer.classList.toggle('open'); 
-            bioPanel.classList.remove('open'); 
-            toggleUI(isOpen);
+            e.stopPropagation(); const isOpen = fDrawer.classList.toggle('open'); bioPanel.classList.remove('open'); toggleUI(isOpen);
             const currentLang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
             fTrigger.innerText = fDrawer.classList.contains('open') ? (currentLang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]') : (currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]');
         });
 
         document.addEventListener('click', (e) => {
-            if (!bioPanel.contains(e.target) && !bioTab.contains(e.target) && !fDrawer.contains(e.target) && !fTrigger.contains(e.target)) {
-                closeAllPanels();
+            if (!bioPanel.contains(e.target) && !bioTab.contains(e.target)) { bioPanel.classList.remove('open'); toggleUI(false); }
+            if (!fDrawer.contains(e.target) && !fTrigger.contains(e.target)) {
+                fDrawer.classList.remove('open'); toggleUI(false);
+                const currentLang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
+                fTrigger.innerText = currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]';
             }
         });
     </script>
