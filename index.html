@@ -114,6 +114,25 @@
         }
         .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
 
+        /* --- PANELES --- */
+        .feedback-drawer {
+            position: fixed; bottom: 0; left: 0; width: 100vw; height: 70vh; 
+            background: rgba(5, 3, 10, 0.98); backdrop-filter: blur(20px);
+            border-top: 2px solid var(--vz-violet); transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); z-index: 2000;
+            display: flex; flex-direction: column;
+        }
+        .feedback-drawer.open { transform: translateY(0); }
+
+        .feedback-trigger {
+            position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+            padding: 12px 30px; background: rgba(5, 3, 10, 0.95);
+            border: 1px solid var(--vz-violet); border-bottom: none;
+            border-radius: 12px 12px 0 0; color: white; font-family: 'Courier New', monospace;
+            font-size: 0.75rem; cursor: pointer; z-index: 2005; transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
         .bio-panel {
             position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
             background: rgba(5, 3, 10, 0.98); backdrop-filter: blur(15px);
@@ -144,17 +163,34 @@
             display: none; width: auto; font-weight: bold; letter-spacing: 1px;
         }
 
-        /* --- MEDIA QUERIES MÓVIL (REDISEÑADO) --- */
+        /* --- MEDIA QUERIES MÓVIL (CORRECCIÓN DEFINITIVA) --- */
         @media (max-width: 768px) {
-            header { padding: 25px 5%; display: flex; justify-content: space-between; }
-            .header-left { display: flex; align-items: center; gap: 10px; }
-            .lang-switcher { border-left: 1px solid rgba(136, 136, 153, 0.3); padding-left: 10px; }
+            /* Solución 2: Header en columna, centrado y con margen */
+            header { 
+                padding: 25px 5%; 
+                flex-direction: column; /* Vuelve a ser columna */
+                justify-content: center; 
+                align-items: center;
+                gap: 15px; /* Espacio entre SYS.VECONZETA y ARTISTA DIGITAL */
+            }
+            .header-left { 
+                display: flex; 
+                flex-direction: column; /* SYS.VECONZETA arriba, ES/EN abajo */
+                align-items: center; 
+                gap: 5px; 
+            }
+            .lang-switcher { 
+                border-left: none; /* Quitamos la barra lateral */
+                padding-left: 0; 
+                display: flex;
+                justify-content: center;
+            }
             
-            /* Solución: Logo Grande e imponente en Móvil */
-            .hero-container { justify-content: center; padding-top: 60px; }
+            /* Solución 1: Logo Gigante e Imponente (Sin restricción de max-width) */
+            .hero-container { justify-content: center; padding-top: 20px; }
             .main-logo { 
-                width: 320px !important; /* Forzado a tamaño protagonista */
-                max-width: 88vw !important; 
+                width: 95vw !important; /* 95% del ancho de la pantalla, GIGANTE */
+                max-width: none !important; /* Eliminamos el límite que lo encogía */
                 margin-bottom: 40px;
                 filter: drop-shadow(0 0 15px rgba(0,0,0,0.9)) drop-shadow(0 0 35px var(--vz-violet-glow)) !important;
             }
@@ -205,13 +241,11 @@
         </div>
     </main>
 
-    <div class="feedback-trigger translate" id="feedbackTrigger" 
-         style="position:fixed; bottom:0; left:50%; transform:translateX(-50%); padding:12px 30px; background:rgba(5,3,10,0.95); border:1px solid var(--vz-violet); border-bottom:none; border-radius:12px 12px 0 0; color:white; font-family:'Courier New', monospace; font-size:0.75rem; cursor:pointer; z-index:2005; transition:all 0.3s ease;"
-         data-es="[ VER TESTIMONIOS ]" data-en="[ VIEW TESTIMONIALS ]">[ VER TESTIMONIOS ]</div>
+    <div class="feedback-trigger translate" id="feedbackTrigger" data-es="[ VER TESTIMONIOS ]" data-en="[ VIEW TESTIMONIALS ]">[ VER TESTIMONIOS ]</div>
 
-    <div class="feedback-drawer" id="feedbackDrawer" style="position:fixed; bottom:0; left:0; width:100vw; height:70vh; background:rgba(5,3,10,0.98); backdrop-filter:blur(20px); border-top:2px solid var(--vz-violet); transform:translateY(100%); transition:transform 0.5s cubic-bezier(0.19,1,0.22,1); z-index:2000; display:flex; flex-direction:column;">
-        <div class="feedback-content" style="text-align: center; padding:40px 20px;">
-            <h2 class="translate" data-es="EXPERIENCIAS" data-en="EXPERIENCES" style="font-family:'Courier New', monospace; font-size:1.6rem; letter-spacing:4px; margin-bottom:30px;">EXPERIENCIAS</h2>
+    <div class="feedback-drawer" id="feedbackDrawer">
+        <div class="feedback-content" style="text-align: center;">
+            <h2 class="feedback-title translate" data-es="EXPERIENCIAS" data-en="EXPERIENCES">EXPERIENCIAS</h2>
             <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,75,255,0.2); padding:25px; border-radius:15px; display:inline-block; text-align:left; max-width:500px; margin-bottom:20px;">
                 <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
                     <img src="FEEDBACK/miiussette feedback.jpeg" alt="Miiussette" style="width:60px; height:60px; border-radius:50%; border:2px solid var(--vz-violet);">
@@ -224,7 +258,7 @@
                 <p class="translate" style="font-style:italic; font-size:0.95rem;" data-es="Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso." data-en="Excellent communication and space to work with his photography, attentive, clear and very respectful.">Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso.</p>
             </div>
         </div>
-        <button class="mobile-back-btn translate" onclick="closeAllPanels()" data-es="[ CERRAR ]" data-en="[ CLOSE ]">[ CERRAR ]</button>
+        <button class="mobile-back-btn translate" onclick="closeAllPanels()" data-es="[ VOLVER ]" data-en="[ BACK ]">[ VOLVER ]</button>
     </div>
 
     <div class="bio-panel" id="bioPanel">
