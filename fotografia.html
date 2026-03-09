@@ -179,7 +179,6 @@
         .lightbox-arrow:hover { color: white; text-shadow: 0 0 15px var(--vz-violet-glow); }
         #lbPrev { left: 2%; } #lbNext { right: 2%; }
 
-
         @media (max-width: 1200px) { .masonry-container { column-count: 3; } }
         @media (max-width: 768px) {
             header { flex-direction: column-reverse; gap: 20px; }
@@ -262,4 +261,130 @@
         
         <img src="" alt="Vista ampliada" class="lightbox-img" id="lightboxImage">
         
-        <button class="lightbox-arrow" id="lbNext" onclick="navigateLightbox(1)">&#10
+        <button class="lightbox-arrow" id="lbNext" onclick="navigateLightbox(1)">&#10095;</button>
+    </div>
+
+    <script>
+        // ==========================================
+        // BASE DE DATOS DE TUS FOTOS (TEMPORAL)
+        // ==========================================
+        // AHORA TODOS LOS ÁLBUMES TIENEN FOTOS PARA QUE PUEDAS PROBAR
+        const albumData = {
+            0: [ // Álbum 1: Retratos
+                "https://picsum.photos/800/1200?random=20", 
+                "https://picsum.photos/1200/800?random=21", 
+                "https://picsum.photos/800/1000?random=22", 
+                "https://picsum.photos/1000/1000?random=23", 
+                "https://picsum.photos/800/1200?random=24"
+            ],
+            1: [ // Álbum 2: Cosplay
+                "https://picsum.photos/1200/800?random=30",
+                "https://picsum.photos/800/1200?random=31",
+                "https://picsum.photos/1200/800?random=32"
+            ],
+            2: [ // Álbum 3: Eventos
+                "https://picsum.photos/800/1200?random=40",
+                "https://picsum.photos/1600/900?random=41",
+                "https://picsum.photos/1000/1200?random=42"
+            ],
+            3: [ // Álbum 4: Productos (El que probaste recién)
+                "https://picsum.photos/1200/800?random=50",
+                "https://picsum.photos/800/1200?random=51",
+                "https://picsum.photos/1600/900?random=52",
+                "https://picsum.photos/800/1200?random=53"
+            ]
+        };
+
+        const albumTitles = ["ÁLBUM 01 // RETRATOS", "ÁLBUM 02 // COSPLAY", "ÁLBUM 03 // EVENTOS", "ÁLBUM 04 // PRODUCTOS"];
+
+        // ==========================================
+        // LÓGICA DEL CARRUSEL 3D
+        // ==========================================
+        const track = document.getElementById('track');
+        const cards = Array.from(track.querySelectorAll('.album-card'));
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        let currentIndex = 0;
+
+        function updateCarousel() {
+            const isMobile = window.innerWidth <= 768;
+            const xOffset = isMobile ? 240 : 450; 
+            const zOffset = isMobile ? -120 : -200; 
+            const rotation = isMobile ? 15 : 25; 
+
+            cards.forEach((card, index) => {
+                let offset = index - currentIndex; 
+                let direction = offset > 0 ? 1 : -1;
+                let distance = Math.abs(offset);
+
+                if (offset === 0) {
+                    card.style.transform = `translateX(0px) translateZ(50px) rotateY(0deg) scale(1.1)`;
+                    card.style.zIndex = 100;
+                    card.style.opacity = 1;
+                    card.style.filter = 'none';
+                    card.classList.add('active');
+                } else {
+                    let moveX = direction * (xOffset + (distance * (xOffset * 0.25))); 
+                    let moveZ = zOffset * distance;
+                    let rotateY = direction * -rotation;
+                    
+                    card.style.transform = `translate3d(${moveX}px, 0, ${moveZ}px) rotateY(${rotateY}deg) scale(0.85)`;
+                    card.style.zIndex = 50 - distance; 
+                    card.style.opacity = Math.max(1 - (distance * 0.3), 0); 
+                    card.style.filter = `blur(${distance * 2}px) grayscale(50%)`;
+                    card.classList.remove('active');
+                }
+            });
+        }
+
+        nextBtn.addEventListener('click', () => { if (currentIndex < cards.length - 1) { currentIndex++; updateCarousel(); } });
+        prevBtn.addEventListener('click', () => { if (currentIndex > 0) { currentIndex--; updateCarousel(); } });
+        window.addEventListener('resize', updateCarousel);
+        updateCarousel();
+
+
+        // ==========================================
+        // LÓGICA DE LA GALERÍA COLLAGE (MASONRY)
+        // ==========================================
+        const galleryOverlay = document.getElementById('galleryOverlay');
+        const masonryContainer = document.getElementById('masonryContainer');
+        const galleryTitle = document.getElementById('galleryTitle');
+        const body = document.getElementById('mainBody');
+
+        // Click en tarjetas del carrusel
+        cards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                if (currentIndex !== index) {
+                    currentIndex = index; 
+                    updateCarousel();
+                } else {
+                    openGallery(index); // Abre el álbum si ya está en el centro
+                }
+            });
+        });
+
+        function openGallery(albumIndex) {
+            const photos = albumData[albumIndex];
+            galleryTitle.innerText = albumTitles[albumIndex];
+            masonryContainer.innerHTML = ''; // Limpiar galería anterior
+
+            if (photos && photos.length > 0) {
+                photos.forEach((fotoUrl, i) => {
+                    const item = document.createElement('div');
+                    item.className = 'masonry-item';
+                    item.onclick = () => openLightbox(albumIndex, i); 
+                    
+                    const img = document.createElement('img');
+                    img.src = fotoUrl;
+                    img.alt = `Foto ${i+1}`;
+                    img.loading = "lazy"; 
+                    
+                    item.appendChild(img);
+                    masonryContainer.appendChild(item);
+                });
+            } else {
+                masonryContainer.innerHTML = '<p style="color:var(--text-muted); text-align:center; width:100%;">Aún no hay fotografías en este álbum.</p>';
+            }
+
+            galleryOverlay.classList.add('open');
+            body.classList.add('gallery-open', 'no-
