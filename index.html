@@ -7,7 +7,7 @@
     <style>
         :root {
             --vz-violet: #6C4BFF;
-            --vz-violet-glow: rgba(108, 75, 255, 0.6);
+            --vz-violet-glow: rgba(108, 75, 255, 0.7);
             --bg-dark: #05030A;
             --text-main: #E0E0E0;
             --text-muted: #888899;
@@ -33,15 +33,15 @@
             object-fit: cover; z-index: -2; 
         }
 
-        /* Ajuste calibrado: 5px para suavizar sin perder la forma */
         .ambient-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, rgba(5, 3, 10, 0.5) 0%, rgba(5, 3, 10, 0.95) 100%);
-            backdrop-filter: blur(5px); /* Calibrado a 5px */
+            backdrop-filter: blur(5px); 
             -webkit-backdrop-filter: blur(5px);
             z-index: -1;
         }
 
+        /* --- HEADER ESCRITORIO --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px 5%; font-family: 'Courier New', monospace;
@@ -60,15 +60,17 @@
             z-index: 5; padding: 20px;
         }
 
+        /* --- LOGO ESCRITORIO --- */
         .main-logo {
-            width: 850px; max-width: 90vw; height: auto; margin-bottom: 40px;
-            filter: drop-shadow(0 0 25px var(--vz-violet-glow));
+            width: 400px; /* Ajustado al nuevo tamaño sin fondo transparente */
+            max-width: 90vw; height: auto; margin-bottom: 40px;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.8)) drop-shadow(0 0 25px var(--vz-violet-glow));
             animation: hero-float-pulse 6s ease-in-out infinite;
         }
 
         @keyframes hero-float-pulse {
-            0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 25px var(--vz-violet-glow)); }
-            50% { transform: translateY(-20px); filter: drop-shadow(0 0 45px var(--vz-violet-glow)); }
+            0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 10px rgba(0,0,0,0.8)) drop-shadow(0 0 25px var(--vz-violet-glow)); }
+            50% { transform: translateY(-20px); filter: drop-shadow(0 0 15px rgba(0,0,0,0.9)) drop-shadow(0 0 45px var(--vz-violet-glow)); }
         }
 
         .nav-grid { display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 10; width: 100%; }
@@ -96,7 +98,6 @@
             display: flex; flex-direction: column; gap: 15px; z-index: 1500;
             transition: opacity 0.4s ease, visibility 0.4s ease;
         }
-        body.panel-open .floating-contact { opacity: 0; visibility: hidden; }
 
         .contact-icon {
             width: 60px; height: 60px; background: rgba(5, 3, 10, 0.9);
@@ -113,6 +114,7 @@
         }
         .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
 
+        /* --- PANELES --- */
         .feedback-drawer {
             position: fixed; bottom: 0; left: 0; width: 100vw; height: 70vh; 
             background: rgba(5, 3, 10, 0.98); backdrop-filter: blur(20px);
@@ -132,12 +134,13 @@
         }
 
         .bio-panel {
-            position: fixed; top: 0; right: -100%; width: 380px; max-width: 100%;
-            height: 100vh; background: rgba(5, 3, 10, 0.95); backdrop-filter: blur(15px);
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+            background: rgba(5, 3, 10, 0.98); backdrop-filter: blur(15px);
             border-left: 1px solid var(--vz-violet); transition: right 0.5s ease;
             z-index: 1900; display: flex; flex-direction: column; overflow-y: auto;
         }
         .bio-panel.open { right: 0; }
+        
         .bio-tab {
             position: fixed; right: 0; top: 50%; transform: translateY(-50%);
             width: 42px; height: 160px; background: rgba(5, 3, 10, 0.9);
@@ -146,23 +149,94 @@
             border-radius: 10px 0 0 10px; z-index: 1905; transition: right 0.5s ease;
         }
 
-        @media (min-width: 769px) { .bio-panel.open ~ .bio-tab { right: 380px; } }
+        @media (min-width: 769px) { .bio-panel.open ~ .bio-tab { right: 380px; } .bio-panel { width: 380px; } }
         .bio-tab span { writing-mode: vertical-rl; transform: rotate(180deg); color: white; letter-spacing: 3px; font-size: 0.8rem; font-family: 'Courier New', monospace; }
-        .bio-content { padding: 60px 30px; text-align: center; width: 100%; }
+        
+        .bio-content { padding: 60px 30px 120px; text-align: center; width: 100%; }
         .bio-photo { width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--vz-violet); margin-bottom: 25px; object-fit: cover; box-shadow: 0 0 20px var(--vz-violet-glow); }
 
-        .mobile-back-btn { display: none; margin: 30px auto 0; padding: 12px 25px; border: 1px solid var(--vz-violet); background: rgba(108, 75, 255, 0.1); color: white; text-transform: uppercase; border-radius: 5px; cursor: pointer; }
+        .mobile-back-btn { display: none; }
 
+        /* --- CONTROLES GLOBALES DE UI CUANDO HAY PANELES ABIERTOS --- */
+        body.panel-open .floating-contact,
+        body.panel-open .feedback-trigger,
+        body.panel-open .bio-tab {
+            display: none !important; 
+        }
+
+        /* =========================================
+           MEDIA QUERIES MÓVIL
+           ========================================= */
         @media (max-width: 768px) {
-            header { padding-top: 50px; }
-            .lang-switcher { border-left: none; padding-left: 0; }
-            .header-left { flex-direction: column; align-items: flex-start; gap: 5px; }
-            .main-logo { margin-bottom: 30px; width: 85vw; }
+            
+            header { 
+                padding: 30px 5% 10px; 
+                flex-direction: row; 
+                justify-content: space-between; 
+                align-items: flex-start; 
+            }
+            .header-left { 
+                flex-direction: column; 
+                align-items: flex-start; 
+                gap: 5px; 
+            }
+            .lang-switcher { 
+                border-left: none; 
+                padding-left: 0; 
+                margin-top: 0; 
+            }
+
+            .hero-container { padding-top: 40px; }
+            .main-logo { 
+                width: 200px !important; /* Ajustado el tamaño para móvil (limpio de bordes) */
+                max-width: 90vw !important; 
+                margin-bottom: 40px;
+                transform: scale(1) !important; 
+                animation: hero-float-pulse-mobile 6s ease-in-out infinite !important;
+            }
+
+            @keyframes hero-float-pulse-mobile {
+                0%, 100% { 
+                    transform: translateY(0px) scale(1); 
+                    filter: drop-shadow(0 0 10px rgba(0,0,0,0.9)) drop-shadow(0 0 30px var(--vz-violet-glow)); 
+                }
+                50% { 
+                    transform: translateY(-15px) scale(1); 
+                    filter: drop-shadow(0 0 15px rgba(0,0,0,0.9)) drop-shadow(0 0 45px var(--vz-violet-glow)); 
+                }
+            }
+            
+            .bio-tab { top: 320px; height: 140px; }
+            
             .bio-panel { width: 100%; }
-            .bio-tab { top: 70px; right: 0; transform: none; height: 40px; width: auto; padding: 0 15px; border-radius: 10px 0 0 10px; }
-            .bio-tab span { writing-mode: horizontal-tb; transform: none; font-size: 0.7rem; }
-            .bio-panel.open ~ .bio-tab { opacity: 0; visibility: hidden; }
-            .mobile-back-btn { display: block; }
+
+            .bio-content {
+                padding: 40px 25px 160px !important; 
+            }
+
+            .mobile-back-btn { 
+                position: fixed !important; 
+                bottom: 25px; 
+                left: 50%; 
+                transform: translateX(-50%);
+                padding: 14px 40px; 
+                border: 2px solid var(--vz-violet); 
+                background: rgba(10, 5, 20, 0.98); 
+                color: white; 
+                text-transform: uppercase; 
+                border-radius: 10px; 
+                cursor: pointer; 
+                z-index: 2010; 
+                box-shadow: 0 0 20px rgba(0,0,0,0.8), 0 0 15px var(--vz-violet-glow);
+                font-weight: bold; 
+                letter-spacing: 1px;
+                width: max-content;
+            }
+            .bio-panel.open .mobile-back-btn, 
+            .feedback-drawer.open .mobile-back-btn { 
+                display: block !important; 
+            }
+            
             .floating-contact { bottom: 65px; right: 15px; gap: 12px; }
             .contact-icon { width: 55px; height: 55px; }
         }
@@ -204,9 +278,9 @@
     <div class="feedback-trigger translate" id="feedbackTrigger" data-es="[ VER TESTIMONIOS ]" data-en="[ VIEW TESTIMONIALS ]">[ VER TESTIMONIOS ]</div>
 
     <div class="feedback-drawer" id="feedbackDrawer">
-        <div class="feedback-content" style="text-align: center;">
-            <h2 class="feedback-title translate" data-es="EXPERIENCIAS" data-en="EXPERIENCES">EXPERIENCIAS</h2>
-            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,75,255,0.2); padding:25px; border-radius:15px; display:inline-block; text-align:left; max-width:500px;">
+        <div class="feedback-content" style="text-align: center; padding:40px 20px;">
+            <h2 class="translate" data-es="EXPERIENCIAS" data-en="EXPERIENCES" style="font-family:'Courier New', monospace; font-size:1.6rem; letter-spacing:4px; margin-bottom:30px;">EXPERIENCIAS</h2>
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,75,255,0.2); padding:25px; border-radius:15px; display:inline-block; text-align:left; max-width:500px; margin-bottom:20px;">
                 <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
                     <img src="FEEDBACK/miiussette feedback.jpeg" alt="Miiussette" style="width:60px; height:60px; border-radius:50%; border:2px solid var(--vz-violet);">
                     <div>
@@ -218,6 +292,7 @@
                 <p class="translate" style="font-style:italic; font-size:0.95rem;" data-es="Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso." data-en="Excellent communication and space to work with his photography, attentive, clear and very respectful.">Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso.</p>
             </div>
         </div>
+        <button class="mobile-back-btn translate" onclick="closeAllPanels()" data-es="[ VOLVER ]" data-en="[ BACK ]">[ VOLVER ]</button>
     </div>
 
     <div class="bio-panel" id="bioPanel">
@@ -226,6 +301,7 @@
             <h2 style="color: white; margin-bottom: 15px; font-size: 1.3rem;">DANILO HERNÁNDEZ A.</h2>
             <p class="translate" style="font-size: 0.95rem; line-height: 1.7; color: var(--text-muted); text-align: center;" data-es="<strong>Artista Digital.</strong><br><br>Tengo 33 años, vivo en Santiago de Chile. Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales." data-en="<strong>Digital Artist.</strong><br><br>I am 33 years old, living in Santiago, Chile. You can find me in roles such as photographer (portraits and events), graphic/audiovisual content editor, and digital retouching expert. Additionally, I love bringing abstract concepts to life through photomontage.<br><br>My creative engine is the construction of worlds and their stories. In every piece I develop, I seek to convey the soul and identity of each person I work with, ensuring they are reflected in the final results."><strong>Artista Digital.</strong><br><br>Tengo 33 años, vivo en Santiago de Chile. <br><br>Me puedes encontrar en roles como fotógrafo (retratos y eventos), editor de contenido gráfico/audiovisual y en retoque digital. Además, me encanta dar vida a conceptos abstractos mediante el fotomontaje.<br><br>Mi motor creativo es la construcción de mundos y sus relatos. En cada pieza que desarrollo, busco transmitir el alma e identidad de cada persona con la que trabajo y que se reflejen en los resultados finales.</p>
         </div>
+        <button class="mobile-back-btn translate" onclick="closeAllPanels()" data-es="[ VOLVER AL INICIO ]" data-en="[ BACK TO HOME ]">[ VOLVER AL INICIO ]</button>
     </div>
 
     <div class="bio-tab" id="bioTab"><span class="translate" data-es="[ SOBRE MÍ ]" data-en="[ ABOUT ME ]">[ SOBRE MÍ ]</span></div>
@@ -237,7 +313,6 @@
         const fTrigger = document.getElementById('feedbackTrigger');
         const fDrawer = document.getElementById('feedbackDrawer');
 
-        // Lógica de salto aleatorio mejorada
         const navBtns = Array.from(document.querySelectorAll('.nav-btn'));
         let jumpQueue = [];
 
@@ -262,21 +337,38 @@
             if (fDrawer.classList.contains('open')) { fTrigger.innerText = lang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]'; }
         }
 
-        function toggleUI(isOpen) { if (isOpen) body.classList.add('panel-open'); else body.classList.remove('panel-open'); }
+        function toggleUI(isOpen) { 
+            if (isOpen) body.classList.add('panel-open'); 
+            else body.classList.remove('panel-open'); 
+        }
 
-        bioTab.addEventListener('click', (e) => { e.stopPropagation(); const isOpen = bioPanel.classList.toggle('open'); fDrawer.classList.remove('open'); toggleUI(isOpen); });
+        function closeAllPanels() {
+            bioPanel.classList.remove('open');
+            fDrawer.classList.remove('open');
+            toggleUI(false);
+            const currentLang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
+            fTrigger.innerText = currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]';
+        }
+
+        bioTab.addEventListener('click', (e) => { 
+            e.stopPropagation(); 
+            const isOpen = bioPanel.classList.toggle('open'); 
+            fDrawer.classList.remove('open'); 
+            toggleUI(isOpen); 
+        });
+
         fTrigger.addEventListener('click', (e) => {
-            e.stopPropagation(); const isOpen = fDrawer.classList.toggle('open'); bioPanel.classList.remove('open'); toggleUI(isOpen);
+            e.stopPropagation(); 
+            const isOpen = fDrawer.classList.toggle('open'); 
+            bioPanel.classList.remove('open'); 
+            toggleUI(isOpen);
             const currentLang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
             fTrigger.innerText = fDrawer.classList.contains('open') ? (currentLang === 'es' ? '[ CERRAR ]' : '[ CLOSE ]') : (currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]');
         });
 
         document.addEventListener('click', (e) => {
-            if (!bioPanel.contains(e.target) && !bioTab.contains(e.target)) { bioPanel.classList.remove('open'); toggleUI(false); }
-            if (!fDrawer.contains(e.target) && !fTrigger.contains(e.target)) {
-                fDrawer.classList.remove('open'); toggleUI(false);
-                const currentLang = document.querySelector('.lang-btn.active').innerText.toLowerCase();
-                fTrigger.innerText = currentLang === 'es' ? '[ VER TESTIMONIOS ]' : '[ VIEW TESTIMONIALS ]';
+            if (!bioPanel.contains(e.target) && !bioTab.contains(e.target) && !fDrawer.contains(e.target) && !fTrigger.contains(e.target)) {
+                closeAllPanels();
             }
         });
     </script>
