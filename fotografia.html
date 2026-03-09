@@ -26,19 +26,20 @@
             width: 100vw;
         }
 
+        /* Ocultar scroll general cuando abrimos una galería */
+        body.no-scroll { overflow: hidden; }
+        body.gallery-open .floating-contact { display: none !important; }
+
         /* --- VIDEO DE FONDO FIJO --- */
         .bg-image { 
-            position: fixed; 
-            top: 0; left: 0; width: 100%; height: 100%; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             object-fit: cover; z-index: -2; 
         }
 
         .ambient-bg {
-            position: fixed; 
-            top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, rgba(5, 3, 10, 0.5) 0%, rgba(5, 3, 10, 0.95) 100%);
-            backdrop-filter: blur(5px); 
-            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
             z-index: -1;
         }
 
@@ -51,32 +52,18 @@
         }
 
         .back-btn {
-            color: white;
-            text-decoration: none;
-            border: 1px solid var(--vz-violet);
-            padding: 8px 15px;
-            border-radius: 5px;
-            background: rgba(108, 75, 255, 0.1);
-            transition: all 0.3s ease;
+            color: white; text-decoration: none; border: 1px solid var(--vz-violet);
+            padding: 8px 15px; border-radius: 5px; background: rgba(108, 75, 255, 0.1);
+            transition: all 0.3s ease; cursor: pointer;
         }
-
-        .back-btn:hover {
-            background: rgba(108, 75, 255, 0.3);
-            box-shadow: 0 0 15px var(--vz-violet-glow);
-        }
+        .back-btn:hover { background: rgba(108, 75, 255, 0.3); box-shadow: 0 0 15px var(--vz-violet-glow); }
 
         .page-title {
-            text-align: center;
-            margin: 10px 0 40px;
-            font-family: 'Courier New', monospace;
-            font-size: 2.5rem;
-            letter-spacing: 8px;
-            color: white;
-            text-shadow: 0 0 20px var(--vz-violet-glow);
-            z-index: 5;
+            text-align: center; margin: 10px 0 40px; font-family: 'Courier New', monospace;
+            font-size: 2.5rem; letter-spacing: 8px; color: white;
+            text-shadow: 0 0 20px var(--vz-violet-glow); z-index: 5;
         }
 
-        /* --- BOTONES DE CONTACTO FLOTANTES --- */
         .floating-contact {
             position: fixed; bottom: 80px; right: 25px;
             display: flex; flex-direction: column; gap: 15px; z-index: 1500;
@@ -87,146 +74,131 @@
             border: 1px solid var(--vz-violet); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            transition: all 0.4s ease; backdrop-filter: blur(5px);
-            padding: 12px; animation: contact-pulse 4s infinite;
-        }
-
-        @keyframes contact-pulse {
-            0%, 100% { box-shadow: 0 0 15px rgba(0,0,0,0.5); border-color: var(--vz-violet); }
-            50% { box-shadow: 0 0 30px var(--vz-violet-glow); border-color: white; transform: scale(1.05); }
+            transition: all 0.4s ease; backdrop-filter: blur(5px); padding: 12px;
         }
         .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
 
-        /* =========================================
-           CARRUSEL DE ÁLBUMES 3D (FORMATO 16:9 PURO)
-           ========================================= */
+        /* --- CARRUSEL 3D --- */
         .carousel-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 55vh;
-            position: relative;
-            z-index: 10;
+            display: flex; align-items: center; justify-content: center;
+            width: 100%; height: 55vh; position: relative; z-index: 10;
         }
-
         .nav-arrow {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 3rem;
-            cursor: pointer;
-            padding: 20px;
-            z-index: 20;
-            transition: all 0.3s ease;
-            text-shadow: 0 0 10px rgba(0,0,0,0.8);
-            position: absolute;
+            background: none; border: none; color: rgba(255, 255, 255, 0.5);
+            font-size: 3rem; cursor: pointer; padding: 20px; z-index: 20;
+            transition: all 0.3s ease; position: absolute;
         }
-        #prevBtn { left: 2%; }
-        #nextBtn { right: 2%; }
-
-        .nav-arrow:hover {
-            color: white;
-            text-shadow: 0 0 20px var(--vz-violet-glow);
-            transform: scale(1.2);
-        }
+        #prevBtn { left: 2%; } #nextBtn { right: 2%; }
+        .nav-arrow:hover { color: white; text-shadow: 0 0 20px var(--vz-violet-glow); transform: scale(1.2); }
 
         .carousel-track-container {
-            width: 100%;
-            max-width: 1400px;
-            height: 100%;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1200px;
+            width: 100%; max-width: 1400px; height: 100%; position: relative;
+            display: flex; justify-content: center; align-items: center; perspective: 1200px;
         }
-
-        /* Dimensiones base de la tarjeta completa */
         .carousel-track {
-            position: relative;
-            width: 500px;  /* Ancho base PC */
-            /* La altura ahora es automática según el contenido */
-            transform-style: preserve-3d;
+            position: relative; width: 500px; transform-style: preserve-3d;
             transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-
         .album-card {
-            position: absolute;
-            top: 0; left: 0; width: 100%;
-            /* Altura automática */
-            height: auto; 
-            background: rgba(10, 5, 20, 0.9);
-            border: 2px solid rgba(108, 75, 255, 0.2);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            transform-origin: center center;
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                        opacity 0.6s ease, 
-                        filter 0.6s ease, 
-                        border-color 0.6s ease, 
-                        box-shadow 0.6s ease;
+            position: absolute; top: 0; left: 0; width: 100%; height: auto; 
+            background: rgba(10, 5, 20, 0.9); border: 2px solid rgba(108, 75, 255, 0.2);
+            border-radius: 12px; display: flex; flex-direction: column; cursor: pointer;
+            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); transform-origin: center center;
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease, filter 0.6s ease, border-color 0.6s ease;
         }
+        .album-card.active { border-color: var(--vz-violet); box-shadow: 0 0 40px var(--vz-violet-glow); }
+        .album-cover { width: 100%; aspect-ratio: 16 / 9; background: #2a2a35; object-fit: cover; }
+        .album-info { padding: 15px 10px; display: flex; flex-direction: column; align-items: center; border-top: 1px solid rgba(108, 75, 255, 0.3); background: linear-gradient(to top, rgba(108, 75, 255, 0.1), transparent); }
+        .album-info h3 { font-family: 'Courier New', monospace; font-size: 1rem; color: white; letter-spacing: 2px; margin-bottom: 5px; }
+        .album-info p { font-size: 0.7rem; color: var(--vz-violet); text-transform: uppercase; }
 
-        .album-card.active {
-            border-color: var(--vz-violet);
-            box-shadow: 0 0 40px var(--vz-violet-glow);
+        /* =========================================
+           1. GALERÍA COLLAGE (MASONRY)
+           ========================================= */
+        .gallery-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(5, 3, 10, 0.98); backdrop-filter: blur(20px);
+            z-index: 2000; overflow-y: auto; overflow-x: hidden;
+            transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex; flex-direction: column;
         }
-
-        /* --- EL CAMBIO CLAVE: PORTADA 16:9 EXACTA --- */
-        .album-cover {
-            width: 100%;
-            aspect-ratio: 16 / 9; /* Fuerza matemáticamente el formato cine */
-            background: #2a2a35;
-            object-fit: cover;
-            flex-grow: 0; /* Evita que se estire */
+        .gallery-overlay.open { transform: translateY(0); }
+        
+        .gallery-header {
+            padding: 30px 5%; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(108, 75, 255, 0.2); position: sticky; top: 0;
+            background: rgba(5, 3, 10, 0.95); z-index: 2010;
         }
-
-        .album-info {
-            /* Altura automática con padding */
-            padding: 15px 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-top: 1px solid rgba(108, 75, 255, 0.3);
-            background: linear-gradient(to top, rgba(108, 75, 255, 0.1), transparent);
+        .gallery-title { font-family: 'Courier New', monospace; color: white; letter-spacing: 4px; font-size: 1.5rem; }
+        
+        .masonry-container {
+            padding: 40px 5%; width: 100%; max-width: 1600px; margin: 0 auto;
+            column-count: 4; /* 4 columnas en PC grandes */
+            column-gap: 20px;
         }
-
-        .album-info h3 {
-            font-family: 'Courier New', monospace;
-            font-size: 1rem;
-            color: white;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
+        .masonry-item {
+            width: 100%; break-inside: avoid; margin-bottom: 20px;
+            cursor: pointer; border-radius: 8px; overflow: hidden;
+            border: 1px solid rgba(108, 75, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
-
-        .album-info p {
-            font-size: 0.7rem;
-            color: var(--vz-violet);
-            text-transform: uppercase;
+        .masonry-item:hover {
+            transform: translateY(-5px); border-color: var(--vz-violet);
+            box-shadow: 0 10px 25px var(--vz-violet-glow);
         }
+        .masonry-item img { width: 100%; height: auto; display: block; object-fit: cover; }
 
+        /* =========================================
+           2. VISOR INDIVIDUAL (LIGHTBOX)
+           ========================================= */
+        .lightbox-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.95); z-index: 3000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .lightbox-overlay.open { opacity: 1; pointer-events: all; }
+        
+        .lightbox-img {
+            max-width: 90vw; max-height: 90vh;
+            object-fit: contain; /* Magia: respeta proporción original */
+            box-shadow: 0 0 40px rgba(0,0,0,0.8); border-radius: 4px;
+        }
+        
+        .lightbox-close {
+            position: absolute; top: 20px; right: 30px; background: none; border: none;
+            color: white; font-size: 2.5rem; cursor: pointer; z-index: 3010; transition: color 0.3s;
+        }
+        .lightbox-close:hover { color: var(--vz-violet); }
+
+        .lightbox-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none;
+            color: rgba(255,255,255,0.6); font-size: 3rem; cursor: pointer; z-index: 3010; padding: 20px;
+            transition: all 0.3s;
+        }
+        .lightbox-arrow:hover { color: white; text-shadow: 0 0 15px var(--vz-violet-glow); }
+        #lbPrev { left: 2%; } #lbNext { right: 2%; }
+
+
+        @media (max-width: 1200px) { .masonry-container { column-count: 3; } }
         @media (max-width: 768px) {
             header { flex-direction: column-reverse; gap: 20px; }
             .page-title { font-size: 1.8rem; letter-spacing: 4px; margin-bottom: 20px;}
             .floating-contact { bottom: 65px; right: 15px; gap: 12px; }
             .contact-icon { width: 55px; height: 55px; }
-            
-            /* Ancho base para móvil */
             .carousel-track { width: 320px; } 
-            .album-info { padding: 12px 5px; }
-            .nav-arrow { font-size: 2.5rem; padding: 10px; }
-            #prevBtn { left: 1%; }
-            #nextBtn { right: 1%; }
+            
+            /* Masonry en móvil: 2 columnas se ve súper profesional */
+            .masonry-container { column-count: 2; column-gap: 10px; padding: 20px 5%; }
+            .masonry-item { margin-bottom: 10px; }
+            .gallery-title { font-size: 1.1rem; }
+            
+            .lightbox-arrow { font-size: 2rem; padding: 10px; }
+            #lbPrev { left: 0; } #lbNext { right: 0; }
         }
     </style>
 </head>
-<body>
+<body id="mainBody">
     
     <video autoplay muted loop playsinline class="bg-image">
         <source src="VIDEO/webbg.mp4" type="video/mp4">
@@ -247,124 +219,47 @@
 
     <div class="carousel-wrapper">
         <button class="nav-arrow" id="prevBtn">&#10094;</button>
-        
         <div class="carousel-track-container">
             <div class="carousel-track" id="track">
                 
                 <div class="album-card">
-                    <img src="" class="album-cover" alt="">
-                    <div class="album-info">
-                        <h3>ÁLBUM 01</h3>
-                        <p>Retratos</p>
-                    </div>
+                    <img src="https://picsum.photos/1280/720?random=10" class="album-cover" alt="Retratos">
+                    <div class="album-info"><h3>ÁLBUM 01</h3><p>Retratos</p></div>
                 </div>
 
                 <div class="album-card">
-                    <img src="" class="album-cover" alt="">
-                    <div class="album-info">
-                        <h3>ÁLBUM 02</h3>
-                        <p>Cosplay</p>
-                    </div>
+                    <img src="https://picsum.photos/1280/720?random=11" class="album-cover" alt="Cosplay">
+                    <div class="album-info"><h3>ÁLBUM 02</h3><p>Cosplay</p></div>
                 </div>
 
                 <div class="album-card">
-                    <img src="" class="album-cover" alt="">
-                    <div class="album-info">
-                        <h3>ÁLBUM 03</h3>
-                        <p>Eventos</p>
-                    </div>
+                    <img src="https://picsum.photos/1280/720?random=12" class="album-cover" alt="Eventos">
+                    <div class="album-info"><h3>ÁLBUM 03</h3><p>Eventos</p></div>
                 </div>
                 
                 <div class="album-card">
-                    <img src="" class="album-cover" alt="">
-                    <div class="album-info">
-                        <h3>ÁLBUM 04</h3>
-                        <p>Productos</p>
-                    </div>
+                    <img src="https://picsum.photos/1280/720?random=13" class="album-cover" alt="Productos">
+                    <div class="album-info"><h3>ÁLBUM 04</h3><p>Productos</p></div>
                 </div>
 
             </div>
         </div>
-
         <button class="nav-arrow" id="nextBtn">&#10095;</button>
     </div>
 
-    <script>
-        const track = document.getElementById('track');
-        const cards = Array.from(track.querySelectorAll('.album-card'));
-        const nextBtn = document.getElementById('nextBtn');
-        const prevBtn = document.getElementById('prevBtn');
+    <div class="gallery-overlay" id="galleryOverlay">
+        <div class="gallery-header">
+            <h2 class="gallery-title" id="galleryTitle">ÁLBUM SELECCIONADO</h2>
+            <button class="back-btn" onclick="closeGallery()">[ X CERRAR ÁLBUM ]</button>
+        </div>
+        <div class="masonry-container" id="masonryContainer">
+            </div>
+    </div>
+
+    <div class="lightbox-overlay" id="lightboxOverlay">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-arrow" id="lbPrev" onclick="navigateLightbox(-1)">&#10094;</button>
         
-        let currentIndex = 0;
-
-        function updateCarousel() {
-            const isMobile = window.innerWidth <= 768;
-            
-            // --- MATEMÁTICA RECALCULADA ---
-            // Ajuste fino de distancias para las nuevas proporciones
-            const xOffset = isMobile ? 240 : 450; 
-            const zOffset = isMobile ? -120 : -200; 
-            const rotation = isMobile ? 15 : 25; 
-
-            cards.forEach((card, index) => {
-                let offset = index - currentIndex; 
-                let direction = offset > 0 ? 1 : -1;
-                let distance = Math.abs(offset);
-
-                if (offset === 0) {
-                    // EL REY DEL CENTRO
-                    card.style.transform = `translateX(0px) translateZ(50px) rotateY(0deg) scale(1.1)`;
-                    card.style.zIndex = 100;
-                    card.style.opacity = 1;
-                    card.style.filter = 'none';
-                    card.classList.add('active');
-                } else {
-                    // LOS VASALLOS A LOS LADOS
-                    let moveX = direction * (xOffset + (distance * (xOffset * 0.25))); 
-                    let moveZ = zOffset * distance;
-                    let rotateY = direction * -rotation;
-                    
-                    // Usamos translate3d para mejor rendimiento
-                    card.style.transform = `translate3d(${moveX}px, 0, ${moveZ}px) rotateY(${rotateY}deg) scale(0.85)`;
-                    card.style.zIndex = 50 - distance; 
-                    card.style.opacity = Math.max(1 - (distance * 0.3), 0); 
-                    card.style.filter = `blur(${distance * 2}px) grayscale(50%)`;
-                    card.classList.remove('active');
-                }
-            });
-        }
-
-        // Flechas
-        nextBtn.addEventListener('click', () => {
-            if (currentIndex < cards.length - 1) {
-                currentIndex++;
-                updateCarousel();
-            }
-        });
-
-        prevBtn.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateCarousel();
-            }
-        });
-
-        // Click en tarjetas laterales
-        cards.forEach((card, index) => {
-            card.addEventListener('click', () => {
-                if (currentIndex !== index) {
-                    currentIndex = index;
-                    updateCarousel();
-                } else {
-                    console.log("¡ÁLBUM " + (index + 1) + " SE ABRE AQUÍ!");
-                }
-            });
-        });
-
-        window.addEventListener('resize', updateCarousel);
-
-        // Inicializar
-        updateCarousel();
-    </script>
-</body>
-</html>
+        <img src="" alt="Vista ampliada" class="lightbox-img" id="lightboxImage">
+        
+        <button class="lightbox-arrow" id="lbNext" onclick="navigateLightbox(1)">&#10
