@@ -62,7 +62,7 @@
 
         /* --- LOGO ESCRITORIO --- */
         .main-logo {
-            width: 400px; /* Ajustado al nuevo tamaño sin fondo transparente */
+            width: 400px; 
             max-width: 90vw; height: auto; margin-bottom: 40px;
             filter: drop-shadow(0 0 10px rgba(0,0,0,0.8)) drop-shadow(0 0 25px var(--vz-violet-glow));
             animation: hero-float-pulse 6s ease-in-out infinite;
@@ -121,6 +121,7 @@
             border-top: 2px solid var(--vz-violet); transform: translateY(100%);
             transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1); z-index: 2000;
             display: flex; flex-direction: column;
+            overflow-y: auto; /* Permite scroll si hay muchos testimonios */
         }
         .feedback-drawer.open { transform: translateY(0); }
 
@@ -186,14 +187,13 @@
                 margin-top: 0; 
             }
 
-            /* --- AQUÍ ESTÁN TUS CAMBIOS DE POSICIÓN Y TAMAÑO --- */
             .hero-container { 
-                justify-content: flex-start !important; /* Apaga el imán central */
-                padding-top: 10vh; /* Sube el bloque completo. Cambia este valor a tu gusto (ej: 5vh o 15vh) */
+                justify-content: flex-start !important; 
+                padding-top: 10vh; 
             }
 
             .main-logo { 
-                width: 250px !important; /* Logo más grande. Cambia este valor a tu gusto (ej: 280px) */
+                width: 250px !important; 
                 max-width: 90vw !important; 
                 margin-bottom: 40px;
                 transform: scale(1) !important; 
@@ -273,7 +273,7 @@
     <main class="hero-container">
         <img src="IMG/321.png" alt="Logo" class="main-logo">
         <div class="nav-grid" id="navGrid">
-            <a class="nav-btn translate" data-es="Fotografía" data-en="Photography">Fotografía</a>
+            <a href="fotografia.html" class="nav-btn translate" data-es="Fotografía" data-en="Photography">Fotografía</a>
             <a class="nav-btn translate" data-es="Fotomontajes" data-en="Photomontage">Fotomontajes</a>
             <a class="nav-btn translate" data-es="Edición de Video" data-en="Video Editing">Edición de Video</a>
             <a class="nav-btn translate" data-es="Diseño" data-en="Design">Diseño</a>
@@ -283,11 +283,12 @@
     <div class="feedback-trigger translate" id="feedbackTrigger" data-es="[ VER TESTIMONIOS ]" data-en="[ VIEW TESTIMONIALS ]">[ VER TESTIMONIOS ]</div>
 
     <div class="feedback-drawer" id="feedbackDrawer">
-        <div class="feedback-content" style="text-align: center; padding:40px 20px;">
+        <div class="feedback-content" style="text-align: center; padding:40px 20px 100px;">
             <h2 class="translate" data-es="EXPERIENCIAS" data-en="EXPERIENCES" style="font-family:'Courier New', monospace; font-size:1.6rem; letter-spacing:4px; margin-bottom:30px;">EXPERIENCIAS</h2>
-            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,75,255,0.2); padding:25px; border-radius:15px; display:inline-block; text-align:left; max-width:500px; margin-bottom:20px;">
+            
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,75,255,0.2); padding:25px; border-radius:15px; display:inline-block; text-align:left; max-width:500px; margin: 10px; vertical-align: top;">
                 <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
-                    <img src="FEEDBACK/miiussette feedback.jpeg" alt="Miiussette" style="width:60px; height:60px; border-radius:50%; border:2px solid var(--vz-violet);">
+                    <img src="FEEDBACK/miiussette feedback.jpeg" alt="Miiussette" style="width:60px; height:60px; border-radius:50%; border:2px solid var(--vz-violet); object-fit: cover;">
                     <div>
                         <span style="display:block; color:white; font-weight:bold;">Miiussette A.</span>
                         <span class="translate" data-es="Sesión de fotos pareja" data-en="Couple photoshoot" style="font-size:0.75rem; color:var(--vz-violet);">Sesión de fotos pareja</span>
@@ -296,6 +297,19 @@
                 <div style="color:var(--star-color); margin-bottom:10px;">★★★★★</div>
                 <p class="translate" style="font-style:italic; font-size:0.95rem;" data-es="Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso." data-en="Excellent communication and space to work with his photography, attentive, clear and very respectful.">Excelente comunicación y espacio para trabajar con su fotografía, atento, claro y muy respetuoso.</p>
             </div>
+
+            <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,75,255,0.2); padding:25px; border-radius:15px; display:inline-block; text-align:left; max-width:500px; margin: 10px; vertical-align: top;">
+                <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
+                    <img src="FEEDBACK/feedbackDiegoPozo.png" alt="Diego Pozo" style="width:60px; height:60px; border-radius:50%; border:2px solid var(--vz-violet); object-fit: cover;">
+                    <div>
+                        <span style="display:block; color:white; font-weight:bold;">Diego Pozo C.</span>
+                        <span class="translate" data-es="Cursos, contenido y video para RRSS" data-en="Courses, content and video for social media" style="font-size:0.75rem; color:var(--vz-violet);">Cursos, contenido y video para RRSS</span>
+                    </div>
+                </div>
+                <div style="color:var(--star-color); margin-bottom:10px;">★★★★★</div>
+                <p class="translate" style="font-style:italic; font-size:0.95rem;" data-es="&quot;He trabajado con él durante años y es excelente en su trabajo. Tiene muy buena estética y es muy criterioso al momento de participar en reuniones y tomar decisiones creativas. Lo recomiendo totalmente.&quot;" data-en="&quot;I have worked with him for years and he is excellent at his job. He has a very good aesthetic and is very discerning when participating in meetings and making creative decisions. I totally recommend him.&quot;">"He trabajado con él durante años y es excelente en su trabajo. Tiene muy buena estética y es muy criterioso al momento de participar en reuniones y tomar decisiones creativas. Lo recomiendo totalmente."</p>
+            </div>
+
         </div>
         <button class="mobile-back-btn translate" onclick="closeAllPanels()" data-es="[ VOLVER ]" data-en="[ BACK ]">[ VOLVER ]</button>
     </div>
