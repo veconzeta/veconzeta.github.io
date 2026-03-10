@@ -83,6 +83,7 @@
             position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px;
             background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
         }
+        .album-info h3 { font-family: 'Courier New', monospace; font-size: 1.2rem; }
 
         /* --- GALERÍA --- */
         .gallery-overlay {
@@ -116,8 +117,8 @@
     <div class="ambient-bg"></div>
 
     <header>
-        <a href="index.html" class="back-btn">[ < VOLVER ]</a>
-        <div>SYS.VECONZETA // PHOTOGRAPHY</div>
+        <a href="index.html" class="back-btn">[ < VOLVER AL INICIO ]</a>
+        <div>SYS.VECONZETA // FOTOGRAFIA.01</div>
     </header>
 
     <h1 class="page-title">FOTOGRAFÍA</h1>
@@ -126,32 +127,30 @@
         <button class="nav-arrow" id="prevBtn">&#10094;</button>
         <div class="carousel-track-container">
             <div class="carousel-track" id="track">
-                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/portada.jpg" class="album-cover"><div class="album-info"><h3>EVENTOS</h3></div></div>
-                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/portada.jpg" class="album-cover"><div class="album-info"><h3>SESIONES</h3></div></div>
-                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/portada.jpg" class="album-cover"><div class="album-info"><h3>PRODUCTO</h3></div></div>
-                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/04_COSPLAYERS/portada.jpg" class="album-cover"><div class="album-info"><h3>COSPLAY</h3></div></div>
+                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/portada.jpg" class="album-cover"><div class="album-info"><h3>ÁLBUM 01 - EVENTOS</h3></div></div>
+                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/portada.jpg" class="album-cover"><div class="album-info"><h3>ÁLBUM 02 - SESIONES</h3></div></div>
+                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/portada.jpg" class="album-cover"><div class="album-info"><h3>ÁLBUM 03 - PRODUCTO</h3></div></div>
+                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/04_COSPLAYERS/portada.jpg" class="album-cover"><div class="album-info"><h3>ÁLBUM 04 - COSPLAY</h3></div></div>
             </div>
         </div>
         <button class="nav-arrow" id="nextBtn">&#10095;</button>
     </div>
 
     <div class="gallery-overlay" id="galleryOverlay">
-        <div style="padding: 20px 5%; display: flex; justify-content: space-between; sticky; top: 0; background: #05030A; z-index: 10;">
-            <h2 id="galleryTitle" style="letter-spacing: 3px;">ALBUM</h2>
-            <button class="back-btn" onclick="closeGallery()">[ CERRAR ]</button>
+        <div style="padding: 20px 5%; display: flex; justify-content: space-between; position: sticky; top: 0; background: #05030A; z-index: 10;">
+            <h2 id="galleryTitle">ÁLBUM</h2>
+            <button class="back-btn" onclick="closeGallery()">[ CERRAR ÁLBUM ]</button>
         </div>
         <div class="masonry-container" id="masonryContainer"></div>
     </div>
 
     <div class="lightbox-overlay" id="lightboxOverlay">
-        <button onclick="closeLightbox()" style="position: absolute; top: 20px; right: 20px; color: white; background: none; border: none; font-size: 2rem; cursor: pointer;">&times;</button>
-        <button onclick="navigateLightbox(-1)" style="position: absolute; left: 20px; color: white; background: none; border: none; font-size: 3rem; cursor: pointer;">&#10094;</button>
+        <button onclick="closeLightbox()" style="position: absolute; top: 20px; right: 20px; color: white; background: none; border: none; font-size: 2.5rem; cursor: pointer;">&times;</button>
         <img src="" id="lightboxImage" class="lightbox-img">
-        <button onclick="navigateLightbox(1)" style="position: absolute; right: 20px; color: white; background: none; border: none; font-size: 3rem; cursor: pointer;">&#10095;</button>
     </div>
 
     <script>
-        // --- DATA BINDING ---
+        // --- BASE DE DATOS AUTOMATIZADA ---
         const albumData = {
             0: Array.from({length: 49}, (_, i) => `PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/EVENTOS-${i + 1}.jpg`),
             1: Array.from({length: 13}, (_, i) => `PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/SESIONES-${i + 1}.jpg`),
@@ -165,7 +164,7 @@
 
         const albumTitles = ["EVENTOS SOCIALES", "SESIONES & RETRATOS", "FOTOGRAFÍA PRODUCTO", "COSPLAY & FICCIÓN"];
 
-        // --- CORE LOGIC ---
+        // --- LÓGICA DEL CARRUSEL ---
         const track = document.getElementById('track');
         const cards = Array.from(track.querySelectorAll('.album-card'));
         let currentIndex = 0;
@@ -175,14 +174,13 @@
             const xOff = isMobile ? 220 : 500; 
             cards.forEach((card, i) => {
                 let off = i - currentIndex;
-                let dist = Math.abs(off);
                 if (off === 0) {
                     card.style.transform = `translateX(0) translateZ(50px) scale(1.1)`;
                     card.style.zIndex = 100; card.style.opacity = 1;
                     card.classList.add('active');
                 } else {
                     card.style.transform = `translateX(${off * xOff}px) translateZ(-200px) scale(0.8) rotateY(${off * -20}deg)`;
-                    card.style.zIndex = 50 - dist; card.style.opacity = 0.4;
+                    card.style.zIndex = 50 - Math.abs(off); card.style.opacity = 0.4;
                     card.classList.remove('active');
                 }
             });
@@ -190,9 +188,10 @@
 
         document.getElementById('nextBtn').onclick = () => { if(currentIndex < cards.length-1) { currentIndex++; updateCarousel(); } };
         document.getElementById('prevBtn').onclick = () => { if(currentIndex > 0) { currentIndex--; updateCarousel(); } };
-
+        
         cards.forEach((card, i) => card.onclick = () => currentIndex === i ? openGallery(i) : (currentIndex=i, updateCarousel()));
 
+        // --- GALERÍA ---
         function openGallery(idx) {
             const container = document.getElementById('masonryContainer');
             document.getElementById('galleryTitle').innerText = albumTitles[idx];
@@ -203,28 +202,26 @@
                 item.className = 'masonry-item';
                 const img = document.createElement('img');
                 img.src = url;
-                // FALLBACK: Si la imagen no existe, ocultar el cuadro
+                // FALLBACK: Si la imagen falla, ocultamos el contenedor
                 img.onerror = () => item.style.display = 'none';
-                item.onclick = () => openLightbox(idx, imgIdx);
+                item.onclick = () => openLightbox(url);
                 item.appendChild(img);
                 container.appendChild(item);
             });
             document.getElementById('galleryOverlay').classList.add('open');
-            document.body.style.overflow = 'hidden';
+            document.body.classList.add('no-scroll');
         }
 
-        function closeGallery() { document.getElementById('galleryOverlay').classList.remove('open'); document.body.style.overflow = 'auto'; }
+        function closeGallery() { 
+            document.getElementById('galleryOverlay').classList.remove('open'); 
+            document.body.classList.remove('no-scroll');
+        }
 
-        // --- LIGHTBOX ---
-        let currA = 0, currP = 0;
-        function openLightbox(a, p) { currA=a; currP=p; updateLB(); document.getElementById('lightboxOverlay').classList.add('open'); }
+        function openLightbox(url) { 
+            document.getElementById('lightboxImage').src = url;
+            document.getElementById('lightboxOverlay').classList.add('open'); 
+        }
         function closeLightbox() { document.getElementById('lightboxOverlay').classList.remove('open'); }
-        function navigateLightbox(d) { 
-            const total = albumData[currA].length;
-            currP = (currP + d + total) % total;
-            updateLB();
-        }
-        function updateLB() { document.getElementById('lightboxImage').src = albumData[currA][currP]; }
 
         updateCarousel();
         window.onresize = updateCarousel;
