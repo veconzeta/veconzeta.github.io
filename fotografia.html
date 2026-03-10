@@ -100,29 +100,46 @@
             text-shadow: 0 0 15px var(--vz-violet);
         }
 
-        /* --- NAV ARROWS (CENTRADO VERTICAL Y HORIZONTAL) --- */
+        /* --- NAV ARROWS (GEOMÉTRICAS CON CSS) --- */
         .nav-arrow {
-            background: none; border: none; color: rgba(255, 255, 255, 0.3);
-            font-size: 3rem; cursor: pointer; padding: 20px; z-index: 999;
-            transition: 0.3s ease;
+            background: none; border: none; 
+            color: rgba(255, 255, 255, 0.4); /* Color base */
+            cursor: pointer; 
+            padding: 30px; /* Área de clic amplia */
+            z-index: 999;
+            transition: all 0.3s ease;
             
-            /* Lógica de centrado en el eje Y */
+            /* Posicionamiento exacto al centro */
             position: absolute !important;
             top: 50% !important; 
             transform: translateY(-50%) !important;
             
-            /* Corrección de la caja del carácter (Bounding Box) */
             display: flex;
             align-items: center;
             justify-content: center;
-            line-height: 0;
         }
 
-        /* Mantienen una distancia fija de la imagen central en monitores grandes */
-        #prevBtn { left: calc(50% - 400px); }
-        #nextBtn { right: calc(50% - 400px); }
+        /* Dibujamos las flechas usando bordes */
+        .nav-arrow::before {
+            content: '';
+            display: block;
+            width: 25px;  /* Tamaño de la flecha */
+            height: 25px;
+            border-top: 4px solid currentColor; /* Grosor del trazo */
+            border-left: 4px solid currentColor;
+            transform: rotate(-45deg); /* Rotación inicial para IZQUIERDA */
+        }
 
-        /* Mantiene el centro durante el zoom */
+        /* Rotación para la flecha DERECHA */
+        #nextBtn::before {
+            transform: rotate(135deg);
+        }
+
+        /* Posición en Escritorio */
+        #prevBtn { left: calc(50% - 420px); }
+        #nextBtn { right: calc(50% - 420px); }
+
+        /* Hover: Blanco brillante y ligero zoom */
         .nav-arrow:hover { 
             color: white; 
             transform: translateY(-50%) scale(1.1) !important; 
@@ -161,14 +178,18 @@
             .carousel-wrapper { margin-top: -15vh; } /* Eje elevado en Móvil */
             .carousel-track { width: 85vw; }
             
-            /* Flechas en móvil */
+            /* Ajuste de flechas en móvil */
             .nav-arrow { 
-                display: flex !important; /* Mantiene el centrado interno */
-                font-size: 2.5rem; 
-                color: rgba(255, 255, 255, 0.8);
-                z-index: 999 !important; 
-                padding: 10px; /* Reducimos la caja invisible */
+                display: flex !important;
+                padding: 15px; /* Área de clic más pequeña en móvil */
             }
+            /* Flecha ligeramente más pequeña en móvil */
+            .nav-arrow::before {
+                width: 20px;
+                height: 20px;
+                border-width: 3px;
+            }
+            /* Posición pegada a los bordes en móvil */
             #prevBtn { left: 1%; } 
             #nextBtn { right: 1%; }
 
@@ -194,11 +215,11 @@
     <h1 class="page-title">FOTOGRAFÍA</h1>
 
     <div class="carousel-wrapper">
-        <button class="nav-arrow" id="prevBtn">&#10094;</button>
+        <button class="nav-arrow" id="prevBtn"></button>
         <div class="carousel-track-container">
             <div class="carousel-track" id="track"></div>
         </div>
-        <button class="nav-arrow" id="nextBtn">&#10095;</button>
+        <button class="nav-arrow" id="nextBtn"></button>
     </div>
 
     <div class="gallery-overlay" id="galleryOverlay">
