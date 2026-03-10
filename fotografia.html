@@ -103,7 +103,7 @@
         /* --- NAV ARROWS (CENTRADO MATEMÁTICO Y GROSOR SVG) --- */
         .nav-arrow {
             background: none; border: none; 
-            color: rgba(255, 255, 255, 0.4); 
+            color: white; /* BLANCO SÓLIDO Y OPACO */
             cursor: pointer; 
             padding: 20px; 
             z-index: 999;
@@ -124,7 +124,7 @@
             width: 50px; /* Tamaño general */
             height: 50px;
             stroke: currentColor;
-            stroke-width: 5; /* ESTE ES EL GROSOR (Auméntalo a 6 si lo quieres más extremo) */
+            stroke-width: 5; /* Grosor del trazo */
             stroke-linecap: round;
             stroke-linejoin: round;
             fill: none;
@@ -135,8 +135,7 @@
         #prevBtn { left: calc(50% - 400px); }
         #nextBtn { right: calc(50% - 400px); }
 
-        /* Hover: Blanco puro y escala vectorial */
-        .nav-arrow:hover { color: white; }
+        /* Hover: Blanco puro (ya lo es) y escala vectorial */
         .nav-arrow:hover svg { transform: scale(1.15); }
 
         /* --- CONTACTO --- */
