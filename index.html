@@ -27,6 +27,21 @@
             width: 100vw;
         }
 
+        /* --- PROTECCIÓN GLOBAL --- */
+        body {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none;    /* Firefox */
+            -ms-user-select: none;     /* IE/Edge */
+            user-select: none;         /* Previene selección de texto e imágenes */
+        }
+
+        img {
+            -webkit-user-drag: none;   /* Evita arrastrar imágenes en navegadores WebKit */
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+        }
+
         /* --- VIDEO DE FONDO --- */
         .bg-image { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
@@ -253,7 +268,7 @@
 </head>
 <body id="mainBody">
     
-    <video autoplay muted loop playsinline class="bg-image">
+    <video autoplay muted loop playsinline class="bg-image" controlsList="nodownload" disablePictureInPicture oncontextmenu="return false;">
         <source src="VIDEO/webbg.mp4" type="video/mp4">
     </video>
     <div class="ambient-bg"></div>
@@ -403,8 +418,6 @@
         });
 
         // --- MEJORA 2: CERRAR CON GESTOS TÁCTILES (SWIPE EN MÓVIL) ---
-        
-        // Swipe Down (Hacia abajo) para cerrar Testimonios
         let touchStartYFeedback = 0;
         fDrawer.addEventListener('touchstart', e => { 
             touchStartYFeedback = e.changedTouches[0].screenY; 
@@ -412,13 +425,9 @@
         
         fDrawer.addEventListener('touchend', e => {
             let touchEndY = e.changedTouches[0].screenY;
-            // Si el usuario desliza más de 50px hacia abajo, cierra el panel
-            if (touchEndY > touchStartYFeedback + 50) {
-                closeAllPanels();
-            }
+            if (touchEndY > touchStartYFeedback + 50) { closeAllPanels(); }
         }, {passive: true});
 
-        // Swipe Right (Hacia la derecha) para cerrar Bio
         let touchStartXBio = 0;
         bioPanel.addEventListener('touchstart', e => { 
             touchStartXBio = e.changedTouches[0].screenX; 
@@ -426,11 +435,32 @@
         
         bioPanel.addEventListener('touchend', e => {
             let touchEndX = e.changedTouches[0].screenX;
-            // Si el usuario desliza más de 50px hacia la derecha, cierra el panel
-            if (touchEndX > touchStartXBio + 50) {
-                closeAllPanels();
-            }
+            if (touchEndX > touchStartXBio + 50) { closeAllPanels(); }
         }, {passive: true});
+
+        // --- SISTEMA DE PROTECCIÓN DE ACTIVOS (Capa 3) ---
+        
+        // 1. Bloquear el clic derecho (menú contextual) en toda la página
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // 2. Prevenir el arrastre de elementos multimedia
+        document.addEventListener('dragstart', function(e) {
+            if (e.target.nodeName.toUpperCase() === 'IMG' || e.target.nodeName.toUpperCase() === 'VIDEO') {
+                e.preventDefault();
+            }
+        });
+
+        // 3. Bloquear atajos de teclado de extracción (Ctrl+S, Ctrl+U, Ctrl+P)
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                const key = e.key.toLowerCase();
+                if (key === 's' || key === 'u' || key === 'p') {
+                    e.preventDefault();
+                }
+            }
+        });
 
     </script>
 </body>
