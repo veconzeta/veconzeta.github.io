@@ -215,16 +215,15 @@
             
             .bio-panel { width: 100%; }
 
-            /* Padding normalizado, ya no necesitamos el espacio gigante abajo */
+            /* Padding normalizado */
             .bio-content, .feedback-content {
                 padding: 60px 25px 60px !important; 
             }
 
-            /* === CAMBIO CLAVE: BOTÓN MOVIDO A LA ESQUINA SUPERIOR DERECHA === */
             .mobile-back-btn { 
-                position: absolute !important; /* Cambiado de fixed a absolute */
-                top: 20px;  /* Pegado arriba */
-                right: 20px; /* Pegado a la derecha */
+                position: absolute !important; 
+                top: 20px;  
+                right: 20px; 
                 bottom: auto;
                 left: auto;
                 transform: none;
@@ -395,6 +394,44 @@
                 closeAllPanels();
             }
         });
+
+        // --- MEJORA 1: CERRAR CON TECLADO (Tecla Escape) ---
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeAllPanels();
+            }
+        });
+
+        // --- MEJORA 2: CERRAR CON GESTOS TÁCTILES (SWIPE EN MÓVIL) ---
+        
+        // Swipe Down (Hacia abajo) para cerrar Testimonios
+        let touchStartYFeedback = 0;
+        fDrawer.addEventListener('touchstart', e => { 
+            touchStartYFeedback = e.changedTouches[0].screenY; 
+        }, {passive: true});
+        
+        fDrawer.addEventListener('touchend', e => {
+            let touchEndY = e.changedTouches[0].screenY;
+            // Si el usuario desliza más de 50px hacia abajo, cierra el panel
+            if (touchEndY > touchStartYFeedback + 50) {
+                closeAllPanels();
+            }
+        }, {passive: true});
+
+        // Swipe Right (Hacia la derecha) para cerrar Bio
+        let touchStartXBio = 0;
+        bioPanel.addEventListener('touchstart', e => { 
+            touchStartXBio = e.changedTouches[0].screenX; 
+        }, {passive: true});
+        
+        bioPanel.addEventListener('touchend', e => {
+            let touchEndX = e.changedTouches[0].screenX;
+            // Si el usuario desliza más de 50px hacia la derecha, cierra el panel
+            if (touchEndX > touchStartXBio + 50) {
+                closeAllPanels();
+            }
+        }, {passive: true});
+
     </script>
 </body>
 </html>
