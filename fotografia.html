@@ -83,7 +83,6 @@
             position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px;
             background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
         }
-        .album-info h3 { font-family: 'Courier New', monospace; font-size: 1.2rem; }
 
         /* --- GALERÍA --- */
         .gallery-overlay {
@@ -106,9 +105,10 @@
         .lightbox-img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
 
         @media (max-width: 768px) {
-            .page-title { font-size: 1.5rem; }
+            header { flex-direction: column; gap: 15px; }
+            .page-title { font-size: 1.5rem; letter-spacing: 4px; }
             .carousel-track { width: 85vw; }
-            .masonry-container { column-count: 2; }
+            .masonry-container { column-count: 2; column-gap: 10px; }
         }
     </style>
 </head>
@@ -124,35 +124,47 @@
     <h1 class="page-title">FOTOGRAFÍA</h1>
 
     <div class="carousel-wrapper">
-        <button class="nav-arrow" id="prevBtn">&#10094;</button>
+        <button class="nav-arrow" id="prevBtn" style="position: absolute; left: 2%; z-index: 20;">&#10094;</button>
         <div class="carousel-track-container">
             <div class="carousel-track" id="track">
-                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/portada.jpg" class="album-cover"><div class="album-info"><h3>EVENTOS</h3></div></div>
-                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/portada.jpg" class="album-cover"><div class="album-info"><h3>SESIONES</h3></div></div>
-                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/portada.jpg" class="album-cover"><div class="album-info"><h3>PRODUCTO</h3></div></div>
-                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/04_COSPLAYERS/portada.jpg" class="album-cover"><div class="album-info"><h3>COSPLAY</h3></div></div>
+                <div class="album-card">
+                    <img src="PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/portada.jpg" class="album-cover" alt="Eventos">
+                    <div class="album-info"><h3>ÁLBUM 01</h3><p>Eventos</p></div>
+                </div>
+                <div class="album-card">
+                    <img src="PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/portada.jpg" class="album-cover" alt="Sesiones">
+                    <div class="album-info"><h3>ÁLBUM 02</h3><p>Sesiones & Retratos</p></div>
+                </div>
+                <div class="album-card">
+                    <img src="PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/portada.jpg" class="album-cover" alt="Productos">
+                    <div class="album-info"><h3>ÁLBUM 03</h3><p>Productos</p></div>
+                </div>
+                <div class="album-card">
+                    <img src="PORTAFOLIO_FOTOGRAFIAS/04_COSPLAYERS/portada.jpg" class="album-cover" alt="Cosplay">
+                    <div class="album-info"><h3>ÁLBUM 04</h3><p>Cosplay & Arte</p></div>
+                </div>
             </div>
         </div>
-        <button class="nav-arrow" id="nextBtn">&#10095;</button>
+        <button class="nav-arrow" id="nextBtn" style="position: absolute; right: 2%; z-index: 20;">&#10095;</button>
     </div>
 
     <div class="gallery-overlay" id="galleryOverlay">
         <div style="padding: 20px 5%; display: flex; justify-content: space-between; position: sticky; top: 0; background: #05030A; z-index: 10;">
-            <h2 id="galleryTitle">ALBUM</h2>
-            <button class="back-btn" onclick="closeGallery()">[ CERRAR ÁLBUM ]</button>
+            <h2 id="galleryTitle" style="font-family: 'Courier New', monospace;">ÁLBUM</h2>
+            <button class="back-btn" onclick="closeGallery()">[ X CERRAR ÁLBUM ]</button>
         </div>
         <div class="masonry-container" id="masonryContainer"></div>
     </div>
 
     <div class="lightbox-overlay" id="lightboxOverlay">
-        <button onclick="closeLightbox()" style="position: absolute; top: 20px; right: 20px; color: white; background: none; border: none; font-size: 2.5rem; cursor: pointer;">&times;</button>
+        <button onclick="closeLightbox()" style="position: absolute; top: 20px; right: 30px; color: white; background: none; border: none; font-size: 3rem; cursor: pointer;">&times;</button>
         <img src="" id="lightboxImage" class="lightbox-img">
     </div>
 
     <script>
-        // --- DATA AUTOMATIZADA CORREGIDA ---
         const ROOT = "PORTAFOLIO_FOTOGRAFIAS";
 
+        // --- DATA CORREGIDA SEGÚN VS CODE ---
         const albumData = {
             // Álbum 01 - EVENTOS_1 a EVENTOS_51
             0: Array.from({length: 51}, (_, i) => `${ROOT}/01_EVENTOS/EVENTOS_${i + 1}.jpg`),
@@ -163,18 +175,17 @@
             // Álbum 03 - PRODUCTO_1 a PRODUCTO_22
             2: Array.from({length: 22}, (_, i) => `${ROOT}/03_PRODUCTO/PRODUCTO_${i + 1}.jpg`),
             
-            // Álbum 04 - COSPLAYER_01 a COSPLAYER_34 (Nótese el '01')
-            3: Array.from({length: 34}, (_, i) => {
-                const num = (i + 1).toString().padStart(2, '0'); // Esto genera 01, 02, etc.
-                return `${ROOT}/04_COSPLAYERS/COSPLAYER_${num}.jpg`;
-            })
+            // Álbum 04 - COSPLAYER_1 a COSPLAYER_34 (SIN el cero inicial según captura)
+            3: Array.from({length: 34}, (_, i) => `${ROOT}/04_COSPLAYERS/COSPLAYER_${i + 1}.jpg`)
         };
 
         const albumTitles = ["EVENTOS SOCIALES", "SESIONES & RETRATOS", "FOTOGRAFÍA PRODUCTO", "COSPLAY & FICCIÓN"];
 
-        // --- LÓGICA DEL CARRUSEL ---
+        // LÓGICA DEL CARRUSEL
         const track = document.getElementById('track');
         const cards = Array.from(track.querySelectorAll('.album-card'));
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
         let currentIndex = 0;
 
         function updateCarousel() {
@@ -182,23 +193,24 @@
             const xOff = isMobile ? 220 : 500; 
             cards.forEach((card, i) => {
                 let off = i - currentIndex;
+                let dist = Math.abs(off);
                 if (off === 0) {
                     card.style.transform = `translateX(0) translateZ(50px) scale(1.1)`;
                     card.style.zIndex = 100; card.style.opacity = 1;
                     card.classList.add('active');
                 } else {
                     card.style.transform = `translateX(${off * xOff}px) translateZ(-200px) scale(0.8) rotateY(${off * -20}deg)`;
-                    card.style.zIndex = 50 - Math.abs(off); card.style.opacity = 0.4;
+                    card.style.zIndex = 50 - dist; card.style.opacity = 0.4;
                     card.classList.remove('active');
                 }
             });
         }
 
-        document.getElementById('nextBtn').onclick = () => { if(currentIndex < cards.length-1) { currentIndex++; updateCarousel(); } };
-        document.getElementById('prevBtn').onclick = () => { if(currentIndex > 0) { currentIndex--; updateCarousel(); } };
-        
+        nextBtn.onclick = () => { if(currentIndex < cards.length-1) { currentIndex++; updateCarousel(); } };
+        prevBtn.onclick = () => { if(currentIndex > 0) { currentIndex--; updateCarousel(); } };
         cards.forEach((card, i) => card.onclick = () => currentIndex === i ? openGallery(i) : (currentIndex=i, updateCarousel()));
 
+        // GALERÍA
         function openGallery(idx) {
             const container = document.getElementById('masonryContainer');
             document.getElementById('galleryTitle').innerText = albumTitles[idx];
@@ -209,8 +221,9 @@
                 item.className = 'masonry-item';
                 const img = document.createElement('img');
                 img.src = url;
-                // Si la imagen falla, no bloqueamos la web, pero avisamos en consola para depurar
-                img.onerror = () => { console.error("Fallo al cargar:", url); };
+                img.loading = "lazy";
+                // Si la imagen no existe, no mostramos el cuadro roto
+                img.onerror = () => { item.style.display = 'none'; };
                 item.onclick = () => openLightbox(url);
                 item.appendChild(img);
                 container.appendChild(item);
