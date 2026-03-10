@@ -247,6 +247,7 @@
         const track = document.getElementById('track');
         let currentIndex = 0;
 
+        // Generación de Tarjetas
         function generateCarouselCards() {
             [0, 1, 2, 3].forEach((i) => {
                 const coverUrl = albumData[i][0];
@@ -268,6 +269,7 @@
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
 
+        // Lógica 3D del Carrusel
         function updateCarousel() {
             const isMobile = window.innerWidth <= 768;
             const xOff = isMobile ? 220 : 450; 
@@ -286,11 +288,46 @@
             });
         }
 
-        nextBtn.onclick = (e) => { e.stopPropagation(); if(currentIndex < cards.length-1) { currentIndex++; updateCarousel(); } };
-        prevBtn.onclick = (e) => { e.stopPropagation(); if(currentIndex > 0) { currentIndex--; updateCarousel(); } };
+        // Navegación Básica
+        const goNext = () => { if(currentIndex < cards.length-1) { currentIndex++; updateCarousel(); } };
+        const goPrev = () => { if(currentIndex > 0) { currentIndex--; updateCarousel(); } };
+
+        nextBtn.onclick = (e) => { e.stopPropagation(); goNext(); };
+        prevBtn.onclick = (e) => { e.stopPropagation(); goPrev(); };
         
         cards.forEach((card, i) => card.onclick = () => currentIndex === i ? openGallery(i) : (currentIndex=i, updateCarousel()));
 
+        // --- MEJORA 1: SOPORTE TÁCTIL (SWIPE) ---
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        track.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, {passive: true});
+        track.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            const swipeThreshold = 50; 
+            if (touchEndX < touchStartX - swipeThreshold) goNext();
+            if (touchEndX > touchStartX + swipeThreshold) goPrev();
+        }
+
+        // --- MEJORA 2: NAVEGACIÓN POR TECLADO ---
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightboxOverlay');
+            const gallery = document.getElementById('galleryOverlay');
+            
+            if (e.key === 'ArrowRight' && !lightbox.classList.contains('open')) goNext();
+            if (e.key === 'ArrowLeft' && !lightbox.classList.contains('open')) goPrev();
+            
+            if (e.key === 'Escape') {
+                if (lightbox.classList.contains('open')) closeLightbox();
+                else if (gallery.classList.contains('open')) closeGallery();
+            }
+        });
+
+        // Lógica de Galería y Lightbox
         function openGallery(idx) {
             const container = document.getElementById('masonryContainer');
             document.getElementById('galleryTitle').innerText = albumTitlesForGallery[idx];
@@ -317,8 +354,16 @@
         }
         function closeLightbox() { document.getElementById('lightboxOverlay').classList.remove('open'); }
 
-        updateCarousel();
-        window.onresize = updateCarousel;
+        // --- MEJORA 3: OPTIMIZACIÓN DE REDIMENSIÓN (Debounce) ---
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                updateCarousel();
+            }, 150); 
+        });
+
+        updateCarousel(); 
     </script>
 </body>
 </html>
