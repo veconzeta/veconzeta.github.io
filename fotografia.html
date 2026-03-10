@@ -29,20 +29,15 @@
         body.no-scroll { overflow: hidden; }
         body.gallery-open .floating-contact { display: none !important; }
 
-        /* --- VIDEO DE FONDO FIJO --- */
-        .bg-image { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            object-fit: cover; z-index: -2; 
-        }
-
+        /* --- FONDO --- */
+        .bg-image { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
         .ambient-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, rgba(5, 3, 10, 0.5) 0%, rgba(5, 3, 10, 0.95) 100%);
-            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-            z-index: -1;
+            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: -1;
         }
 
-        /* --- HEADER Y NAVEGACIÓN --- */
+        /* --- HEADER --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 30px 5% 20px; font-family: 'Courier New', monospace;
@@ -63,21 +58,7 @@
             text-shadow: 0 0 20px var(--vz-violet-glow); z-index: 5;
         }
 
-        .floating-contact {
-            position: fixed; bottom: 80px; right: 25px;
-            display: flex; flex-direction: column; gap: 15px; z-index: 1500;
-        }
-
-        .contact-icon {
-            width: 60px; height: 60px; background: rgba(5, 3, 10, 0.9);
-            border: 1px solid var(--vz-violet); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 0 15px rgba(0,0,0,0.5);
-            transition: all 0.4s ease; backdrop-filter: blur(5px); padding: 12px;
-        }
-        .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
-
-        /* --- CARRUSEL 3D (REPARADO A 16:9 PURO) --- */
+        /* --- CARRUSEL 16:9 --- */
         .carousel-wrapper {
             display: flex; align-items: center; justify-content: center;
             width: 100%; height: 50vh; position: relative; z-index: 10;
@@ -85,114 +66,58 @@
         .nav-arrow {
             background: none; border: none; color: rgba(255, 255, 255, 0.5);
             font-size: 3rem; cursor: pointer; padding: 20px; z-index: 20;
-            transition: all 0.3s ease; position: absolute;
+            transition: all 0.3s ease;
         }
-        #prevBtn { left: 2%; } #nextBtn { right: 2%; }
-        .nav-arrow:hover { color: white; text-shadow: 0 0 20px var(--vz-violet-glow); transform: scale(1.2); }
-
-        .carousel-track-container {
-            width: 100%; max-width: 1400px; height: 100%; position: relative;
-            display: flex; justify-content: center; align-items: center; perspective: 1200px;
-        }
-        .carousel-track {
-            position: relative; width: 600px; transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
+        .carousel-track-container { width: 100%; max-width: 1400px; height: 100%; position: relative; display: flex; justify-content: center; align-items: center; perspective: 1200px; }
+        .carousel-track { position: relative; width: 600px; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
         
         .album-card {
-            position: absolute; top: 0; left: 0; 
-            width: 100%; aspect-ratio: 16 / 9; 
-            background: rgba(10, 5, 20, 0.9); border: 2px solid rgba(108, 75, 255, 0.2);
-            border-radius: 8px; display: flex; flex-direction: column; cursor: pointer;
-            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); transform-origin: center center;
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease, filter 0.6s ease, border-color 0.6s ease;
+            position: absolute; top: 0; left: 0; width: 100%; aspect-ratio: 16 / 9; 
+            background: #000; border: 2px solid rgba(108, 75, 255, 0.2);
+            border-radius: 8px; cursor: pointer; overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-
-        .album-card * { pointer-events: none; }
         .album-card.active { border-color: var(--vz-violet); box-shadow: 0 0 40px var(--vz-violet-glow); }
         .album-cover { width: 100%; height: 100%; object-fit: cover; }
-        
         .album-info { 
-            position: absolute; bottom: 0; left: 0; width: 100%;
-            padding: 30px 15px 15px; display: flex; flex-direction: column; align-items: flex-start; 
-            background: linear-gradient(to top, rgba(5, 3, 10, 0.95), transparent); 
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
         }
-        .album-info h3 { font-family: 'Courier New', monospace; font-size: 1.2rem; color: white; letter-spacing: 2px; margin-bottom: 2px; }
-        .album-info p { font-size: 0.75rem; color: var(--vz-violet); text-transform: uppercase; font-weight: bold; }
 
-        /* --- GALERÍA COLLAGE --- */
+        /* --- GALERÍA --- */
         .gallery-overlay {
             position: fixed; top: 100vh; left: 0; width: 100vw; height: 100vh;
             background: rgba(5, 3, 10, 0.98); backdrop-filter: blur(20px);
-            z-index: 2000; overflow-y: auto; overflow-x: hidden;
-            transition: top 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-            display: flex; flex-direction: column;
+            z-index: 2000; overflow-y: auto; transition: top 0.5s ease;
         }
         .gallery-overlay.open { top: 0; }
-        
-        .gallery-header {
-            padding: 25px 5%; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid rgba(108, 75, 255, 0.2); position: sticky; top: 0;
-            background: rgba(5, 3, 10, 0.95); z-index: 2010;
-        }
-        .gallery-title { font-family: 'Courier New', monospace; color: white; letter-spacing: 4px; font-size: 1.2rem; }
-        
-        .masonry-container {
-            padding: 40px 5%; width: 100%; max-width: 1600px; margin: 0 auto;
-            column-count: 4; column-gap: 20px;
-        }
-        .masonry-item {
-            width: 100%; break-inside: avoid; margin-bottom: 20px;
-            cursor: pointer; border-radius: 4px; overflow: hidden;
-            border: 1px solid rgba(108, 75, 255, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-        .masonry-item:hover {
-            transform: translateY(-5px); border-color: var(--vz-violet);
-            box-shadow: 0 10px 25px var(--vz-violet-glow);
-        }
-        .masonry-item img { width: 100%; height: auto; display: block; object-fit: cover; }
+        .masonry-container { padding: 40px 5%; column-count: 4; column-gap: 20px; }
+        .masonry-item { margin-bottom: 20px; break-inside: avoid; border-radius: 4px; overflow: hidden; border: 1px solid rgba(108, 75, 255, 0.1); cursor: pointer; }
+        .masonry-item img { width: 100%; display: block; }
 
         /* --- LIGHTBOX --- */
         .lightbox-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.95); z-index: 3000;
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+            background: rgba(0,0,0,0.95); z-index: 3000; display: flex;
+            justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s;
         }
         .lightbox-overlay.open { opacity: 1; pointer-events: all; }
-        .lightbox-img { max-width: 90vw; max-height: 90vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.8); border-radius: 4px; }
-        .lightbox-close { position: absolute; top: 20px; right: 30px; background: none; border: none; color: white; font-size: 2.5rem; cursor: pointer; z-index: 3010; transition: color 0.3s; }
-        .lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255,255,255,0.6); font-size: 3rem; cursor: pointer; z-index: 3010; padding: 20px; transition: all 0.3s; }
-        #lbPrev { left: 2%; } #lbNext { right: 2%; }
+        .lightbox-img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
 
-        @media (max-width: 1200px) { .masonry-container { column-count: 3; } }
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 15px; text-align: center; padding: 20px 5% 10px; }
-            .page-title { font-size: 1.8rem; letter-spacing: 4px; margin-bottom: 20px; margin-top: 5px;}
-            .floating-contact { bottom: 65px; right: 15px; gap: 12px; }
+            .page-title { font-size: 1.5rem; }
             .carousel-track { width: 85vw; }
-            .gallery-header { flex-direction: column; gap: 15px; padding: 20px 5%; text-align: center;}
-            .masonry-container { column-count: 2; column-gap: 10px; padding: 20px 5%; }
-            .lightbox-arrow { font-size: 2rem; padding: 10px; }
+            .masonry-container { column-count: 2; }
         }
     </style>
 </head>
 <body id="mainBody">
-    
-    <video autoplay muted loop playsinline class="bg-image">
-        <source src="VIDEO/webbg.mp4" type="video/mp4">
-    </video>
+    <video autoplay muted loop playsinline class="bg-image"><source src="VIDEO/webbg.mp4" type="video/mp4"></video>
     <div class="ambient-bg"></div>
 
-    <div class="floating-contact" id="contactButtons">
-        <a href="https://wa.me/56932751639" target="_blank" class="contact-icon" title="WhatsApp"><img src="ICON/social.png" alt="WhatsApp"></a>
-        <a href="mailto:contacto.veconzeta@gmail.com" class="contact-icon" title="Email"><img src="ICON/gmail.png" alt="Email"></a>
-    </div>
-
     <header>
-        <a href="index.html" class="back-btn">[ < VOLVER AL INICIO ]</a>
-        <div>SYS.VECONZETA // FOTOGRAFIA.01</div>
+        <a href="index.html" class="back-btn">[ < VOLVER ]</a>
+        <div>SYS.VECONZETA // PHOTOGRAPHY</div>
     </header>
 
     <h1 class="page-title">FOTOGRAFÍA</h1>
@@ -201,173 +126,108 @@
         <button class="nav-arrow" id="prevBtn">&#10094;</button>
         <div class="carousel-track-container">
             <div class="carousel-track" id="track">
-                
-                <div class="album-card">
-                    <img src="PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/portada.jpg" class="album-cover" alt="Eventos">
-                    <div class="album-info"><h3>ÁLBUM 01</h3><p>Eventos</p></div>
-                </div>
-
-                <div class="album-card">
-                    <img src="PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/portada.jpg" class="album-cover" alt="Sesiones">
-                    <div class="album-info"><h3>ÁLBUM 02</h3><p>Sesiones & Retratos</p></div>
-                </div>
-
-                <div class="album-card">
-                    <img src="PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/portada.jpg" class="album-cover" alt="Productos">
-                    <div class="album-info"><h3>ÁLBUM 03</h3><p>Productos</p></div>
-                </div>
-                
-                <div class="album-card">
-                    <img src="PORTAFOLIO_FOTOGRAFIAS/04_COSPLAYERS/portada.jpg" class="album-cover" alt="Cosplay">
-                    <div class="album-info"><h3>ÁLBUM 04</h3><p>Cosplay & Arte</p></div>
-                </div>
-
+                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/portada.jpg" class="album-cover"><div class="album-info"><h3>EVENTOS</h3></div></div>
+                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/portada.jpg" class="album-cover"><div class="album-info"><h3>SESIONES</h3></div></div>
+                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/portada.jpg" class="album-cover"><div class="album-info"><h3>PRODUCTO</h3></div></div>
+                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/04_COSPLAYERS/portada.jpg" class="album-cover"><div class="album-info"><h3>COSPLAY</h3></div></div>
             </div>
         </div>
         <button class="nav-arrow" id="nextBtn">&#10095;</button>
     </div>
 
     <div class="gallery-overlay" id="galleryOverlay">
-        <div class="gallery-header">
-            <h2 class="gallery-title" id="galleryTitle">ÁLBUM SELECCIONADO</h2>
-            <button class="back-btn" onclick="closeGallery()">[ X CERRAR ÁLBUM ]</button>
+        <div style="padding: 20px 5%; display: flex; justify-content: space-between; sticky; top: 0; background: #05030A; z-index: 10;">
+            <h2 id="galleryTitle" style="letter-spacing: 3px;">ALBUM</h2>
+            <button class="back-btn" onclick="closeGallery()">[ CERRAR ]</button>
         </div>
         <div class="masonry-container" id="masonryContainer"></div>
     </div>
 
     <div class="lightbox-overlay" id="lightboxOverlay">
-        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-        <button class="lightbox-arrow" id="lbPrev" onclick="navigateLightbox(-1)">&#10094;</button>
-        <img src="" alt="Vista ampliada" class="lightbox-img" id="lightboxImage">
-        <button class="lightbox-arrow" id="lbNext" onclick="navigateLightbox(1)">&#10095;</button>
+        <button onclick="closeLightbox()" style="position: absolute; top: 20px; right: 20px; color: white; background: none; border: none; font-size: 2rem; cursor: pointer;">&times;</button>
+        <button onclick="navigateLightbox(-1)" style="position: absolute; left: 20px; color: white; background: none; border: none; font-size: 3rem; cursor: pointer;">&#10094;</button>
+        <img src="" id="lightboxImage" class="lightbox-img">
+        <button onclick="navigateLightbox(1)" style="position: absolute; right: 20px; color: white; background: none; border: none; font-size: 3rem; cursor: pointer;">&#10095;</button>
     </div>
 
     <script>
-        // --- BASE DE DATOS AUTOMATIZADA SEGÚN TUS CARPETAS ---
+        // --- DATA BINDING ---
         const albumData = {
             0: Array.from({length: 49}, (_, i) => `PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/EVENTOS-${i + 1}.jpg`),
             1: Array.from({length: 13}, (_, i) => `PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/SESIONES-${i + 1}.jpg`),
             2: Array.from({length: 22}, (_, i) => {
                 const n = i + 6;
-                const finalNum = n >= 17 ? n + 1 : n; // Salta el 17 que faltaba en tu captura
-                return `PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/PRODUCTO-${finalNum}.jpg`;
+                const f = n >= 17 ? n + 1 : n;
+                return `PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/PRODUCTO-${f}.jpg`;
             }),
             3: Array.from({length: 34}, (_, i) => `PORTAFOLIO_FOTOGRAFIAS/04_COSPLAYERS/RETRATO-${i + 1}.jpg`)
         };
 
-        const albumTitles = ["ÁLBUM 01 // EVENTOS", "ÁLBUM 02 // SESIONES Y RETRATOS", "ÁLBUM 03 // PRODUCTOS", "ÁLBUM 04 // COSPLAY Y ARTE"];
+        const albumTitles = ["EVENTOS SOCIALES", "SESIONES & RETRATOS", "FOTOGRAFÍA PRODUCTO", "COSPLAY & FICCIÓN"];
 
+        // --- CORE LOGIC ---
         const track = document.getElementById('track');
         const cards = Array.from(track.querySelectorAll('.album-card'));
-        const nextBtn = document.getElementById('nextBtn');
-        const prevBtn = document.getElementById('prevBtn');
         let currentIndex = 0;
 
         function updateCarousel() {
             const isMobile = window.innerWidth <= 768;
-            const xOffset = isMobile ? 220 : 500; 
-            const zOffset = isMobile ? -100 : -250; 
-            const rotation = isMobile ? 15 : 25; 
-
-            cards.forEach((card, index) => {
-                let offset = index - currentIndex; 
-                let direction = offset > 0 ? 1 : -1;
-                let distance = Math.abs(offset);
-
-                if (offset === 0) {
-                    card.style.transform = `translateX(0px) translateZ(50px) rotateY(0deg) scale(1.1)`;
-                    card.style.zIndex = 100;
-                    card.style.opacity = 1;
-                    card.style.filter = 'none';
+            const xOff = isMobile ? 220 : 500; 
+            cards.forEach((card, i) => {
+                let off = i - currentIndex;
+                let dist = Math.abs(off);
+                if (off === 0) {
+                    card.style.transform = `translateX(0) translateZ(50px) scale(1.1)`;
+                    card.style.zIndex = 100; card.style.opacity = 1;
                     card.classList.add('active');
                 } else {
-                    let moveX = direction * (xOffset + (distance * (xOffset * 0.2))); 
-                    let moveZ = zOffset * distance;
-                    let rotateY = direction * -rotation;
-                    card.style.transform = `translate3d(${moveX}px, 0, ${moveZ}px) rotateY(${rotateY}deg) scale(0.85)`;
-                    card.style.zIndex = 50 - distance; 
-                    card.style.opacity = Math.max(1 - (distance * 0.4), 0); 
-                    card.style.filter = `blur(${distance * 2}px) grayscale(50%)`;
+                    card.style.transform = `translateX(${off * xOff}px) translateZ(-200px) scale(0.8) rotateY(${off * -20}deg)`;
+                    card.style.zIndex = 50 - dist; card.style.opacity = 0.4;
                     card.classList.remove('active');
                 }
             });
         }
 
-        nextBtn.addEventListener('click', () => { if (currentIndex < cards.length - 1) { currentIndex++; updateCarousel(); } });
-        prevBtn.addEventListener('click', () => { if (currentIndex > 0) { currentIndex--; updateCarousel(); } });
-        window.addEventListener('resize', updateCarousel);
-        updateCarousel();
+        document.getElementById('nextBtn').onclick = () => { if(currentIndex < cards.length-1) { currentIndex++; updateCarousel(); } };
+        document.getElementById('prevBtn').onclick = () => { if(currentIndex > 0) { currentIndex--; updateCarousel(); } };
 
-        const galleryOverlay = document.getElementById('galleryOverlay');
-        const masonryContainer = document.getElementById('masonryContainer');
-        const galleryTitle = document.getElementById('galleryTitle');
-        const body = document.getElementById('mainBody');
+        cards.forEach((card, i) => card.onclick = () => currentIndex === i ? openGallery(i) : (currentIndex=i, updateCarousel()));
 
-        cards.forEach((card, index) => {
-            card.addEventListener('click', () => {
-                if (currentIndex !== index) {
-                    currentIndex = index; 
-                    updateCarousel();
-                } else {
-                    openGallery(index); 
-                }
-            });
-        });
-
-        function openGallery(albumIndex) {
-            const photos = albumData[albumIndex];
-            galleryTitle.innerText = albumTitles[albumIndex];
-            masonryContainer.innerHTML = ''; 
-
-            photos.forEach((fotoUrl, i) => {
+        function openGallery(idx) {
+            const container = document.getElementById('masonryContainer');
+            document.getElementById('galleryTitle').innerText = albumTitles[idx];
+            container.innerHTML = '';
+            
+            albumData[idx].forEach((url, imgIdx) => {
                 const item = document.createElement('div');
                 item.className = 'masonry-item';
-                item.onclick = () => openLightbox(albumIndex, i); 
                 const img = document.createElement('img');
-                img.src = fotoUrl;
-                img.loading = "lazy"; 
+                img.src = url;
+                // FALLBACK: Si la imagen no existe, ocultar el cuadro
+                img.onerror = () => item.style.display = 'none';
+                item.onclick = () => openLightbox(idx, imgIdx);
                 item.appendChild(img);
-                masonryContainer.appendChild(item);
+                container.appendChild(item);
             });
-
-            galleryOverlay.classList.add('open');
-            body.classList.add('gallery-open', 'no-scroll');
+            document.getElementById('galleryOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
         }
 
-        function closeGallery() {
-            galleryOverlay.classList.remove('open');
-            body.classList.remove('gallery-open', 'no-scroll');
-        }
+        function closeGallery() { document.getElementById('galleryOverlay').classList.remove('open'); document.body.style.overflow = 'auto'; }
 
-        const lightboxOverlay = document.getElementById('lightboxOverlay');
-        const lightboxImage = document.getElementById('lightboxImage');
-        let currentAlbum = 0;
-        let currentPhotoIndex = 0;
-
-        function openLightbox(albumIndex, photoIndex) {
-            currentAlbum = albumIndex;
-            currentPhotoIndex = photoIndex;
-            updateLightboxImage();
-            lightboxOverlay.classList.add('open');
+        // --- LIGHTBOX ---
+        let currA = 0, currP = 0;
+        function openLightbox(a, p) { currA=a; currP=p; updateLB(); document.getElementById('lightboxOverlay').classList.add('open'); }
+        function closeLightbox() { document.getElementById('lightboxOverlay').classList.remove('open'); }
+        function navigateLightbox(d) { 
+            const total = albumData[currA].length;
+            currP = (currP + d + total) % total;
+            updateLB();
         }
+        function updateLB() { document.getElementById('lightboxImage').src = albumData[currA][currP]; }
 
-        function closeLightbox() {
-            lightboxOverlay.classList.remove('open');
-            setTimeout(() => { lightboxImage.src = ""; }, 300); 
-        }
-
-        function navigateLightbox(direction) {
-            const photos = albumData[currentAlbum];
-            currentPhotoIndex += direction;
-            if (currentPhotoIndex >= photos.length) currentPhotoIndex = 0;
-            if (currentPhotoIndex < 0) currentPhotoIndex = photos.length - 1;
-            updateLightboxImage();
-        }
-
-        function updateLightboxImage() {
-            const photos = albumData[currentAlbum];
-            lightboxImage.src = photos[currentPhotoIndex];
-        }
+        updateCarousel();
+        window.onresize = updateCarousel;
     </script>
 </body>
 </html>
