@@ -95,17 +95,39 @@
             background: #000; border: 2px solid rgba(108, 75, 255, 0.2);
             border-radius: 8px; cursor: pointer; overflow: hidden;
             transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease, filter 0.6s ease, border-color 0.6s ease;
+            display: flex; align-items: center; justify-content: center; /* Centrado flex */
         }
         
         /* ADAPTACIÓN AUTOMÁTICA DE VERTICALES A 16:9 */
-        .album-cover { width: 100%; height: 100%; object-fit: cover; }
+        .album-cover { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1; }
         
         .album-card.active { border-color: var(--vz-violet); box-shadow: 0 0 40px var(--vz-violet-glow); }
+
+        /* --- NUEVO ESTILO DE INFORMACIÓN CENTRADA Y CON HALO --- */
         .album-info { 
-            position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            position: relative; 
+            z-index: 2; /* Por encima de la foto */
+            width: 90%; 
+            text-align: center;
+            pointer-events: none; /* Asegura clics pasen a la tarjeta */
+            background: none; /* Eliminado degradado inferior */
+            padding: 0;
         }
-        .album-info h3 { font-family: 'Courier New', monospace; font-size: 1.2rem; }
+        
+        .album-info h3 { 
+            font-family: 'Courier New', monospace; 
+            font-size: 1.8rem; /* Un poco más grande para ser protagonista */
+            color: white; 
+            letter-spacing: 4px; 
+            text-transform: uppercase;
+            
+            /* EFECTO NEÓN / HALO VIOLETA */
+            text-shadow: 
+                0 0 5px rgba(255, 255, 255, 0.8), /* Brillo blanco interno */
+                0 0 10px var(--vz-violet),         /* Halo violeta medio */
+                0 0 20px var(--vz-violet),         /* Halo violeta amplio */
+                0 0 30px #6C4BFF;                  /* Halo violeta intenso de fondo */
+        }
 
         /* --- GALERÍA COLLAGE --- */
         .gallery-overlay {
@@ -134,6 +156,7 @@
             .page-title { font-size: 1.5rem; letter-spacing: 4px; }
             .carousel-track { width: 85vw; }
             .masonry-container { column-count: 2; column-gap: 10px; }
+            .album-info h3 { font-size: 1.2rem; letter-spacing: 2px; } /* Ajuste móvil */
         }
     </style>
 </head>
