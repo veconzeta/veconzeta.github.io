@@ -100,16 +100,28 @@
             text-shadow: 0 0 15px var(--vz-violet);
         }
 
-        /* --- NAV ARROWS (CENTRADO VERTICAL) --- */
+        /* --- NAV ARROWS (CENTRADO VERTICAL Y HORIZONTAL) --- */
         .nav-arrow {
             background: none; border: none; color: rgba(255, 255, 255, 0.3);
             font-size: 3rem; cursor: pointer; padding: 20px; z-index: 999;
             transition: 0.3s ease;
-            /* Lógica de centrado */
+            
+            /* Lógica de centrado en el eje Y */
             position: absolute !important;
             top: 50% !important; 
             transform: translateY(-50%) !important;
+            
+            /* Corrección de la caja del carácter (Bounding Box) */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 0;
         }
+
+        /* Mantienen una distancia fija de la imagen central en monitores grandes */
+        #prevBtn { left: calc(50% - 400px); }
+        #nextBtn { right: calc(50% - 400px); }
+
         /* Mantiene el centro durante el zoom */
         .nav-arrow:hover { 
             color: white; 
@@ -148,13 +160,18 @@
             .page-title { font-size: 1.5rem; letter-spacing: 4px; }
             .carousel-wrapper { margin-top: -15vh; } /* Eje elevado en Móvil */
             .carousel-track { width: 85vw; }
+            
             /* Flechas en móvil */
             .nav-arrow { 
-                display: block !important; 
+                display: flex !important; /* Mantiene el centrado interno */
                 font-size: 2.5rem; 
                 color: rgba(255, 255, 255, 0.8);
                 z-index: 999 !important; 
+                padding: 10px; /* Reducimos la caja invisible */
             }
+            #prevBtn { left: 1%; } 
+            #nextBtn { right: 1%; }
+
             .masonry-container { column-count: 2; column-gap: 10px; }
             .album-info h3 { font-size: 1rem; letter-spacing: 2px; }
         }
@@ -177,11 +194,11 @@
     <h1 class="page-title">FOTOGRAFÍA</h1>
 
     <div class="carousel-wrapper">
-        <button class="nav-arrow" id="prevBtn" style="left: 2%;">&#10094;</button>
+        <button class="nav-arrow" id="prevBtn">&#10094;</button>
         <div class="carousel-track-container">
             <div class="carousel-track" id="track"></div>
         </div>
-        <button class="nav-arrow" id="nextBtn" style="right: 2%;">&#10095;</button>
+        <button class="nav-arrow" id="nextBtn">&#10095;</button>
     </div>
 
     <div class="gallery-overlay" id="galleryOverlay">
