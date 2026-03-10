@@ -101,7 +101,7 @@
         
         .album-card {
             position: absolute; top: 0; left: 0; 
-            width: 100%; aspect-ratio: 16 / 9; /* ESTA ES LA MAGIA: TARJETA 100% APAISADA */
+            width: 100%; aspect-ratio: 16 / 9; 
             background: rgba(10, 5, 20, 0.9); border: 2px solid rgba(108, 75, 255, 0.2);
             border-radius: 8px; display: flex; flex-direction: column; cursor: pointer;
             overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8); transform-origin: center center;
@@ -109,12 +109,9 @@
         }
 
         .album-card * { pointer-events: none; }
-
         .album-card.active { border-color: var(--vz-violet); box-shadow: 0 0 40px var(--vz-violet-glow); }
-        
         .album-cover { width: 100%; height: 100%; object-fit: cover; }
         
-        /* Textos superpuestos tipo Netflix */
         .album-info { 
             position: absolute; bottom: 0; left: 0; width: 100%;
             padding: 30px 15px 15px; display: flex; flex-direction: column; align-items: flex-start; 
@@ -123,9 +120,7 @@
         .album-info h3 { font-family: 'Courier New', monospace; font-size: 1.2rem; color: white; letter-spacing: 2px; margin-bottom: 2px; }
         .album-info p { font-size: 0.75rem; color: var(--vz-violet); text-transform: uppercase; font-weight: bold; }
 
-        /* =========================================
-           GALERÍA COLLAGE (MASONRY)
-           ========================================= */
+        /* --- GALERÍA COLLAGE --- */
         .gallery-overlay {
             position: fixed; top: 100vh; left: 0; width: 100vw; height: 100vh;
             background: rgba(5, 3, 10, 0.98); backdrop-filter: blur(20px);
@@ -158,9 +153,7 @@
         }
         .masonry-item img { width: 100%; height: auto; display: block; object-fit: cover; }
 
-        /* =========================================
-           VISOR INDIVIDUAL (LIGHTBOX)
-           ========================================= */
+        /* --- LIGHTBOX --- */
         .lightbox-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.95); z-index: 3000;
@@ -168,45 +161,20 @@
             opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
         }
         .lightbox-overlay.open { opacity: 1; pointer-events: all; }
-        
-        .lightbox-img {
-            max-width: 90vw; max-height: 90vh;
-            object-fit: contain; 
-            box-shadow: 0 0 40px rgba(0,0,0,0.8); border-radius: 4px;
-        }
-        
-        .lightbox-close {
-            position: absolute; top: 20px; right: 30px; background: none; border: none;
-            color: white; font-size: 2.5rem; cursor: pointer; z-index: 3010; transition: color 0.3s;
-        }
-        .lightbox-close:hover { color: var(--vz-violet); }
-
-        .lightbox-arrow {
-            position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none;
-            color: rgba(255,255,255,0.6); font-size: 3rem; cursor: pointer; z-index: 3010; padding: 20px;
-            transition: all 0.3s;
-        }
-        .lightbox-arrow:hover { color: white; text-shadow: 0 0 15px var(--vz-violet-glow); }
+        .lightbox-img { max-width: 90vw; max-height: 90vh; object-fit: contain; box-shadow: 0 0 40px rgba(0,0,0,0.8); border-radius: 4px; }
+        .lightbox-close { position: absolute; top: 20px; right: 30px; background: none; border: none; color: white; font-size: 2.5rem; cursor: pointer; z-index: 3010; transition: color 0.3s; }
+        .lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: none; border: none; color: rgba(255,255,255,0.6); font-size: 3rem; cursor: pointer; z-index: 3010; padding: 20px; transition: all 0.3s; }
         #lbPrev { left: 2%; } #lbNext { right: 2%; }
 
-        /* REPARACIÓN MÓVIL (BOTÓN Y HEADER) */
         @media (max-width: 1200px) { .masonry-container { column-count: 3; } }
         @media (max-width: 768px) {
-            header { 
-                flex-direction: column; gap: 15px; text-align: center; 
-                padding: 20px 5% 10px;
-            }
+            header { flex-direction: column; gap: 15px; text-align: center; padding: 20px 5% 10px; }
             .page-title { font-size: 1.8rem; letter-spacing: 4px; margin-bottom: 20px; margin-top: 5px;}
             .floating-contact { bottom: 65px; right: 15px; gap: 12px; }
-            .contact-icon { width: 55px; height: 55px; }
-            .carousel-track { width: 85vw; } /* Usa % del ancho para no salirse */
-            
+            .carousel-track { width: 85vw; }
             .gallery-header { flex-direction: column; gap: 15px; padding: 20px 5%; text-align: center;}
             .masonry-container { column-count: 2; column-gap: 10px; padding: 20px 5%; }
-            .masonry-item { margin-bottom: 10px; }
-            
             .lightbox-arrow { font-size: 2rem; padding: 10px; }
-            #lbPrev { left: 0; } #lbNext { right: 0; }
         }
     </style>
 </head>
@@ -275,33 +243,20 @@
     </div>
 
     <script>
-        // ==============================================================
-        // TU BASE DE DATOS REAL (CONECTA TUS FOTOS AQUÍ)
-        // ==============================================================
-        // Asegúrate de escribir el nombre exacto de tus archivos .jpg
+        // --- BASE DE DATOS AUTOMATIZADA SEGÚN TUS CARPETAS ---
         const albumData = {
-            0: [ // EVENTOS (Ejemplo de cómo debes llenarlo)
-                "PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/eventos-1.jpg", 
-                "PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/eventos-2.jpg", 
-                // Añade el resto copiando y pegando la línea de arriba y cambiando el número
-            ],
-            1: [ // SESIONES Y RETRATOS
-                "PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/sesiones-1.jpg",
-                // Añade el resto...
-            ],
-            2: [ // PRODUCTOS
-                "PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/producto-1.jpg",
-                // Añade el resto...
-            ],
-            3: [ // COSPLAYERS
-                "PORTAFOLIO_FOTOGRAFIAS/04_COSPLAYERS/cosplay-1.jpg",
-                // Añade el resto...
-            ]
+            0: Array.from({length: 49}, (_, i) => `PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/EVENTOS-${i + 1}.jpg`),
+            1: Array.from({length: 13}, (_, i) => `PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/SESIONES-${i + 1}.jpg`),
+            2: Array.from({length: 22}, (_, i) => {
+                const n = i + 6;
+                const finalNum = n >= 17 ? n + 1 : n; // Salta el 17 que faltaba en tu captura
+                return `PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/PRODUCTO-${finalNum}.jpg`;
+            }),
+            3: Array.from({length: 34}, (_, i) => `PORTAFOLIO_FOTOGRAFIAS/04_COSPLAYERS/RETRATO-${i + 1}.jpg`)
         };
 
         const albumTitles = ["ÁLBUM 01 // EVENTOS", "ÁLBUM 02 // SESIONES Y RETRATOS", "ÁLBUM 03 // PRODUCTOS", "ÁLBUM 04 // COSPLAY Y ARTE"];
 
-        // LÓGICA DEL CARRUSEL Y GALERÍA (Sin cambios matemáticos, solo mejoras visuales)
         const track = document.getElementById('track');
         const cards = Array.from(track.querySelectorAll('.album-card'));
         const nextBtn = document.getElementById('nextBtn');
@@ -329,7 +284,6 @@
                     let moveX = direction * (xOffset + (distance * (xOffset * 0.2))); 
                     let moveZ = zOffset * distance;
                     let rotateY = direction * -rotation;
-                    
                     card.style.transform = `translate3d(${moveX}px, 0, ${moveZ}px) rotateY(${rotateY}deg) scale(0.85)`;
                     card.style.zIndex = 50 - distance; 
                     card.style.opacity = Math.max(1 - (distance * 0.4), 0); 
@@ -350,7 +304,7 @@
         const body = document.getElementById('mainBody');
 
         cards.forEach((card, index) => {
-            card.addEventListener('click', (e) => {
+            card.addEventListener('click', () => {
                 if (currentIndex !== index) {
                     currentIndex = index; 
                     updateCarousel();
@@ -365,23 +319,16 @@
             galleryTitle.innerText = albumTitles[albumIndex];
             masonryContainer.innerHTML = ''; 
 
-            if (photos && photos.length > 0) {
-                photos.forEach((fotoUrl, i) => {
-                    const item = document.createElement('div');
-                    item.className = 'masonry-item';
-                    item.onclick = () => openLightbox(albumIndex, i); 
-                    
-                    const img = document.createElement('img');
-                    img.src = fotoUrl;
-                    img.alt = `Foto ${i+1}`;
-                    img.loading = "lazy"; 
-                    
-                    item.appendChild(img);
-                    masonryContainer.appendChild(item);
-                });
-            } else {
-                masonryContainer.innerHTML = '<p style="color:var(--text-muted); text-align:center; width:100%;">Conecta tus fotos en el código JS para verlas aquí.</p>';
-            }
+            photos.forEach((fotoUrl, i) => {
+                const item = document.createElement('div');
+                item.className = 'masonry-item';
+                item.onclick = () => openLightbox(albumIndex, i); 
+                const img = document.createElement('img');
+                img.src = fotoUrl;
+                img.loading = "lazy"; 
+                item.appendChild(img);
+                masonryContainer.appendChild(item);
+            });
 
             galleryOverlay.classList.add('open');
             body.classList.add('gallery-open', 'no-scroll');
@@ -412,10 +359,8 @@
         function navigateLightbox(direction) {
             const photos = albumData[currentAlbum];
             currentPhotoIndex += direction;
-            
             if (currentPhotoIndex >= photos.length) currentPhotoIndex = 0;
             if (currentPhotoIndex < 0) currentPhotoIndex = photos.length - 1;
-            
             updateLightboxImage();
         }
 
