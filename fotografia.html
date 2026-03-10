@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Veconzeta | Fotografía</title>
     <style>
         :root {
@@ -19,11 +19,10 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             font-family: 'Inter', -apple-system, sans-serif;
-            overflow: hidden; 
+            overflow-x: hidden; 
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            height: 100svh; /* Evita errores de altura en móviles */
+            min-height: 100vh;
             width: 100vw;
         }
 
@@ -38,7 +37,7 @@
 
         .ambient-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(5, 3, 10, 0.4) 0%, rgba(5, 3, 10, 0.95) 100%);
+            background: radial-gradient(circle at center, rgba(5, 3, 10, 0.5) 0%, rgba(5, 3, 10, 0.95) 100%);
             backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
             z-index: -1;
         }
@@ -46,9 +45,9 @@
         /* --- HEADER Y NAVEGACIÓN --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5% 10px; font-family: 'Courier New', monospace;
+            padding: 30px 5% 20px; font-family: 'Courier New', monospace;
             font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;
-            color: var(--text-muted); z-index: 50;
+            color: var(--text-muted); z-index: 5;
         }
 
         .back-btn {
@@ -59,38 +58,36 @@
         .back-btn:hover { background: rgba(108, 75, 255, 0.3); box-shadow: 0 0 15px var(--vz-violet-glow); }
 
         .page-title {
-            text-align: center; margin: 10px 0 20px; font-family: 'Courier New', monospace;
+            text-align: center; margin: 10px 0 30px; font-family: 'Courier New', monospace;
             font-size: 2.5rem; letter-spacing: 8px; color: white;
             text-shadow: 0 0 20px var(--vz-violet-glow); z-index: 5;
         }
 
         .floating-contact {
-            position: fixed; bottom: 30px; right: 25px;
+            position: fixed; bottom: 80px; right: 25px;
             display: flex; flex-direction: column; gap: 15px; z-index: 1500;
         }
 
         .contact-icon {
-            width: 50px; height: 50px; background: rgba(5, 3, 10, 0.9);
+            width: 60px; height: 60px; background: rgba(5, 3, 10, 0.9);
             border: 1px solid var(--vz-violet); border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.4s ease; padding: 12px;
+            cursor: pointer; box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            transition: all 0.4s ease; backdrop-filter: blur(5px); padding: 12px;
         }
         .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
 
         /* --- CARRUSEL 3D (EJE ELEVADO) --- */
         .carousel-wrapper {
-            flex: 1.2; /* Da más espacio al carrusel arriba */
             display: flex; align-items: center; justify-content: center;
-            width: 100%; position: relative; z-index: 10;
-            margin-top: -15vh; /* SUBE EL EJE VISUAL */
+            width: 100%; height: 50vh; position: relative; z-index: 10;
+            margin-top: -10vh; /* AJUSTE: Sube el eje visual de los álbumes */
         }
         .nav-arrow {
-            background: none; border: none; color: rgba(255, 255, 255, 0.3);
-            font-size: 3.5rem; cursor: pointer; padding: 20px; z-index: 100;
+            background: none; border: none; color: rgba(255, 255, 255, 0.5);
+            font-size: 3rem; cursor: pointer; padding: 20px; z-index: 20;
             transition: all 0.3s ease;
         }
-        .nav-arrow:hover { color: white; transform: scale(1.1); }
-
         .carousel-track-container { width: 100%; max-width: 1400px; height: 100%; position: relative; display: flex; justify-content: center; align-items: center; perspective: 1200px; }
         .carousel-track { position: relative; width: 600px; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
         
@@ -105,17 +102,24 @@
         
         .album-card.active { border-color: var(--vz-violet); box-shadow: 0 0 40px var(--vz-violet-glow); }
         
-        /* TÍTULOS ABAJO Y CENTRADOS */
+        /* TÍTULOS: ABAJO, CENTRADOS Y CON HALO VIOLETA */
         .album-info { 
-            position: absolute; bottom: 0; left: 0; width: 100%; 
-            padding: 20px 10px; text-align: center; /* Centrado horizontal */
-            background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
-            z-index: 2; pointer-events: none;
+            position: absolute; 
+            bottom: 15px; /* Lo mantiene abajo */
+            left: 0; 
+            width: 100%; 
+            text-align: center; /* Centrado horizontal */
+            z-index: 2;
+            pointer-events: none;
         }
         .album-info h3 { 
-            font-family: 'Courier New', monospace; font-size: 1.1rem; color: white; 
-            letter-spacing: 2px; text-transform: uppercase;
-            text-shadow: 0 0 10px var(--vz-violet);
+            font-family: 'Courier New', monospace; 
+            font-size: 1.2rem; 
+            color: white; 
+            letter-spacing: 2px;
+            text-shadow: 
+                0 0 10px var(--vz-violet), 
+                0 0 20px var(--vz-violet); /* Efecto halo solicitado */
         }
 
         /* --- GALERÍA COLLAGE --- */
@@ -141,14 +145,11 @@
         .lightbox-img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
 
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 10px; text-align: center; }
-            .page-title { font-size: 1.6rem; letter-spacing: 4px; margin-bottom: 10px; }
-            .carousel-wrapper { margin-top: -18vh; } /* Sube más en móviles */
+            header { flex-direction: column; gap: 15px; text-align: center; }
+            .page-title { font-size: 1.5rem; letter-spacing: 4px; }
+            .carousel-wrapper { margin-top: -5vh; }
             .carousel-track { width: 85vw; }
-            .nav-arrow { display: none; } /* En móvil es mejor navegar por clic/swipe */
             .masonry-container { column-count: 2; column-gap: 10px; }
-            .album-info h3 { font-size: 0.9rem; }
-            .floating-contact { bottom: 20px; right: 20px; }
         }
     </style>
 </head>
@@ -163,33 +164,36 @@
 
     <header>
         <a href="index.html" class="back-btn">[ < VOLVER AL INICIO ]</a>
-        <div>SYS.VECONZETA // PHOTOGRAPHY_MODULE</div>
+        <div>SYS.VECONZETA // FOTOGRAFIA.01</div>
     </header>
 
     <h1 class="page-title">FOTOGRAFÍA</h1>
 
     <div class="carousel-wrapper">
-        <button class="nav-arrow" id="prevBtn">&#10094;</button>
+        <button class="nav-arrow" id="prevBtn" style="position: absolute; left: 2%; z-index: 20;">&#10094;</button>
         <div class="carousel-track-container">
-            <div class="carousel-track" id="track"></div>
+            <div class="carousel-track" id="track">
+                </div>
         </div>
-        <button class="nav-arrow" id="nextBtn">&#10095;</button>
+        <button class="nav-arrow" id="nextBtn" style="position: absolute; right: 2%; z-index: 20;">&#10095;</button>
     </div>
 
     <div class="gallery-overlay" id="galleryOverlay">
         <div style="padding: 20px 5%; display: flex; justify-content: space-between; position: sticky; top: 0; background: #05030A; z-index: 10;">
-            <h2 id="galleryTitle" style="font-family: 'Courier New', monospace; letter-spacing: 3px;">ÁLBUM</h2>
-            <button class="back-btn" onclick="closeGallery()">[ X CERRAR ÁLBUM ]</button>
+            <h2 id="galleryTitle">ÁLBUM</h2>
+            <button class="back-btn" onclick="closeGallery()">[ CERRAR ÁLBUM ]</button>
         </div>
         <div class="masonry-container" id="masonryContainer"></div>
     </div>
 
-    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+    <div class="lightbox-overlay" id="lightboxOverlay">
+        <button onclick="closeLightbox()" style="position: absolute; top: 20px; right: 20px; color: white; background: none; border: none; font-size: 3rem; cursor: pointer;">&times;</button>
         <img src="" id="lightboxImage" class="lightbox-img">
     </div>
 
     <script>
         const ROOT = "PORTAFOLIO_FOTOGRAFIAS";
+
         const albumData = {
             0: Array.from({length: 51}, (_, i) => `${ROOT}/01_EVENTOS/EVENTOS_${i + 1}.jpg`),
             1: Array.from({length: 12}, (_, i) => `${ROOT}/02_SESIONES_Y_RETRATOS/SESIONES_${i + 1}.jpg`),
@@ -207,10 +211,9 @@
                 const card = document.createElement('div');
                 card.className = 'album-card';
                 card.innerHTML = `
-                    <img src="${albumData[i][0]}" class="album-cover" alt="${title}" onerror="this.src='ICON/placeholder.jpg'">
+                    <img src="${albumData[i][0]}" class="album-cover" alt="${title}">
                     <div class="album-info"><h3>${title}</h3></div>
                 `;
-                card.onclick = () => currentIndex === i ? openGallery(i) : (currentIndex = i, updateCarousel());
                 track.appendChild(card);
             });
         }
@@ -223,24 +226,24 @@
 
         function updateCarousel() {
             const isMobile = window.innerWidth <= 768;
-            const xOff = isMobile ? 220 : 450; 
+            const xOff = isMobile ? 220 : 500; 
             cards.forEach((card, i) => {
                 let off = i - currentIndex;
-                let dist = Math.abs(off);
                 if (off === 0) {
-                    card.style.transform = `translateX(0) translateZ(100px) scale(1.15)`;
+                    card.style.transform = `translateX(0) translateZ(50px) scale(1.1)`;
                     card.style.zIndex = 100; card.style.opacity = 1;
                     card.classList.add('active');
                 } else {
-                    card.style.transform = `translateX(${off * xOff}px) translateZ(-250px) scale(0.85) rotateY(${off * -15}deg)`;
-                    card.style.zIndex = 50 - dist; card.style.opacity = 0.3;
+                    card.style.transform = `translateX(${off * xOff}px) translateZ(-200px) scale(0.8) rotateY(${off * -20}deg)`;
+                    card.style.zIndex = 50 - Math.abs(off); card.style.opacity = 0.4;
                     card.classList.remove('active');
                 }
             });
         }
 
-        nextBtn.onclick = (e) => { e.stopPropagation(); if(currentIndex < cards.length-1) { currentIndex++; updateCarousel(); } };
-        prevBtn.onclick = (e) => { e.stopPropagation(); if(currentIndex > 0) { currentIndex--; updateCarousel(); } };
+        nextBtn.onclick = () => { if(currentIndex < cards.length-1) { currentIndex++; updateCarousel(); } };
+        prevBtn.onclick = () => { if(currentIndex > 0) { currentIndex--; updateCarousel(); } };
+        cards.forEach((card, i) => card.onclick = () => currentIndex === i ? openGallery(i) : (currentIndex=i, updateCarousel()));
 
         function openGallery(idx) {
             const container = document.getElementById('masonryContainer');
@@ -249,7 +252,7 @@
             albumData[idx].forEach((url) => {
                 const item = document.createElement('div');
                 item.className = 'masonry-item';
-                item.innerHTML = `<img src="${url}" loading="lazy" onerror="this.parentElement.style.display='none'">`;
+                item.innerHTML = `<img src="${url}" loading="lazy" onerror="this.style.display='none'">`;
                 item.onclick = () => openLightbox(url); 
                 container.appendChild(item);
             });
