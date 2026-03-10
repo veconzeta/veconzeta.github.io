@@ -42,7 +42,7 @@
             z-index: -1;
         }
 
-        /* --- HEADER Y NAVEGACIÓN (Título removido de arriba) --- */
+        /* --- HEADER Y NAVEGACIÓN --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 30px 5% 20px; font-family: 'Courier New', monospace;
@@ -56,6 +56,12 @@
             transition: all 0.3s ease; cursor: pointer; display: inline-block;
         }
         .back-btn:hover { background: rgba(108, 75, 255, 0.3); box-shadow: 0 0 15px var(--vz-violet-glow); }
+
+        .page-title {
+            text-align: center; margin: 10px 0 30px; font-family: 'Courier New', monospace;
+            font-size: 2.5rem; letter-spacing: 8px; color: white;
+            text-shadow: 0 0 20px var(--vz-violet-glow); z-index: 5;
+        }
 
         .floating-contact {
             position: fixed; bottom: 80px; right: 25px;
@@ -101,33 +107,6 @@
         }
         .album-info h3 { font-family: 'Courier New', monospace; font-size: 1.2rem; }
 
-        /* --- NUEVO TÍTULO ABAJO CENTRADO CON HALO --- */
-        .bottom-title-wrapper {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 30px 0;
-            position: relative;
-            z-index: 15;
-            flex-grow: 1; /* Ocupa el espacio restante inferior */
-            margin-bottom: 20px;
-        }
-        
-        .bottom-title {
-            text-align: center; font-family: 'Courier New', monospace;
-            font-size: 3rem; letter-spacing: 12px; color: white;
-            font-weight: bold;
-            text-transform: uppercase;
-            
-            /* EFECTO HALO VIOLETA */
-            text-shadow: 
-                0 0 10px rgba(255, 255, 255, 0.8), /* Brillo blanco interno */
-                0 0 20px var(--vz-violet),         /* Halo violeta medio */
-                0 0 30px var(--vz-violet),         /* Halo violeta amplio */
-                0 0 40px var(--vz-violet);         /* Halo violeta intenso de fondo */
-        }
-
         /* --- GALERÍA COLLAGE --- */
         .gallery-overlay {
             position: fixed; top: 100vh; left: 0; width: 100vw; height: 100vh;
@@ -151,11 +130,10 @@
         .lightbox-img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
 
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 15px; text-align: center; padding: 20px 5% 10px; }
+            header { flex-direction: column; gap: 15px; text-align: center; }
+            .page-title { font-size: 1.5rem; letter-spacing: 4px; }
             .carousel-track { width: 85vw; }
             .masonry-container { column-count: 2; column-gap: 10px; }
-            .bottom-title { font-size: 1.8rem; letter-spacing: 6px; } /* Ajuste móvil */
-            .bottom-title-wrapper { padding: 15px 0; margin-bottom: 10px; }
         }
     </style>
 </head>
@@ -170,8 +148,10 @@
 
     <header>
         <a href="index.html" class="back-btn">[ < VOLVER AL INICIO ]</a>
-        <div>SYS.VECONZETA // PHOTOGRAPHY</div>
+        <div>SYS.VECONZETA // FOTOGRAFIA.01</div>
     </header>
+
+    <h1 class="page-title">FOTOGRAFÍA</h1>
 
     <div class="carousel-wrapper">
         <button class="nav-arrow" id="prevBtn" style="position: absolute; left: 2%; z-index: 20;">&#10094;</button>
@@ -182,14 +162,10 @@
         <button class="nav-arrow" id="nextBtn" style="position: absolute; right: 2%; z-index: 20;">&#10095;</button>
     </div>
 
-    <div class="bottom-title-wrapper">
-        <h1 class="bottom-title">FOTOGRAFÍA</h1>
-    </div>
-
     <div class="gallery-overlay" id="galleryOverlay">
         <div style="padding: 20px 5%; display: flex; justify-content: space-between; position: sticky; top: 0; background: #05030A; z-index: 10;">
-            <h2 id="galleryTitle" style="font-family: 'Courier New', monospace;">ÁLBUM</h2>
-            <button class="back-btn" onclick="closeGallery()">[ X CERRAR ÁLBUM ]</button>
+            <h2 id="galleryTitle">ÁLBUM</h2>
+            <button class="back-btn" onclick="closeGallery()">[ CERRAR ÁLBUM ]</button>
         </div>
         <div class="masonry-container" id="masonryContainer"></div>
     </div>
