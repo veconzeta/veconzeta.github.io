@@ -127,10 +127,10 @@
         <button class="nav-arrow" id="prevBtn">&#10094;</button>
         <div class="carousel-track-container">
             <div class="carousel-track" id="track">
-                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/portada.jpg" class="album-cover"><div class="album-info"><h3>ÁLBUM 01 - EVENTOS</h3></div></div>
-                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/portada.jpg" class="album-cover"><div class="album-info"><h3>ÁLBUM 02 - SESIONES</h3></div></div>
-                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/portada.jpg" class="album-cover"><div class="album-info"><h3>ÁLBUM 03 - PRODUCTO</h3></div></div>
-                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/04_COSPLAYERS/portada.jpg" class="album-cover"><div class="album-info"><h3>ÁLBUM 04 - COSPLAY</h3></div></div>
+                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/portada.jpg" class="album-cover"><div class="album-info"><h3>EVENTOS</h3></div></div>
+                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/portada.jpg" class="album-cover"><div class="album-info"><h3>SESIONES</h3></div></div>
+                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/portada.jpg" class="album-cover"><div class="album-info"><h3>PRODUCTO</h3></div></div>
+                <div class="album-card"><img src="PORTAFOLIO_FOTOGRAFIAS/04_COSPLAYERS/portada.jpg" class="album-cover"><div class="album-info"><h3>COSPLAY</h3></div></div>
             </div>
         </div>
         <button class="nav-arrow" id="nextBtn">&#10095;</button>
@@ -138,7 +138,7 @@
 
     <div class="gallery-overlay" id="galleryOverlay">
         <div style="padding: 20px 5%; display: flex; justify-content: space-between; position: sticky; top: 0; background: #05030A; z-index: 10;">
-            <h2 id="galleryTitle">ÁLBUM</h2>
+            <h2 id="galleryTitle">ALBUM</h2>
             <button class="back-btn" onclick="closeGallery()">[ CERRAR ÁLBUM ]</button>
         </div>
         <div class="masonry-container" id="masonryContainer"></div>
@@ -150,21 +150,30 @@
     </div>
 
     <script>
-        // --- BASE DE DATOS AUTOMATIZADA ---
+        // --- DATA AUTOMATIZADA ---
+        const ROOT = "PORTAFOLIO_FOTOGRAFIAS";
+
         const albumData = {
-            0: Array.from({length: 49}, (_, i) => `PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/EVENTOS-${i + 1}.jpg`),
-            1: Array.from({length: 13}, (_, i) => `PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/SESIONES-${i + 1}.jpg`),
+            // Eventos: 1 al 49
+            0: Array.from({length: 49}, (_, i) => `${ROOT}/01_EVENTOS/EVENTOS-${i + 1}.jpg`),
+            
+            // Sesiones: 1 al 13
+            1: Array.from({length: 13}, (_, i) => `${ROOT}/02_SESIONES_Y_RETRATOS/SESIONES-${i + 1}.jpg`),
+            
+            // Producto: 6 al 27 (saltando el 17)
             2: Array.from({length: 22}, (_, i) => {
                 const n = i + 6;
                 const f = n >= 17 ? n + 1 : n;
-                return `PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/PRODUCTO-${f}.jpg`;
+                return `${ROOT}/03_PRODUCTO/PRODUCTO-${f}.jpg`;
             }),
-            3: Array.from({length: 34}, (_, i) => `PORTAFOLIO_FOTOGRAFIAS/04_COSPLAYERS/RETRATO-${i + 1}.jpg`)
+            
+            // Cosplayers: 1 al 34
+            3: Array.from({length: 34}, (_, i) => `${ROOT}/04_COSPLAYERS/RETRATO-${i + 1}.jpg`)
         };
 
         const albumTitles = ["EVENTOS SOCIALES", "SESIONES & RETRATOS", "FOTOGRAFÍA PRODUCTO", "COSPLAY & FICCIÓN"];
 
-        // --- LÓGICA DEL CARRUSEL ---
+        // --- LÓGICA ---
         const track = document.getElementById('track');
         const cards = Array.from(track.querySelectorAll('.album-card'));
         let currentIndex = 0;
@@ -191,19 +200,16 @@
         
         cards.forEach((card, i) => card.onclick = () => currentIndex === i ? openGallery(i) : (currentIndex=i, updateCarousel()));
 
-        // --- GALERÍA ---
         function openGallery(idx) {
             const container = document.getElementById('masonryContainer');
             document.getElementById('galleryTitle').innerText = albumTitles[idx];
             container.innerHTML = '';
             
-            albumData[idx].forEach((url, imgIdx) => {
+            albumData[idx].forEach((url) => {
                 const item = document.createElement('div');
                 item.className = 'masonry-item';
                 const img = document.createElement('img');
                 img.src = url;
-                // FALLBACK: Si la imagen falla, ocultamos el contenedor
-                img.onerror = () => item.style.display = 'none';
                 item.onclick = () => openLightbox(url);
                 item.appendChild(img);
                 container.appendChild(item);
