@@ -29,15 +29,20 @@
         body.no-scroll { overflow: hidden; }
         body.gallery-open .floating-contact { display: none !important; }
 
-        /* --- FONDO --- */
-        .bg-image { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+        /* --- VIDEO DE FONDO FIJO --- */
+        .bg-image { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            object-fit: cover; z-index: -2; 
+        }
+
         .ambient-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, rgba(5, 3, 10, 0.5) 0%, rgba(5, 3, 10, 0.95) 100%);
-            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: -1;
+            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            z-index: -1;
         }
 
-        /* --- HEADER --- */
+        /* --- HEADER Y NAVEGACIÓN --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 30px 5% 20px; font-family: 'Courier New', monospace;
@@ -58,7 +63,21 @@
             text-shadow: 0 0 20px var(--vz-violet-glow); z-index: 5;
         }
 
-        /* --- CARRUSEL 16:9 --- */
+        .floating-contact {
+            position: fixed; bottom: 80px; right: 25px;
+            display: flex; flex-direction: column; gap: 15px; z-index: 1500;
+        }
+
+        .contact-icon {
+            width: 60px; height: 60px; background: rgba(5, 3, 10, 0.9);
+            border: 1px solid var(--vz-violet); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            transition: all 0.4s ease; backdrop-filter: blur(5px); padding: 12px;
+        }
+        .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+        /* --- CARRUSEL 3D (REPARADO A 16:9 PURO) --- */
         .carousel-wrapper {
             display: flex; align-items: center; justify-content: center;
             width: 100%; height: 50vh; position: relative; z-index: 10;
@@ -75,20 +94,26 @@
             position: absolute; top: 0; left: 0; width: 100%; aspect-ratio: 16 / 9; 
             background: #000; border: 2px solid rgba(108, 75, 255, 0.2);
             border-radius: 8px; cursor: pointer; overflow: hidden;
-            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease, filter 0.6s ease, border-color 0.6s ease;
         }
-        .album-card.active { border-color: var(--vz-violet); box-shadow: 0 0 40px var(--vz-violet-glow); }
+        
+        /* ADAPTACIÓN AUTOMÁTICA DE VERTICALES A 16:9 */
         .album-cover { width: 100%; height: 100%; object-fit: cover; }
+        
+        .album-card.active { border-color: var(--vz-violet); box-shadow: 0 0 40px var(--vz-violet-glow); }
         .album-info { 
             position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px;
             background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
         }
+        .album-info h3 { font-family: 'Courier New', monospace; font-size: 1.2rem; }
 
-        /* --- GALERÍA --- */
+        /* --- GALERÍA COLLAGE --- */
         .gallery-overlay {
             position: fixed; top: 100vh; left: 0; width: 100vw; height: 100vh;
             background: rgba(5, 3, 10, 0.98); backdrop-filter: blur(20px);
-            z-index: 2000; overflow-y: auto; transition: top 0.5s ease;
+            z-index: 2000; overflow-y: auto; overflow-x: hidden;
+            transition: top 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex; flex-direction: column;
         }
         .gallery-overlay.open { top: 0; }
         .masonry-container { padding: 40px 5%; column-count: 4; column-gap: 20px; }
@@ -105,7 +130,7 @@
         .lightbox-img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
 
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 15px; }
+            header { flex-direction: column; gap: 15px; text-align: center; }
             .page-title { font-size: 1.5rem; letter-spacing: 4px; }
             .carousel-track { width: 85vw; }
             .masonry-container { column-count: 2; column-gap: 10px; }
@@ -115,6 +140,11 @@
 <body id="mainBody">
     <video autoplay muted loop playsinline class="bg-image"><source src="VIDEO/webbg.mp4" type="video/mp4"></video>
     <div class="ambient-bg"></div>
+
+    <div class="floating-contact" id="contactButtons">
+        <a href="https://wa.me/56932751639" target="_blank" class="contact-icon" title="WhatsApp"><img src="ICON/social.png" alt="WhatsApp"></a>
+        <a href="mailto:contacto.veconzeta@gmail.com" class="contact-icon" title="Email"><img src="ICON/gmail.png" alt="Email"></a>
+    </div>
 
     <header>
         <a href="index.html" class="back-btn">[ < VOLVER AL INICIO ]</a>
@@ -127,66 +157,89 @@
         <button class="nav-arrow" id="prevBtn" style="position: absolute; left: 2%; z-index: 20;">&#10094;</button>
         <div class="carousel-track-container">
             <div class="carousel-track" id="track">
-                <div class="album-card">
-                    <img src="PORTAFOLIO_FOTOGRAFIAS/01_EVENTOS/portada.jpg" class="album-cover" alt="Eventos">
-                    <div class="album-info"><h3>ÁLBUM 01</h3><p>Eventos</p></div>
                 </div>
-                <div class="album-card">
-                    <img src="PORTAFOLIO_FOTOGRAFIAS/02_SESIONES_Y_RETRATOS/portada.jpg" class="album-cover" alt="Sesiones">
-                    <div class="album-info"><h3>ÁLBUM 02</h3><p>Sesiones & Retratos</p></div>
-                </div>
-                <div class="album-card">
-                    <img src="PORTAFOLIO_FOTOGRAFIAS/03_PRODUCTO/portada.jpg" class="album-cover" alt="Productos">
-                    <div class="album-info"><h3>ÁLBUM 03</h3><p>Productos</p></div>
-                </div>
-                <div class="album-card">
-                    <img src="PORTAFOLIO_FOTOGRAFIAS/04_COSPLAYERS/portada.jpg" class="album-cover" alt="Cosplay">
-                    <div class="album-info"><h3>ÁLBUM 04</h3><p>Cosplay & Arte</p></div>
-                </div>
-            </div>
         </div>
         <button class="nav-arrow" id="nextBtn" style="position: absolute; right: 2%; z-index: 20;">&#10095;</button>
     </div>
 
     <div class="gallery-overlay" id="galleryOverlay">
         <div style="padding: 20px 5%; display: flex; justify-content: space-between; position: sticky; top: 0; background: #05030A; z-index: 10;">
-            <h2 id="galleryTitle" style="font-family: 'Courier New', monospace;">ÁLBUM</h2>
-            <button class="back-btn" onclick="closeGallery()">[ X CERRAR ÁLBUM ]</button>
+            <h2 id="galleryTitle">ÁLBUM</h2>
+            <button class="back-btn" onclick="closeGallery()">[ CERRAR ÁLBUM ]</button>
         </div>
         <div class="masonry-container" id="masonryContainer"></div>
     </div>
 
     <div class="lightbox-overlay" id="lightboxOverlay">
-        <button onclick="closeLightbox()" style="position: absolute; top: 20px; right: 30px; color: white; background: none; border: none; font-size: 3rem; cursor: pointer;">&times;</button>
+        <button onclick="closeLightbox()" style="position: absolute; top: 20px; right: 20px; color: white; background: none; border: none; font-size: 3rem; cursor: pointer;">&times;</button>
         <img src="" id="lightboxImage" class="lightbox-img">
     </div>
 
     <script>
+        // ==============================================================
+        // --- DATA AUTOMATIZADA CORREGIDA SEGÚN TUS RANGOS ---
+        // ==============================================================
         const ROOT = "PORTAFOLIO_FOTOGRAFIAS";
 
-        // --- DATA CORREGIDA SEGÚN VS CODE ---
         const albumData = {
-            // Álbum 01 - EVENTOS_1 a EVENTOS_51
+            // Eventos: EVENTOS_1.jpg a EVENTOS_51.jpg
             0: Array.from({length: 51}, (_, i) => `${ROOT}/01_EVENTOS/EVENTOS_${i + 1}.jpg`),
             
-            // Álbum 02 - SESIONES_1 a SESIONES_12
+            // Sesiones: SESIONES_1.jpg a SESIONES_12.jpg
             1: Array.from({length: 12}, (_, i) => `${ROOT}/02_SESIONES_Y_RETRATOS/SESIONES_${i + 1}.jpg`),
             
-            // Álbum 03 - PRODUCTO_1 a PRODUCTO_22
+            // Producto: PRODUCTO_1.jpg a PRODUCTO_22.jpg
             2: Array.from({length: 22}, (_, i) => `${ROOT}/03_PRODUCTO/PRODUCTO_${i + 1}.jpg`),
             
-            // Álbum 04 - COSPLAYER_1 a COSPLAYER_34 (SIN el cero inicial según captura)
+            // Cosplayers: COSPLAYER_1.jpg a COSPLAYER_34.jpg
             3: Array.from({length: 34}, (_, i) => `${ROOT}/04_COSPLAYERS/COSPLAYER_${i + 1}.jpg`)
         };
 
         const albumTitles = ["EVENTOS SOCIALES", "SESIONES & RETRATOS", "FOTOGRAFÍA PRODUCTO", "COSPLAY & FICCIÓN"];
 
-        // LÓGICA DEL CARRUSEL
+        // ==============================================================
+        // --- LÓGICA DEL CARRUSEL ---
+        // ==============================================================
         const track = document.getElementById('track');
+        let currentIndex = 0;
+
+        // Función para generar las tarjetas del carrusel dinámicamente y USAR LA FOTO Nº1 COMO PORTADA
+        function generateCarouselCards() {
+            albumTitles.forEach((title, i) => {
+                // Obtener la URL de la primera imagen (imagen nº1)
+                const coverUrl = albumData[i][0];
+
+                // Crear la estructura HTML dinámicamente
+                const card = document.createElement('div');
+                card.className = 'album-card';
+
+                const img = document.createElement('img');
+                img.src = coverUrl; // <--- USAMOS LA FOTO Nº1 AQUÍ
+                img.className = 'album-cover';
+                img.alt = title;
+
+                // FALLBACK: Si la foto nº1 no existe, nos dirá por qué en la consola (F12)
+                img.onerror = () => { console.error("URL fallida en portada:", coverUrl); };
+
+                const info = document.createElement('div');
+                info.className = 'album-info';
+                const h3 = document.createElement('h3');
+                h3.innerText = title;
+                info.appendChild(h3);
+
+                card.appendChild(img);
+                card.appendChild(info);
+                track.appendChild(card);
+            });
+        }
+
+        // Llamar a la función para poblar el carrusel antes de calcular su movimiento
+        generateCarouselCards();
+
+        // Redefinir las tarjetas después de crearlas dinámicamente
         const cards = Array.from(track.querySelectorAll('.album-card'));
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
-        let currentIndex = 0;
 
         function updateCarousel() {
             const isMobile = window.innerWidth <= 768;
@@ -208,33 +261,44 @@
 
         nextBtn.onclick = () => { if(currentIndex < cards.length-1) { currentIndex++; updateCarousel(); } };
         prevBtn.onclick = () => { if(currentIndex > 0) { currentIndex--; updateCarousel(); } };
+        
+        // Asignar clics a las tarjetas generadas dinámicamente
         cards.forEach((card, i) => card.onclick = () => currentIndex === i ? openGallery(i) : (currentIndex=i, updateCarousel()));
 
-        // GALERÍA
+        // ==============================================================
+        // --- LÓGICA DE GALERÍA Y LIGHTBOX ---
+        // ==============================================================
+        const galleryOverlay = document.getElementById('galleryOverlay');
+        const masonryContainer = document.getElementById('masonryContainer');
+        const galleryTitle = document.getElementById('galleryTitle');
+        const body = document.getElementById('mainBody');
+
         function openGallery(idx) {
-            const container = document.getElementById('masonryContainer');
-            document.getElementById('galleryTitle').innerText = albumTitles[idx];
-            container.innerHTML = '';
-            
-            albumData[idx].forEach((url) => {
-                const item = document.createElement('div');
-                item.className = 'masonry-item';
-                const img = document.createElement('img');
-                img.src = url;
-                img.loading = "lazy";
-                // Si la imagen no existe, no mostramos el cuadro roto
-                img.onerror = () => { item.style.display = 'none'; };
-                item.onclick = () => openLightbox(url);
-                item.appendChild(img);
-                container.appendChild(item);
-            });
-            document.getElementById('galleryOverlay').classList.add('open');
-            document.body.classList.add('no-scroll');
+            const photos = albumData[idx];
+            galleryTitle.innerText = albumTitles[idx];
+            masonryContainer.innerHTML = ''; 
+
+            if (photos && photos.length > 0) {
+                photos.forEach((url) => {
+                    const item = document.createElement('div');
+                    item.className = 'masonry-item';
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.loading = "lazy"; 
+                    // FALLBACK: Si una imagen falla, ocultamos el cuadro
+                    img.onerror = () => { item.style.display = 'none'; };
+                    item.onclick = () => openLightbox(url); 
+                    item.appendChild(img);
+                    masonryContainer.appendChild(item);
+                });
+            }
+            galleryOverlay.classList.add('open');
+            body.classList.add('no-scroll');
         }
 
         function closeGallery() { 
-            document.getElementById('galleryOverlay').classList.remove('open'); 
-            document.body.classList.remove('no-scroll');
+            galleryOverlay.classList.remove('open'); 
+            body.classList.remove('no-scroll');
         }
 
         function openLightbox(url) { 
