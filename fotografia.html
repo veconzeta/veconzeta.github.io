@@ -100,18 +100,18 @@
             text-shadow: 0 0 15px var(--vz-violet);
         }
 
-        /* --- NAV ARROWS (GEOMÉTRICAS CON CSS) --- */
+        /* --- NAV ARROWS (CENTRADO MATEMÁTICO Y GROSOR SVG) --- */
         .nav-arrow {
             background: none; border: none; 
-            color: rgba(255, 255, 255, 0.4); /* Color base */
+            color: rgba(255, 255, 255, 0.4); 
             cursor: pointer; 
-            padding: 30px; /* Área de clic amplia */
+            padding: 20px; 
             z-index: 999;
-            transition: all 0.3s ease;
             
-            /* Posicionamiento exacto al centro */
             position: absolute !important;
             top: 50% !important; 
+            /* Descenso exacto a la mitad de la imagen en escritorio (600px * 9/16 = 337.5px / 2 = 168.75px) */
+            margin-top: 168.75px !important; 
             transform: translateY(-50%) !important;
             
             display: flex;
@@ -119,31 +119,25 @@
             justify-content: center;
         }
 
-        /* Dibujamos las flechas usando bordes */
-        .nav-arrow::before {
-            content: '';
-            display: block;
-            width: 25px;  /* Tamaño de la flecha */
-            height: 25px;
-            border-top: 4px solid currentColor; /* Grosor del trazo */
-            border-left: 4px solid currentColor;
-            transform: rotate(-45deg); /* Rotación inicial para IZQUIERDA */
+        /* Control vectorial de la flecha */
+        .nav-arrow svg {
+            width: 50px; /* Tamaño general */
+            height: 50px;
+            stroke: currentColor;
+            stroke-width: 5; /* ESTE ES EL GROSOR (Auméntalo a 6 si lo quieres más extremo) */
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0px 2px 5px rgba(0,0,0,0.8)); /* Sombra para resaltar sobre imágenes claras */
         }
 
-        /* Rotación para la flecha DERECHA */
-        #nextBtn::before {
-            transform: rotate(135deg);
-        }
+        #prevBtn { left: calc(50% - 400px); }
+        #nextBtn { right: calc(50% - 400px); }
 
-        /* Posición en Escritorio */
-        #prevBtn { left: calc(50% - 420px); }
-        #nextBtn { right: calc(50% - 420px); }
-
-        /* Hover: Blanco brillante y ligero zoom */
-        .nav-arrow:hover { 
-            color: white; 
-            transform: translateY(-50%) scale(1.1) !important; 
-        }
+        /* Hover: Blanco puro y escala vectorial */
+        .nav-arrow:hover { color: white; }
+        .nav-arrow:hover svg { transform: scale(1.15); }
 
         /* --- CONTACTO --- */
         .floating-contact { position: fixed; bottom: 80px; right: 25px; display: flex; flex-direction: column; gap: 15px; z-index: 1500; }
@@ -175,21 +169,22 @@
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 15px; }
             .page-title { font-size: 1.5rem; letter-spacing: 4px; }
-            .carousel-wrapper { margin-top: -15vh; } /* Eje elevado en Móvil */
+            .carousel-wrapper { margin-top: -15vh; } 
             .carousel-track { width: 85vw; }
             
-            /* Ajuste de flechas en móvil */
+            /* Ajuste matemático para centrar en la altura dinámica de móvil */
             .nav-arrow { 
                 display: flex !important;
-                padding: 15px; /* Área de clic más pequeña en móvil */
+                padding: 10px; 
+                /* Descenso dinámico: 85vw * 9/16 = 47.8vw. Mitad = 23.9vw */
+                margin-top: 23.9vw !important;
             }
-            /* Flecha ligeramente más pequeña en móvil */
-            .nav-arrow::before {
-                width: 20px;
-                height: 20px;
-                border-width: 3px;
+            .nav-arrow svg {
+                width: 35px; /* Ligeramente más chicas en móvil */
+                height: 35px;
+                stroke-width: 4;
             }
-            /* Posición pegada a los bordes en móvil */
+            
             #prevBtn { left: 1%; } 
             #nextBtn { right: 1%; }
 
@@ -215,11 +210,15 @@
     <h1 class="page-title">FOTOGRAFÍA</h1>
 
     <div class="carousel-wrapper">
-        <button class="nav-arrow" id="prevBtn"></button>
+        <button class="nav-arrow" id="prevBtn">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
         <div class="carousel-track-container">
             <div class="carousel-track" id="track"></div>
         </div>
-        <button class="nav-arrow" id="nextBtn"></button>
+        <button class="nav-arrow" id="nextBtn">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
     </div>
 
     <div class="gallery-overlay" id="galleryOverlay">
