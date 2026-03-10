@@ -27,6 +27,21 @@
             width: 100vw;
         }
 
+        /* --- PROTECCIÓN DE ACTIVOS CSS --- */
+        body {
+            -webkit-user-select: none; 
+            -moz-user-select: none;    
+            -ms-user-select: none;     
+            user-select: none;         
+        }
+
+        img {
+            -webkit-user-drag: none;   
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+        }
+
         body.no-scroll { overflow: hidden; }
         body.gallery-open .floating-contact { display: none !important; }
 
@@ -193,7 +208,9 @@
     </style>
 </head>
 <body id="mainBody">
-    <video autoplay muted loop playsinline class="bg-image"><source src="VIDEO/webbg.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline class="bg-image" controlsList="nodownload" disablePictureInPicture oncontextmenu="return false;">
+        <source src="VIDEO/webbg.mp4" type="video/mp4">
+    </video>
     <div class="ambient-bg"></div>
 
     <div class="floating-contact">
@@ -364,6 +381,33 @@
         });
 
         updateCarousel(); 
+
+        // ==========================================
+        // --- SISTEMA DE PROTECCIÓN DE ACTIVOS JS ---
+        // ==========================================
+        
+        // 1. Bloquear el clic derecho (menú contextual) en toda la página
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // 2. Prevenir el arrastre de elementos si el CSS falla
+        document.addEventListener('dragstart', function(e) {
+            if (e.target.nodeName.toUpperCase() === 'IMG' || e.target.nodeName.toUpperCase() === 'VIDEO') {
+                e.preventDefault();
+            }
+        });
+
+        // 3. Bloquear atajos de teclado de extracción (Ctrl+S, Ctrl+U, Ctrl+P)
+        document.addEventListener('keydown', function(e) {
+            // Si presiona Control (Windows) o Command (Mac)
+            if (e.ctrlKey || e.metaKey) {
+                const key = e.key.toLowerCase();
+                if (key === 's' || key === 'u' || key === 'p') {
+                    e.preventDefault();
+                }
+            }
+        });
     </script>
 </body>
 </html>
