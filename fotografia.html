@@ -150,30 +150,29 @@
     </div>
 
     <script>
-        // --- DATA AUTOMATIZADA ---
+        // --- DATA AUTOMATIZADA CORREGIDA ---
         const ROOT = "PORTAFOLIO_FOTOGRAFIAS";
 
         const albumData = {
-            // Eventos: 1 al 49
-            0: Array.from({length: 49}, (_, i) => `${ROOT}/01_EVENTOS/EVENTOS-${i + 1}.jpg`),
+            // Álbum 01 - EVENTOS_1 a EVENTOS_51
+            0: Array.from({length: 51}, (_, i) => `${ROOT}/01_EVENTOS/EVENTOS_${i + 1}.jpg`),
             
-            // Sesiones: 1 al 13
-            1: Array.from({length: 13}, (_, i) => `${ROOT}/02_SESIONES_Y_RETRATOS/SESIONES-${i + 1}.jpg`),
+            // Álbum 02 - SESIONES_1 a SESIONES_12
+            1: Array.from({length: 12}, (_, i) => `${ROOT}/02_SESIONES_Y_RETRATOS/SESIONES_${i + 1}.jpg`),
             
-            // Producto: 6 al 27 (saltando el 17)
-            2: Array.from({length: 22}, (_, i) => {
-                const n = i + 6;
-                const f = n >= 17 ? n + 1 : n;
-                return `${ROOT}/03_PRODUCTO/PRODUCTO-${f}.jpg`;
-            }),
+            // Álbum 03 - PRODUCTO_1 a PRODUCTO_22
+            2: Array.from({length: 22}, (_, i) => `${ROOT}/03_PRODUCTO/PRODUCTO_${i + 1}.jpg`),
             
-            // Cosplayers: 1 al 34
-            3: Array.from({length: 34}, (_, i) => `${ROOT}/04_COSPLAYERS/RETRATO-${i + 1}.jpg`)
+            // Álbum 04 - COSPLAYER_01 a COSPLAYER_34 (Nótese el '01')
+            3: Array.from({length: 34}, (_, i) => {
+                const num = (i + 1).toString().padStart(2, '0'); // Esto genera 01, 02, etc.
+                return `${ROOT}/04_COSPLAYERS/COSPLAYER_${num}.jpg`;
+            })
         };
 
         const albumTitles = ["EVENTOS SOCIALES", "SESIONES & RETRATOS", "FOTOGRAFÍA PRODUCTO", "COSPLAY & FICCIÓN"];
 
-        // --- LÓGICA ---
+        // --- LÓGICA DEL CARRUSEL ---
         const track = document.getElementById('track');
         const cards = Array.from(track.querySelectorAll('.album-card'));
         let currentIndex = 0;
@@ -210,6 +209,8 @@
                 item.className = 'masonry-item';
                 const img = document.createElement('img');
                 img.src = url;
+                // Si la imagen falla, no bloqueamos la web, pero avisamos en consola para depurar
+                img.onerror = () => { console.error("Fallo al cargar:", url); };
                 item.onclick = () => openLightbox(url);
                 item.appendChild(img);
                 container.appendChild(item);
