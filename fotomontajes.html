@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Veconzeta | Fotomontajes</title>
+    <style>
+        :root {
+            --vz-violet: #6C4BFF;
+            --vz-violet-glow: rgba(108, 75, 255, 0.7);
+            --bg-dark: #05030A;
+            --text-main: #E0E0E0;
+            --text-muted: #888899;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow-x: hidden; /* Permite scroll vertical para ver todos los montajes */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100vw;
+        }
+
+        /* --- PROTECCIÓN DE ACTIVOS CSS --- */
+        body {
+            -webkit-user-select: none; 
+            -moz-user-select: none;    
+            -ms-user-select: none;     
+            user-select: none;         
+        }
+
+        img {
+            -webkit-user-drag: none;   
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+        }
+
+        body.no-scroll { overflow: hidden; }
+
+        /* --- FONDO --- */
+        .bg-image { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(5, 3, 10, 0.4) 0%, rgba(5, 3, 10, 0.95) 100%);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: -1;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 30px 5% 20px; font-family: 'Courier New', monospace;
+            font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;
+            color: var(--text-muted); z-index: 50;
+            position: relative;
+        }
+
+        .back-btn {
+            color: white; text-decoration: none; border: 1px solid var(--vz-violet);
+            padding: 8px 15px; border-radius: 5px; background: rgba(108, 75, 255, 0.1);
+            transition: all 0.3s ease; cursor: pointer;
+        }
+        .back-btn:hover { background: rgba(108, 75, 255, 0.3); box-shadow: 0 0 15px var(--vz-violet-glow); }
+
+        .page-title {
+            text-align: center; margin: 10px 0 40px; font-family: 'Courier New', monospace;
+            font-size: 2.5rem; letter-spacing: 8px; color: white;
+            text-shadow: 0 0 20px var(--vz-violet-glow); z-index: 5; position: relative;
+        }
+
+        /* --- GALERÍA MASONRY PRINCIPAL --- */
+        .masonry-container { 
+            padding: 0 5% 100px; 
+            column-count: 3; /* 3 columnas en escritorio para composiciones complejas */
+            column-gap: 20px; 
+            z-index: 10;
+            position: relative;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .masonry-item { 
+            margin-bottom: 20px; 
+            break-inside: avoid; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            border: 1px solid rgba(108, 75, 255, 0.2); 
+            cursor: pointer; 
+            position: relative;
+            transition: all 0.4s ease;
+            background: #000;
+        }
+
+        .masonry-item:hover {
+            border-color: var(--vz-violet);
+            box-shadow: 0 0 30px var(--vz-violet-glow);
+            transform: translateY(-5px);
+        }
+
+        .masonry-item img { 
+            width: 100%; 
+            display: block; 
+            transition: opacity 0.3s ease;
+        }
+
+        .masonry-item:hover img { opacity: 0.8; }
+
+        /* Icono de lupa flotante al hacer hover */
+        .zoom-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            color: white; font-size: 2rem;
+            opacity: 0; transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .masonry-item:hover .zoom-icon { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+        /* --- CONTACTO --- */
+        .floating-contact { position: fixed; bottom: 80px; right: 25px; display: flex; flex-direction: column; gap: 15px; z-index: 1500; }
+        .contact-icon { width: 60px; height: 60px; background: rgba(5, 3, 10, 0.9); border: 1px solid var(--vz-violet); border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 12px; transition: all 0.3s ease; }
+        .contact-icon:hover { box-shadow: 0 0 20px var(--vz-violet-glow); transform: scale(1.1); }
+        .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+        /* --- LIGHTBOX --- */
+        .lightbox-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.95); z-index: 3000; display: flex;
+            justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        .lightbox-overlay.open { opacity: 1; pointer-events: all; }
+        .lightbox-img { max-width: 90vw; max-height: 90vh; object-fit: contain; box-shadow: 0 0 50px rgba(108, 75, 255, 0.3); border-radius: 4px; }
+        
+        .close-lightbox-btn {
+            position: absolute; top: 30px; right: 40px;
+            color: white; font-family: 'Courier New', monospace; font-size: 1.2rem;
+            background: none; border: none; cursor: pointer; z-index: 3010;
+            text-shadow: 0 0 10px var(--vz-violet);
+        }
+
+        /* --- RESPONSIVO --- */
+        @media (max-width: 1024px) {
+            .masonry-container { column-count: 2; }
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; }
+            .page-title { font-size: 1.5rem; letter-spacing: 4px; margin-bottom: 20px;}
+            .masonry-container { column-count: 1; padding: 0 5% 100px; } /* 1 columna en móvil para apreciar el detalle */
+            .floating-contact { bottom: 30px; right: 15px; }
+            .contact-icon { width: 50px; height: 50px; }
+            .close-lightbox-btn { top: 15px; right: 15px; }
+        }
+    </style>
+</head>
+<body id="mainBody">
+    <video autoplay muted loop playsinline class="bg-image" controlsList="nodownload" disablePictureInPicture oncontextmenu="return false;">
+        <source src="VIDEO/webbg.mp4" type="video/mp4">
+    </video>
+    <div class="ambient-bg"></div>
+
+    <div class="floating-contact">
+        <a href="https://wa.me/56932751639" target="_blank" class="contact-icon"><img src="ICON/social.png" alt="WhatsApp"></a>
+        <a href="mailto:contacto.veconzeta@gmail.com" class="contact-icon"><img src="ICON/gmail.png" alt="Email"></a>
+    </div>
+
+    <header>
+        <a href="index.html" class="back-btn">[ < VOLVER AL INICIO ]</a>
+        <div>SYS.VECONZETA // COMPOSITING_MODULE</div>
+    </header>
+
+    <h1 class="page-title">FOTOMONTAJES</h1>
+
+    <div class="masonry-container" id="montageContainer"></div>
+
+    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+        <button class="close-lightbox-btn">[ X ]</button>
+        <img src="" id="lightboxImage" class="lightbox-img">
+    </div>
+
+    <script>
+        // --- 1. CONFIGURACIÓN DE RUTAS ---
+        // Aquí defines las rutas exactas de tus fotomontajes. 
+        // He dejado rutas de ejemplo (01.jpg, 02.jpg...), debes actualizarlas con las reales.
+        const ROOT_MONTAJES = "PORTAFOLIO_FOTOMONTAJES";
+        const montajesData = [
+            `${ROOT_MONTAJES}/montaje_01.jpg`,
+            `${ROOT_MONTAJES}/montaje_02.jpg`,
+            `${ROOT_MONTAJES}/montaje_03.jpg`,
+            `${ROOT_MONTAJES}/montaje_04.jpg`,
+            `${ROOT_MONTAJES}/montaje_05.jpg`,
+            `${ROOT_MONTAJES}/montaje_06.jpg`
+        ];
+
+        const container = document.getElementById('montageContainer');
+
+        // --- 2. GENERADOR DE GALERÍA ---
+        function loadMontages() {
+            montajesData.forEach((url) => {
+                const item = document.createElement('div');
+                item.className = 'masonry-item';
+                // Añadimos un símbolo "+" SVG como icono de zoom
+                item.innerHTML = `
+                    <img src="${url}" loading="lazy" alt="Fotomontaje Veconzeta" onerror="this.parentElement.style.display='none'">
+                    <div class="zoom-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+                    </div>
+                `;
+                item.onclick = () => openLightbox(url);
+                container.appendChild(item);
+            });
+        }
+
+        // --- 3. LÓGICA DEL LIGHTBOX ---
+        function openLightbox(url) { 
+            document.getElementById('lightboxImage').src = url;
+            document.getElementById('lightboxOverlay').classList.add('open'); 
+            document.body.classList.add('no-scroll');
+        }
+        
+        function closeLightbox() { 
+            document.getElementById('lightboxOverlay').classList.remove('open'); 
+            document.body.classList.remove('no-scroll');
+        }
+
+        // --- 4. CERRAR CON TECLADO ---
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('lightboxOverlay').classList.contains('open')) {
+                closeLightbox();
+            }
+        });
+
+        // Inicializar galería
+        loadMontages();
+
+        // ==========================================
+        // --- SISTEMA DE PROTECCIÓN DE ACTIVOS JS ---
+        // ==========================================
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('dragstart', e => {
+            if (e.target.nodeName.toUpperCase() === 'IMG' || e.target.nodeName.toUpperCase() === 'VIDEO') e.preventDefault();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.ctrlKey || e.metaKey) {
+                const key = e.key.toLowerCase();
+                if (key === 's' || key === 'u' || key === 'p') e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
