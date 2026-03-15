@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Veconzeta | Proyectos de Video</title>
+    <style>
+        :root {
+            --vz-violet: #6C4BFF;
+            --vz-violet-glow: rgba(108, 75, 255, 0.7);
+            --bg-dark: #05030A;
+            --text-main: #E0E0E0;
+            --text-muted: #888899;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark); color: var(--text-main);
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow: hidden; display: flex; flex-direction: column;
+            height: 100vh; height: 100svh; width: 100vw;
+        }
+
+        body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+        img, video { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; }
+
+        .bg-image { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+        .ambient-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(5, 3, 10, 0.4) 0%, rgba(5, 3, 10, 0.95) 100%); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: -1; }
+
+        header { display: flex; justify-content: space-between; align-items: center; padding: 30px 5% 10px; font-family: 'Courier New', monospace; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); z-index: 50; }
+        .back-btn { color: white; text-decoration: none; border: 1px solid var(--vz-violet); padding: 8px 15px; border-radius: 5px; background: rgba(108, 75, 255, 0.1); transition: all 0.3s ease; cursor: pointer; z-index: 50; }
+        .back-btn:hover { background: rgba(108, 75, 255, 0.3); box-shadow: 0 0 15px var(--vz-violet-glow); }
+        
+        .page-header-container { text-align: left; padding: 0 5% 0; max-width: 1600px; margin: 0 auto; width: 100%; z-index: 5; pointer-events: none;}
+        .page-subtitle { font-family: 'Inter', sans-serif; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 5px; }
+        .page-title { font-family: 'Courier New', monospace; font-size: 2rem; letter-spacing: 8px; color: white; text-shadow: 0 0 15px var(--vz-violet-glow); margin: 0; }
+
+        /* ESTADO 1: MENÚ DE PROYECTOS */
+        .projects-menu-container { flex-grow: 1; display: flex; width: 100%; height: 100%; z-index: 10; transition: opacity 0.5s ease, transform 0.5s ease; position: absolute; top: 0; left: 0; padding-top: 130px; }
+        .vertical-bar { width: 80px; background: var(--vz-violet); display: flex; align-items: center; justify-content: center; box-shadow: 10px 0 30px rgba(0,0,0,0.5); z-index: 15; }
+        .vertical-bar span { writing-mode: vertical-rl; transform: rotate(180deg); color: white; font-family: 'Arial Black', 'Inter', sans-serif; font-weight: 900; font-size: 1.5rem; letter-spacing: 5px; }
+        
+        .catalogue-wrapper { flex-grow: 1; display: flex; align-items: center; gap: 40px; padding: 0 5% 0 80px; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+        .catalogue-wrapper::-webkit-scrollbar { display: none; } 
+        
+        .project-item-container { display: flex; flex-direction: column; align-items: center; gap: 20px; flex: 0 0 240px; cursor: pointer; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
+        .project-item-container:nth-child(odd) { transform: translateY(-30px); }
+        .project-item-container:nth-child(even) { transform: translateY(30px); }
+        .project-item-container:hover { transform: translateY(0px) scale(1.05); z-index: 20; }
+
+        .project-pill { width: 100%; height: 500px; border-radius: 120px; position: relative; overflow: hidden; filter: grayscale(100%) brightness(0.4); transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); border: 2px solid transparent; }
+        .project-item-container:hover .project-pill { filter: grayscale(0%) brightness(1); border-color: var(--vz-violet); box-shadow: 0 0 40px rgba(108, 75, 255, 0.4); }
+        
+        .pill-bg { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; pointer-events: none; }
+        .project-item-container:hover .pill-bg { transform: scale(1.1); }
+        
+        .pill-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.9) 100%); display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 30px; pointer-events: none; }
+        .pill-number { font-family: 'Arial Black', sans-serif; font-size: 5rem; font-weight: 900; color: white; line-height: 1; text-shadow: 0 5px 15px rgba(0,0,0,0.9); }
+        
+        .project-title-below { font-family: 'Arial Black', sans-serif; font-size: 1rem; color: var(--text-muted); text-align: center; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s ease, text-shadow 0.3s ease; padding: 0 10px; }
+        .project-item-container:hover .project-title-below { color: white; text-shadow: 0 0 15px var(--vz-violet-glow); }
+
+        /* ESTADO 2: GALERÍA DE REBANADAS */
+        .slice-gallery-container { position: absolute; top: 160px; left: 0; width: 100%; height: calc(100vh - 160px); display: flex; flex-direction: column; opacity: 0; pointer-events: none; transform: translateX(50px); transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s; z-index: 20; background: var(--bg-dark); }
+        .gallery-header { padding: 0 5% 20px; display: flex; justify-content: space-between; align-items: center; max-width: 1600px; margin: 0 auto; width: 100%; }
+        .current-project-title { font-family: 'Arial Black', 'Inter', sans-serif; font-weight: 900; font-size: 1.5rem; color: var(--vz-violet); text-transform: uppercase; letter-spacing: 2px; }
+        .back-to-menu-btn { background: none; border: 1px solid var(--text-muted); color: var(--text-muted); padding: 8px 15px; cursor: pointer; font-family: 'Courier New', monospace; transition: 0.3s; border-radius: 4px; z-index: 50;}
+        .back-to-menu-btn:hover { border-color: white; color: white; background: rgba(255,255,255,0.1); }
+        
+        .gallery-wrapper { flex-grow: 1; width: 100%; max-width: 1600px; margin: 0 auto; padding: 0 5% 40px; display: flex; align-items: center; overflow: hidden; position: relative; }
+        .track-container { width: 100%; height: 60vh; position: relative; overflow: hidden; border-radius: 4px; }
+        .slice-track { display: flex; height: 100%; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); width: max-content; }
+        .slice-track.is-expanded { width: 100%; }
+
+        .video-slice { flex: 0 0 18vw; height: 100%; position: relative; background-color: #05030A; border-radius: 4px; overflow: hidden; cursor: pointer; border: 1px solid rgba(108, 75, 255, 0.2); transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1); margin-right: 15px; }
+        .video-slice:last-child { margin-right: 0; }
+        .video-slice:hover { border-color: var(--vz-violet); box-shadow: 0 0 20px rgba(108, 75, 255, 0.2); }
+        
+        .slice-player { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; background: #000; opacity: 0.5; filter: grayscale(50%); transition: all 0.5s ease; pointer-events: none; }
+        .video-slice:hover .slice-player { opacity: 0.8; filter: grayscale(0%); transform: scale(1.05); }
+        
+        .video-slice.hidden-slice { flex: 0 0 0px; margin-right: 0; opacity: 0; border: none; pointer-events: none; }
+        .video-slice.expanded-slice { max-width: 100%; margin-right: 0; border-color: var(--vz-violet); box-shadow: 0 0 40px var(--vz-violet-glow); cursor: default; }
+        .expanded-slice .slice-player { object-fit: contain; opacity: 1; transform: scale(1); filter: none; pointer-events: auto; }
+        
+        .close-video-btn { position: absolute; top: 20px; right: 20px; z-index: 10; background: rgba(5, 3, 10, 0.8); border: 1px solid var(--vz-violet); color: white; font-family: 'Courier New', monospace; font-size: 0.9rem; padding: 10px 20px; cursor: pointer; border-radius: 4px; opacity: 0; pointer-events: none; transition: opacity 0.5s ease 0.5s; }
+        .close-video-btn:hover { background: var(--vz-violet); box-shadow: 0 0 15px var(--vz-violet-glow); }
+        .expanded-slice .close-video-btn { opacity: 1; pointer-events: auto; }
+
+        /* NAVEGACIÓN CENTRADA */
+        .nav-controls { 
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 15px; z-index: 20; transition: opacity 0.4s ease; 
+        }
+        .nav-controls.hidden { opacity: 0; pointer-events: none; }
+        .arrow-btn { background: rgba(108, 75, 255, 0.1); border: 1px solid var(--vz-violet); color: white; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; backdrop-filter: blur(5px); }
+        .arrow-btn:hover { background: var(--vz-violet); box-shadow: 0 0 15px var(--vz-violet-glow); transform: scale(1.1); }
+        .arrow-btn svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 3; fill: none; }
+
+        body.showing-gallery .projects-menu-container { opacity: 0; transform: translateY(-50px); pointer-events: none; }
+        body.showing-gallery .slice-gallery-container { opacity: 1; transform: translateX(0); pointer-events: auto; }
+        body.showing-gallery .page-header-container { opacity: 0; }
+
+        .floating-contact { position: fixed; bottom: 80px; right: 25px; display: flex; flex-direction: column; gap: 15px; z-index: 1500; }
+        .contact-icon { width: 60px; height: 60px; background: rgba(5, 3, 10, 0.9); border: 1px solid var(--vz-violet); border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 12px; }
+        .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+        @media (max-width: 1024px) { 
+            .video-slice { flex: 0 0 28vw; } 
+            .project-item-container { flex: 0 0 200px; }
+            .project-pill { height: 400px; }
+            .pill-number { font-size: 4rem; }
+        }
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 10px; padding: 20px 5% 10px; }
+            .page-title { font-size: 1.5rem; letter-spacing: 4px; }
+            .vertical-bar { width: 40px; } .vertical-bar span { font-size: 1rem; }
+            .catalogue-wrapper { padding-left: 20px; gap: 20px; }
+            
+            .project-item-container { flex: 0 0 160px; gap: 15px; }
+            .project-pill { height: 350px; border-radius: 80px; }
+            .pill-overlay { padding-bottom: 20px; }
+            .project-item-container:nth-child(odd) { transform: translateY(-15px); } 
+            .project-item-container:nth-child(even) { transform: translateY(15px); }
+            
+            .pill-number { font-size: 3rem; } 
+            .project-title-below { font-size: 0.8rem; }
+            
+            .track-container { height: 50vh; } .video-slice { flex: 0 0 65vw; } 
+            .arrow-btn { width: 40px; height: 40px; } .nav-controls { bottom: 0px; }
+            .gallery-header { flex-direction: column; gap: 10px; align-items: flex-start; } .current-project-title { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body id="mainBody">
+    <video autoplay muted loop playsinline class="bg-image" controlsList="nodownload" disablePictureInPicture oncontextmenu="return false;">
+        <source src="VIDEO/webbg.mp4" type="video/mp4">
+    </video>
+    <div class="ambient-bg"></div>
+
+    <div class="floating-contact">
+        <a href="https://wa.me/56932751639" target="_blank" class="contact-icon"><img src="ICON/social.png" alt="WhatsApp"></a>
+        <a href="mailto:contacto.veconzeta@gmail.com" class="contact-icon"><img src="ICON/gmail.png" alt="Email"></a>
+    </div>
+
+    <header>
+        <a href="index.html" class="back-btn">[ < VOLVER AL INICIO ]</a>
+        <div>SYS.VECONZETA // VIDEO_MODULE</div>
+    </header>
+
+    <div class="page-header-container">
+        <div class="page-subtitle">PORTAFOLIO AUDIOVISUAL</div>
+        <h1 class="page-title">EDICIÓN DE VIDEO </h1>
+    </div>
+
+    <div class="projects-menu-container" id="projectMenuContainer">
+        <div class="vertical-bar">
+            <span>PROYECTOS ➔</span>
+        </div>
+        <div class="catalogue-wrapper" id="catalogueWrapper"></div>
+    </div>
+
+    <div class="slice-gallery-container" id="sliceGalleryContainer">
+        <div class="gallery-header">
+            <h2 class="current-project-title" id="currentProjectTitle">NOMBRE DEL PROYECTO</h2>
+            <button class="back-to-menu-btn" onclick="showProjectMenu()">[ < VOLVER A CATÁLOGO ]</button>
+        </div>
+        
+        <div class="gallery-wrapper">
+            <div class="track-container" id="trackContainer">
+                <div class="slice-track" id="sliceTrack"></div>
+            </div>
+            <div class="nav-controls" id="navControls">
+                <button class="arrow-btn" onclick="slideTrack(-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                <button class="arrow-btn" onclick="slideTrack(1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================================================================
+        // BASE DE DATOS DE PROYECTOS
+        // ==================================================================
+        const projectsData = [
+            {
+                id: "nutri-hulk", name: "NUTRI HULK", previewImage: "IMG_PROYECTOS/01_NUTRI_HULK.jpg",
+                videos: [
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/01_NUTRI_HULK/REEL_01_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/01_NUTRI_HULK/REEL_02_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/01_NUTRI_HULK/REEL_03_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/01_NUTRI_HULK/REEL_04_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/01_NUTRI_HULK/REEL_05_H.264.mp4" }
+                ]
+            },
+            {
+                id: "brujo-urbano", name: "BRUJO URBANO", previewImage: "IMG_PROYECTOS/02_BRUJO_URBANO.jpg",
+                videos: [
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/02_BRUJO_URBANO/01_BRUJO_URBANO_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/02_BRUJO_URBANO/02_BRUJO_URBANO_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/02_BRUJO_URBANO/03_BRUJO_URBANO_STAR_WARS_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/02_BRUJO_URBANO/04_BRUJO_URBANO_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/02_BRUJO_URBANO/05_GEMAS_H.264_2.mp4" }
+                ]
+            },
+            {
+                id: "america-remates", name: "AMERICA REMATES", previewImage: "IMG_PROYECTOS/03_AMERICA_REMATES.jpg",
+                videos: [
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/03_AMERICA_REMATES/REEL_CAMPAÑA_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/03_AMERICA_REMATES/REEL_CAMPAÑA_MAQ_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/03_AMERICA_REMATES/REEL_SIGUENOS_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/03_AMERICA_REMATES/REEL_TU_TAMBIEN_H.264.mp4" },
+                    { aspect: "horizontal", src: "EDICION_DE_VIDEOS/03_AMERICA_REMATES/VIDEO_EMPRESA_H.264.mp4" }
+                ]
+            },
+            {
+                id: "festigame", name: "FESTIGAME 2025", previewImage: "IMG_PROYECTOS/04_FESTI_GAME.jpg",
+                videos: [
+                    { aspect: "horizontal", src: "EDICION_DE_VIDEOS/04_FESTI_GAME_/RESUMEN_FESTI_GAME_H.264.mp4" } 
+                ]
+            },
+            {
+                id: "rebirth", name: "REBIRTH LOGITECH Y MSI", previewImage: "IMG_PROYECTOS/05_REBIRTH.jpg",
+                videos: [
+                   { aspect: "vertical", src: "EDICION_DE_VIDEOS/05_REBIRTH/01_LOGITECH_H.264.mp4" },
+                   { aspect: "vertical", src: "EDICION_DE_VIDEOS/05_REBIRTH/01_MSI_H.264.mp4" },
+                   { aspect: "vertical", src: "EDICION_DE_VIDEOS/05_REBIRTH/02_LOGITECH_H.264.mp4" },
+                   { aspect: "vertical", src: "EDICION_DE_VIDEOS/05_REBIRTH/02_MSI_H.264.mp4" },
+                   { aspect: "vertical", src: "EDICION_DE_VIDEOS/05_REBIRTH/03_LOGITECH_H.264.mp4" },
+                   { aspect: "vertical", src: "EDICION_DE_VIDEOS/05_REBIRTH/04_LOGITECH_H.264.mp4" }
+                ]
+            },
+            {
+                id: "canttalia", name: "CANTTALIA", previewImage: "IMG_PROYECTOS/06_CANTTALIA.jpg",
+                videos: [
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/06_CANTTALIA/REEL_ANGELES_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/06_CANTTALIA/REEL_CANTALIA_ALBINA_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/06_CANTTALIA/REEL_LIBRO_H.264.mp4" }
+                ]
+            },
+            {
+                id: "mayu-neesan", name: "MAYU NEESAN", previewImage: "IMG_PROYECTOS/07_MAYU_NEESAN.jpg",
+                videos: [
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/07_MAYU_NEESAN/MAYU FONDO v2_H.264_2.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/07_MAYU_NEESAN/MAYU_PROMO_H.264.mp4" }
+                ]
+            },
+            {
+                id: "gamer-week", name: "GAMER WEEK AMD 2024", previewImage: "IMG_PROYECTOS/08_GAMER_WEEK_AMD.jpg",
+                videos: [
+                    { aspect: "horizontal", src: "EDICION_DE_VIDEOS/09_AMD_GAMER_WEEK/GAMER_WEEK_AMD_H_H.264.mp4" },
+                    { aspect: "vertical", src: "EDICION_DE_VIDEOS/09_AMD_GAMER_WEEK/GAMER_WEEK_AMD_V_H.264.mp4" }
+                ]
+            },
+            {
+                id: "verbena", name: "VERBENA BOHEMIA", previewImage: "IMG_PROYECTOS/09_VERBENA_BOHEMIA.jpg",
+                videos: [
+                    { aspect: "horizontal", src: "EDICION_DE_VIDEOS/09_VERBENA_BOHEMIA/DRUIDA_H.264.mp4" },
+                    { aspect: "horizontal", src: "EDICION_DE_VIDEOS/09_VERBENA_BOHEMIA/LA_PLEGARIA_H.264.mp4" },
+                    { aspect: "horizontal", src: "EDICION_DE_VIDEOS/09_VERBENA_BOHEMIA/TRES_CUECAS_WEKANARIAS_H.264.mp4" },
+                    { aspect: "horizontal", src: "EDICION_DE_VIDEOS/09_VERBENA_BOHEMIA/VIDA _PABLO_CHAVARINI_H.264.mp4" } 
+                ]
+            }
+        ];
+
+        const body = document.getElementById('mainBody');
+        const catalogueWrapper = document.getElementById('catalogueWrapper');
+        const trackContainer = document.getElementById('trackContainer');
+        const sliceTrack = document.getElementById('sliceTrack');
+        const navControls = document.getElementById('navControls');
+        const currentProjectTitle = document.getElementById('currentProjectTitle');
+        let currentPos = 0;
+
+        // ==================================================================
+        // SISTEMA DE SCROLL TÁCTIL Y MOUSE (MENÚ PRINCIPAL)
+        // ==================================================================
+        let isCatDrag = false; let startX, scrollLeft, walkDist = 0;
+        catalogueWrapper.addEventListener('mousedown', e => {
+            isCatDrag = true; walkDist = 0;
+            startX = e.pageX - catalogueWrapper.offsetLeft;
+            scrollLeft = catalogueWrapper.scrollLeft;
+            catalogueWrapper.style.cursor = 'grabbing';
+        });
+        catalogueWrapper.addEventListener('mouseleave', () => { isCatDrag = false; catalogueWrapper.style.cursor = ''; });
+        catalogueWrapper.addEventListener('mouseup', () => { isCatDrag = false; catalogueWrapper.style.cursor = ''; });
+        catalogueWrapper.addEventListener('mousemove', e => {
+            if (!isCatDrag) return;
+            e.preventDefault();
+            const x = e.pageX - catalogueWrapper.offsetLeft;
+            const walk = (startX - x) * 1.5; // Velocidad de arrastre
+            walkDist = Math.abs(walk);
+            catalogueWrapper.scrollLeft = scrollLeft + walk;
+        });
+        catalogueWrapper.addEventListener('wheel', (evt) => {
+            evt.preventDefault();
+            catalogueWrapper.scrollLeft += evt.deltaY;
+        });
+
+        function renderCataloguePills() {
+            catalogueWrapper.innerHTML = '';
+            projectsData.forEach((project, index) => {
+                const num = (index + 1).toString().padStart(2, '0');
+                const container = document.createElement('div');
+                container.className = 'project-item-container';
+                
+                container.innerHTML = `
+                    <div class="project-pill">
+                        <img src="${project.previewImage}" class="pill-bg" alt="${project.name}" onerror="this.src='https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80'">
+                        <div class="pill-overlay">
+                            <div class="pill-number">${num}</div>
+                        </div>
+                    </div>
+                    <div class="project-title-below">${project.name}</div>
+                `;
+
+                container.addEventListener('click', (e) => {
+                    if (walkDist > 10) return; // Si arrastró, no hace clic
+                    openProjectGallery(project.id);
+                });
+                catalogueWrapper.appendChild(container);
+            });
+        }
+
+        // ==================================================================
+        // SISTEMA DE GALERÍA Y VIDEOS
+        // ==================================================================
+        function openProjectGallery(projectId) {
+            const project = projectsData.find(p => p.id === projectId);
+            if (!project) return;
+            currentProjectTitle.innerText = project.name;
+            renderSlices(project.videos);
+            body.classList.add('showing-gallery');
+        }
+
+        window.showProjectMenu = function() {
+            body.classList.remove('showing-gallery');
+            setTimeout(() => {
+                sliceTrack.innerHTML = '';
+                currentPos = 0;
+                sliceTrack.style.transform = `translateX(0px)`;
+                sliceTrack.classList.remove('is-expanded');
+            }, 600);
+        }
+
+        function renderSlices(videos) {
+            sliceTrack.innerHTML = '';
+            currentPos = 0;
+            sliceTrack.style.transform = `translateX(0px)`;
+            sliceTrack.classList.remove('is-expanded');
+            navControls.classList.remove('hidden');
+
+            if (!videos || videos.length === 0) {
+                sliceTrack.innerHTML = '<div style="color:var(--text-muted); font-family:monospace; padding:20px;">PRÓXIMAMENTE: Piezas audiovisuales en proceso de carga.</div>';
+                navControls.style.display = 'none';
+                return;
+            } else {
+                navControls.style.display = 'flex';
+            }
+
+            videos.forEach((data, index) => {
+                const slice = document.createElement('div');
+                slice.className = 'video-slice';
+                slice.dataset.aspect = data.aspect || "horizontal";
+                const posterTime = data.thumbTime || "0.001";
+                slice.dataset.thumbTime = posterTime; 
+                
+                slice.innerHTML = `
+                    <video class="slice-player" src="${data.src}#t=${posterTime}" preload="metadata" playsinline controlsList="nodownload"></video>
+                    <button class="close-video-btn" onclick="closeVideo(event, ${index})">[ X CERRAR ]</button>
+                `;
+
+                slice.addEventListener('click', (e) => {
+                    if (trackWalkDist > 10) return; // Evita abrir video si deslizó la pantalla
+                    if (slice.classList.contains('expanded-slice') || e.target.classList.contains('close-video-btn')) return;
+                    openVideo(index);
+                });
+                sliceTrack.appendChild(slice);
+            });
+        }
+
+        function openVideo(index) {
+            const allSlices = Array.from(document.querySelectorAll('.video-slice'));
+            const containerWidth = trackContainer.offsetWidth;
+            let vh = window.innerHeight;
+            
+            sliceTrack.style.transform = `translateX(0px)`;
+            sliceTrack.classList.add('is-expanded');
+            
+            allSlices.forEach((slice, i) => {
+                if (i === index) {
+                    slice.classList.add('expanded-slice');
+                    const videoEl = slice.querySelector('.slice-player');
+                    let targetWidth;
+                    
+                    // REGLA UNIVERSAL
+                    if (videoEl && videoEl.videoWidth > 0 && videoEl.videoHeight > 0) {
+                        let ratio = videoEl.videoWidth / videoEl.videoHeight;
+                        targetWidth = vh * 0.6 * ratio;
+                    } else {
+                        const isVertical = slice.dataset.aspect === 'vertical';
+                        targetWidth = isVertical ? (vh * 0.6 * 9 / 16) : (vh * 0.6 * 16 / 9);
+                    }
+                    
+                    if (targetWidth > containerWidth) targetWidth = containerWidth;
+                    slice.style.flex = `0 0 ${targetWidth}px`;
+                    
+                    let centerOffset = (containerWidth - targetWidth) / 2;
+                    sliceTrack.style.transform = `translateX(${centerOffset}px)`;
+                    
+                    if (videoEl) {
+                        videoEl.controls = true; 
+                        videoEl.muted = false; 
+                        videoEl.currentTime = 0;
+                        videoEl.play().catch(error => console.log("Navegador bloqueó autoplay:", error));
+                    }
+                } else {
+                    slice.classList.add('hidden-slice');
+                }
+            });
+            navControls.classList.add('hidden');
+        }
+
+        window.closeVideo = function(event, index) {
+            event.stopPropagation();
+            const allSlices = Array.from(document.querySelectorAll('.video-slice'));
+            const activeSlice = allSlices[index];
+            const videoEl = activeSlice.querySelector('.slice-player');
+            
+            if(videoEl) { 
+                videoEl.pause(); 
+                videoEl.controls = false; 
+                const savedTime = parseFloat(activeSlice.dataset.thumbTime);
+                videoEl.currentTime = savedTime; 
+            }
+
+            sliceTrack.classList.remove('is-expanded');
+
+            allSlices.forEach(slice => {
+                slice.classList.remove('expanded-slice', 'hidden-slice');
+                slice.style.flex = ''; 
+            });
+            sliceTrack.style.transform = `translateX(-${currentPos}px)`;
+            navControls.classList.remove('hidden');
+        };
+
+        // ==================================================================
+        // MOTOR DE ARRASTRE PARA LA GALERÍA DE VIDEOS (PC Y MÓVIL)
+        // ==================================================================
+        let isTrackDrag = false; 
+        let startTrackX, startTranslate, trackWalkDist = 0;
+
+        function initTrackDrag(e) {
+            if (document.querySelector('.expanded-slice')) return;
+            isTrackDrag = true; trackWalkDist = 0;
+            startTrackX = e.type.includes('touch') ? e.touches[0].clientX : e.pageX;
+            startTranslate = currentPos;
+            sliceTrack.style.transition = 'none';
+            if(!e.type.includes('touch')) sliceTrack.style.cursor = 'grabbing';
+        }
+
+        function moveTrackDrag(e) {
+            if (!isTrackDrag || document.querySelector('.expanded-slice')) return;
+            const x = e.type.includes('touch') ? e.touches[0].clientX : e.pageX;
+            const walk = startTrackX - x;
+            trackWalkDist = Math.abs(walk);
+            
+            let newPos = startTranslate + walk;
+            const maxScroll = Math.max(0, sliceTrack.scrollWidth - trackContainer.offsetWidth);
+            
+            if (newPos < 0) newPos = newPos * 0.5; // Efecto rebote izq
+            if (newPos > maxScroll) newPos = maxScroll + (newPos - maxScroll) * 0.5; // Rebote der
+            
+            sliceTrack.style.transform = `translateX(-${newPos}px)`;
+        }
+
+        function endTrackDrag() {
+            if (!isTrackDrag) return;
+            isTrackDrag = false;
+            sliceTrack.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+            sliceTrack.style.cursor = '';
+            
+            const maxScroll = Math.max(0, sliceTrack.scrollWidth - trackContainer.offsetWidth);
+            const match = sliceTrack.style.transform.match(/translateX\((.*)px\)/);
+            if (match) currentPos = -parseFloat(match[1]);
+            
+            if (currentPos < 0) currentPos = 0;
+            if (currentPos > maxScroll) currentPos = maxScroll;
+            sliceTrack.style.transform = `translateX(-${currentPos}px)`;
+        }
+
+        // Listeners Táctiles (Móvil)
+        trackContainer.addEventListener('touchstart', initTrackDrag, {passive: true});
+        trackContainer.addEventListener('touchmove', moveTrackDrag, {passive: true});
+        trackContainer.addEventListener('touchend', endTrackDrag);
+        // Listeners Mouse (PC sin rueda)
+        trackContainer.addEventListener('mousedown', initTrackDrag);
+        trackContainer.addEventListener('mousemove', moveTrackDrag);
+        trackContainer.addEventListener('mouseup', endTrackDrag);
+        trackContainer.addEventListener('mouseleave', endTrackDrag);
+        
+        // Listeners Rueda del Ratón
+        trackContainer.addEventListener('wheel', (evt) => {
+            if (document.querySelector('.expanded-slice')) return;
+            evt.preventDefault();
+            const maxScroll = Math.max(0, sliceTrack.scrollWidth - trackContainer.offsetWidth);
+            currentPos += evt.deltaY;
+            if (currentPos < 0) currentPos = 0;
+            if (currentPos > maxScroll) currentPos = maxScroll;
+            sliceTrack.style.transform = `translateX(-${currentPos}px)`;
+        });
+
+        // Botones de flecha
+        window.slideTrack = function(direction) {
+            const sliceEl = document.querySelector('.video-slice');
+            if (!sliceEl) return;
+            const step = sliceEl.offsetWidth + 15; 
+            const maxScroll = Math.max(0, sliceTrack.scrollWidth - trackContainer.offsetWidth);
+            currentPos += (step * direction);
+            if (currentPos < 0) currentPos = 0;
+            if (currentPos > maxScroll) currentPos = maxScroll;
+            sliceTrack.style.transform = `translateX(-${currentPos}px)`;
+        };
+
+        renderCataloguePills();
+
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('dragstart', e => { if (e.target.nodeName.toUpperCase() === 'IMG' || e.target.nodeName.toUpperCase() === 'VIDEO') e.preventDefault(); });
+        document.addEventListener('keydown', e => {
+            if (e.ctrlKey && ['s','u','p'].includes(e.key.toLowerCase())) e.preventDefault();
+            if (e.key === 'Escape') {
+                const expanded = document.querySelector('.expanded-slice');
+                if (expanded) { 
+                    const idx = Array.from(sliceTrack.children).indexOf(expanded);
+                    closeVideo({stopPropagation:()=>{}}, idx); 
+                } 
+                else if (body.classList.contains('showing-gallery')) { showProjectMenu(); } 
+            }
+        });
+    </script>
+</body>
+</html>

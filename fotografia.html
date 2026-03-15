@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Veconzeta | Fotografía</title>
+    <style>
+        :root {
+            --vz-violet: #6C4BFF;
+            --vz-violet-glow: rgba(108, 75, 255, 0.7);
+            --bg-dark: #05030A;
+            --text-main: #E0E0E0;
+            --text-muted: #888899;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            height: 100svh;
+            width: 100vw;
+        }
+
+        /* --- PROTECCIÓN DE ACTIVOS CSS --- */
+        body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+        img { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; }
+        body.no-scroll { overflow: hidden; }
+
+        /* --- FONDO --- */
+        .bg-image { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(5, 3, 10, 0.4) 0%, rgba(5, 3, 10, 0.95) 100%);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: -1;
+        }
+
+        /* --- HEADER Y TÍTULO --- */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 30px 5% 10px; font-family: 'Courier New', monospace;
+            font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;
+            color: var(--text-muted); z-index: 50;
+        }
+        .back-btn {
+            color: white; text-decoration: none; border: 1px solid var(--vz-violet);
+            padding: 8px 15px; border-radius: 5px; background: rgba(108, 75, 255, 0.1);
+            transition: all 0.3s ease; cursor: pointer;
+        }
+        .back-btn:hover { background: rgba(108, 75, 255, 0.3); box-shadow: 0 0 15px var(--vz-violet-glow); }
+        .page-title {
+            text-align: center; margin: 0 0 20px; font-family: 'Courier New', monospace;
+            font-size: 2.2rem; letter-spacing: 8px; color: white; text-shadow: 0 0 20px var(--vz-violet-glow); z-index: 5;
+        }
+
+        /* ================================================= */
+        /* --- MASONRY COLUMNS (RESPETA FORMATO ORIGINAL) --- */
+        /* ================================================= */
+        .scrollable-wrapper {
+            flex-grow: 1; overflow-y: auto; overflow-x: hidden;
+            padding: 0 5% 120px; width: 100%; z-index: 10;
+        }
+        
+        .scrollable-wrapper::-webkit-scrollbar { width: 6px; }
+        .scrollable-wrapper::-webkit-scrollbar-thumb { background: rgba(108, 75, 255, 0.5); border-radius: 10px; }
+
+        .grid-gallery {
+            column-count: 4; /* 4 columnas en PC */
+            column-gap: 15px;
+            max-width: 1600px;
+            margin: 0 auto;
+            transition: opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .grid-gallery.fade-out { opacity: 0; transform: translateY(30px) scale(0.98); }
+        .grid-gallery.fade-in { opacity: 1; transform: translateY(0) scale(1); }
+
+        .grid-item {
+            break-inside: avoid; /* Evita que la foto se parta entre columnas */
+            margin-bottom: 15px;
+            position: relative; border-radius: 4px; overflow: hidden;
+            background: #05030A; border: 1px solid rgba(108, 75, 255, 0.1);
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        
+        .grid-item img {
+            width: 100%; 
+            height: auto; /* ESTO EVITA EL RECORTE: Respeta el aspecto 100% original */
+            display: block; opacity: 0.9;
+            transition: transform 0.5s ease, opacity 0.3s ease;
+        }
+        
+        .grid-item:hover { border-color: var(--vz-violet); box-shadow: 0 0 20px rgba(108, 75, 255, 0.3); z-index: 5; }
+        .grid-item:hover img { transform: scale(1.05); opacity: 1; }
+
+        /* --- BLOQUE DE TÍTULO Y NAVEGACIÓN COMPACTO --- */
+        .title-block {
+            break-inside: avoid; margin-bottom: 15px;
+            background: rgba(5, 3, 10, 0.8);
+            border: 2px solid var(--vz-violet); border-radius: 4px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; 
+            padding: 40px 20px; 
+            cursor: default;
+            box-shadow: inset 0 0 40px rgba(108, 75, 255, 0.15), 0 0 20px rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+        }
+        .title-block:hover { border-color: var(--vz-violet); box-shadow: inset 0 0 40px rgba(108, 75, 255, 0.15); transform: none; }
+
+        .album-name {
+            font-family: 'Courier New', monospace; font-size: 1.6rem; color: white;
+            letter-spacing: 4px; text-transform: uppercase; margin-bottom: 25px;
+            text-shadow: 0 0 15px var(--vz-violet), 0 0 5px white;
+            line-height: 1.4;
+        }
+        .album-nav { display: flex; gap: 20px; }
+        .album-nav button {
+            background: rgba(108, 75, 255, 0.1); border: 1px solid var(--vz-violet);
+            color: white; width: 50px; height: 50px; border-radius: 50%;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .album-nav button:hover { background: var(--vz-violet); box-shadow: 0 0 20px var(--vz-violet-glow); transform: scale(1.1); }
+        .album-nav button svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 3; fill: none; }
+
+        /* --- CONTACTO --- */
+        .floating-contact { position: fixed; bottom: 80px; right: 25px; display: flex; flex-direction: column; gap: 15px; z-index: 1500; }
+        .contact-icon { width: 60px; height: 60px; background: rgba(5, 3, 10, 0.9); border: 1px solid var(--vz-violet); border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 12px; }
+        .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+        /* --- BOTÓN VOLVER ARRIBA --- */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 80px; /* Misma altura que los iconos de contacto */
+            left: 25px;   /* Lado opuesto para no tapar nada */
+            width: 50px; height: 50px;
+            background: rgba(5, 3, 10, 0.9);
+            border: 1px solid var(--vz-violet);
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1500;
+            opacity: 0; /* Oculto por defecto */
+            pointer-events: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(108, 75, 255, 0.2);
+        }
+        .scroll-top-btn.show { opacity: 1; pointer-events: auto; }
+        .scroll-top-btn:hover { background: var(--vz-violet); box-shadow: 0 0 20px var(--vz-violet-glow); transform: translateY(-3px); }
+        .scroll-top-btn svg { width: 24px; height: 24px; stroke: currentColor; stroke-width: 3; fill: none; }
+
+        /* --- LIGHTBOX --- */
+        .lightbox-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.98); z-index: 3000; display: flex;
+            justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.3s;
+        }
+        .lightbox-overlay.open { opacity: 1; pointer-events: all; }
+        .lightbox-img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 4px; box-shadow: 0 0 50px rgba(108, 75, 255, 0.2); }
+        .close-lightbox-btn { position: absolute; top: 30px; right: 40px; color: white; font-family: 'Courier New', monospace; font-size: 1.2rem; background: none; border: none; cursor: pointer; z-index: 3010; }
+
+        /* --- RESPONSIVO --- */
+        @media (max-width: 1200px) { .grid-gallery { column-count: 3; } }
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 10px; padding: 20px 5% 10px; }
+            .page-title { font-size: 1.5rem; letter-spacing: 4px; margin-bottom: 10px; }
+            .scrollable-wrapper { padding: 0 5% 100px; }
+            .grid-gallery { column-count: 2; column-gap: 10px; }
+            .grid-item, .title-block { margin-bottom: 10px; }
+            .title-block { padding: 30px 10px; }
+            .album-name { font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 15px; }
+            .album-nav button { width: 40px; height: 40px; }
+            .album-nav button svg { width: 20px; height: 20px; }
+            
+            /* Ajuste de botones flotantes en móvil */
+            .floating-contact { bottom: 30px; right: 15px; }
+            .contact-icon { width: 50px; height: 50px; }
+            .scroll-top-btn { bottom: 30px; left: 15px; width: 45px; height: 45px; }
+        }
+        @media (max-width: 480px) { .grid-gallery { column-count: 1; } }
+    </style>
+</head>
+<body id="mainBody">
+    <video autoplay muted loop playsinline class="bg-image" controlsList="nodownload" disablePictureInPicture oncontextmenu="return false;">
+        <source src="VIDEO/webbg.mp4" type="video/mp4">
+    </video>
+    <div class="ambient-bg"></div>
+
+    <div class="floating-contact">
+        <a href="https://wa.me/56932751639" target="_blank" class="contact-icon"><img src="ICON/social.png" alt="WhatsApp"></a>
+        <a href="mailto:contacto.veconzeta@gmail.com" class="contact-icon"><img src="ICON/gmail.png" alt="Email"></a>
+    </div>
+
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Volver arriba">
+        <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
+
+    <header>
+        <a href="index.html" class="back-btn">[ < VOLVER AL INICIO ]</a>
+        <div>SYS.VECONZETA // PHOTOGRAPHY_MODULE</div>
+    </header>
+
+    <h1 class="page-title">FOTOGRAFÍA</h1>
+
+    <div class="scrollable-wrapper" id="scrollWrapper">
+        <div class="grid-gallery fade-in" id="gridGallery"></div>
+    </div>
+
+    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+        <button class="close-lightbox-btn" onclick="closeLightbox()">[ X CERRAR ]</button>
+        <img src="" id="lightboxImage" class="lightbox-img">
+    </div>
+
+    <script>
+        const ROOT = "PORTAFOLIO_FOTOGRAFIAS";
+        const albumData = {
+            0: Array.from({length: 51}, (_, i) => `${ROOT}/01_EVENTOS/EVENTOS_${i + 1}.jpg`),
+            1: Array.from({length: 12}, (_, i) => `${ROOT}/02_SESIONES_Y_RETRATOS/SESIONES_${i + 1}.jpg`),
+            2: Array.from({length: 22}, (_, i) => `${ROOT}/03_PRODUCTO/PRODUCTO_${i + 1}.jpg`),
+            3: Array.from({length: 34}, (_, i) => `${ROOT}/04_COSPLAYERS/COSPLAYER_${i + 1}.jpg`)
+        };
+
+        const albumTitles = ["EVENTOS SOCIALES", "SESIONES & RETRATOS", "FOTOGRAFÍA PRODUCTO", "COSPLAY & FICCIÓN"];
+        let currentIndex = 0;
+        const totalAlbums = 4;
+
+        const grid = document.getElementById('gridGallery');
+        const scrollWrapper = document.getElementById('scrollWrapper');
+
+        function renderAlbum(idx) {
+            grid.classList.remove('fade-in');
+            grid.classList.add('fade-out');
+
+            setTimeout(() => {
+                grid.innerHTML = ''; 
+
+                const titleBlock = document.createElement('div');
+                titleBlock.className = 'title-block';
+                titleBlock.innerHTML = `
+                    <h2 class="album-name">${albumTitles[idx]}</h2>
+                    <div class="album-nav">
+                        <button onclick="goPrev(event)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                        <button onclick="goNext(event)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                    </div>
+                `;
+                grid.appendChild(titleBlock);
+
+                albumData[idx].forEach((url) => {
+                    const item = document.createElement('div');
+                    item.className = 'grid-item';
+                    item.innerHTML = `<img src="${url}" loading="lazy" onerror="this.parentElement.style.display='none'">`;
+                    item.onclick = () => openLightbox(url);
+                    grid.appendChild(item);
+                });
+
+                scrollWrapper.scrollTop = 0;
+                grid.classList.remove('fade-out');
+                grid.classList.add('fade-in');
+                
+            }, 400); 
+        }
+
+        window.goNext = (e) => { e.stopPropagation(); if(currentIndex < totalAlbums - 1) { currentIndex++; renderAlbum(currentIndex); } };
+        window.goPrev = (e) => { e.stopPropagation(); if(currentIndex > 0) { currentIndex--; renderAlbum(currentIndex); } };
+
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightboxOverlay');
+            if (!lightbox.classList.contains('open')) {
+                if (e.key === 'ArrowRight' && currentIndex < totalAlbums - 1) { currentIndex++; renderAlbum(currentIndex); }
+                if (e.key === 'ArrowLeft' && currentIndex > 0) { currentIndex--; renderAlbum(currentIndex); }
+            }
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        function openLightbox(url) { 
+            document.getElementById('lightboxImage').src = url;
+            document.getElementById('lightboxOverlay').classList.add('open'); 
+        }
+        function closeLightbox() { document.getElementById('lightboxOverlay').classList.remove('open'); }
+
+        renderAlbum(currentIndex);
+
+        // =========================================
+        // --- LÓGICA BOTÓN VOLVER ARRIBA ---
+        // =========================================
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+        scrollWrapper.addEventListener('scroll', () => {
+            if (scrollWrapper.scrollTop > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            scrollWrapper.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // --- SISTEMA DE PROTECCIÓN DE ACTIVOS ---
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('dragstart', e => {
+            if (e.target.nodeName.toUpperCase() === 'IMG' || e.target.nodeName.toUpperCase() === 'VIDEO') e.preventDefault();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.ctrlKey || e.metaKey) {
+                const key = e.key.toLowerCase();
+                if (key === 's' || key === 'u' || key === 'p') e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Veconzeta | Fotomontajes</title>
+    <style>
+        :root {
+            --vz-violet: #6C4BFF;
+            --vz-violet-glow: rgba(108, 75, 255, 0.7);
+            --bg-dark: #05030A;
+            --text-main: #E0E0E0;
+            --text-muted: #888899;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow-x: hidden; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100vw;
+        }
+
+        /* --- PROTECCIÓN DE ACTIVOS --- */
+        body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+        img { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; }
+        body.no-scroll { overflow: hidden; }
+
+        /* --- FONDO --- */
+        .bg-image { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+        .ambient-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(5, 3, 10, 0.4) 0%, rgba(5, 3, 10, 0.95) 100%);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: -1;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 30px 5% 20px; font-family: 'Courier New', monospace;
+            font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;
+            color: var(--text-muted); z-index: 50; position: relative;
+        }
+        .back-btn {
+            color: white; text-decoration: none; border: 1px solid var(--vz-violet);
+            padding: 8px 15px; border-radius: 5px; background: rgba(108, 75, 255, 0.1);
+            transition: all 0.3s ease; cursor: pointer;
+        }
+        .back-btn:hover { background: rgba(108, 75, 255, 0.3); box-shadow: 0 0 15px var(--vz-violet-glow); }
+
+        .page-title {
+            text-align: center; margin: 10px 0 40px; font-family: 'Courier New', monospace;
+            font-size: 2.5rem; letter-spacing: 8px; color: white;
+            text-shadow: 0 0 20px var(--vz-violet-glow); z-index: 5; position: relative;
+        }
+
+        /* ================================================= */
+        /* --- COLLAGE "CUARTO OSCURO" --- */
+        /* ================================================= */
+        .collage-container {
+            padding: 20px 5% 100px; column-count: 3; column-gap: 40px;
+            max-width: 1400px; margin: 0 auto; position: relative; z-index: 10;
+        }
+
+        .collage-item {
+            position: relative; break-inside: avoid; margin-bottom: 50px;
+            background: #05030A; border: 1px solid rgba(108, 75, 255, 0.2);
+            padding: 10px 10px 30px 10px; border-radius: 4px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.8); cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .collage-item::before {
+            content: ''; position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 18px; height: 35px; background: linear-gradient(to bottom, #111, #05030A);
+            border: 1px solid var(--vz-violet); border-radius: 3px;
+            box-shadow: 2px 5px 10px rgba(0,0,0,0.8), inset 0 0 5px rgba(108,75,255,0.4);
+            z-index: 5; transition: all 0.3s ease;
+        }
+
+        .collage-item:nth-child(3n+1) { transform: rotate(-2deg); }
+        .collage-item:nth-child(3n+2) { transform: rotate(1.5deg); }
+        .collage-item:nth-child(3n+3) { transform: rotate(-1deg); }
+
+        .collage-item img {
+            width: 100%; height: auto; display: block; border-radius: 2px; opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .hover-info {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(108, 75, 255, 0.2); display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity 0.3s ease; backdrop-filter: blur(2px);
+        }
+        .hover-info span {
+            color: white; font-family: 'Courier New', monospace; font-size: 0.9rem;
+            letter-spacing: 2px; padding: 10px 15px; border: 1px solid white;
+            background: rgba(0,0,0,0.6); box-shadow: 0 0 15px var(--vz-violet-glow);
+        }
+
+        .collage-item:hover {
+            transform: scale(1.05) rotate(0deg); border-color: var(--vz-violet);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 30px rgba(108, 75, 255, 0.2); z-index: 20;
+        }
+        .collage-item:hover img { opacity: 1; }
+        .collage-item:hover .hover-info { opacity: 1; }
+        .collage-item:hover::before { box-shadow: 0 0 15px var(--vz-violet-glow); }
+
+        /* ================================================= */
+        /* --- VISOR LIGHTBOX CON SLIDER CUSTOMIZADO --- */
+        /* ================================================= */
+        .lightbox-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.98); z-index: 3000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .lightbox-overlay.open { opacity: 1; pointer-events: all; }
+        
+        .close-lightbox-btn {
+            position: absolute; top: 30px; right: 40px; color: white; 
+            font-family: 'Courier New', monospace; font-size: 1.2rem; 
+            background: none; border: none; cursor: pointer; z-index: 3010;
+        }
+
+        .lb-title-display {
+            font-family: 'Courier New', monospace; font-size: 1.5rem; color: white; 
+            letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px;
+            text-shadow: 0 0 15px var(--vz-violet);
+        }
+
+        .lb-slider-container {
+            position: relative; display: inline-block;
+            box-shadow: 0 0 40px rgba(108, 75, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        .lb-img-after {
+            display: block; width: auto; height: auto;
+            max-width: 90vw; max-height: 70vh; 
+            border-radius: 4px; pointer-events: none;
+        }
+
+        .lb-img-before {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
+            border-radius: 4px; pointer-events: none; z-index: 2;
+            clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%); 
+        }
+
+        /* La línea ignora los clics */
+        .slider-line {
+            position: absolute; top: 0; left: 0%; width: 2px; height: 108%; 
+            background: white; z-index: 3; pointer-events: none;
+            box-shadow: 0 0 15px var(--vz-violet-glow);
+        }
+
+        /* EL ÚNICO ELEMENTO INTERACTIVO */
+        .slider-button {
+            position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);
+            width: 36px; height: 36px; background: var(--vz-violet);
+            border: 2px solid white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 15px var(--vz-violet-glow);
+            pointer-events: auto; /* Permite interacción */
+            cursor: ew-resize;
+            touch-action: none; /* Evita que el navegador haga scroll en móvil al arrastrar */
+        }
+        .slider-button svg { width: 18px; height: 18px; color: white; stroke-width: 3; }
+
+        /* ================================================= */
+        /* --- ANIMACIÓN FLUIDA DE TEXTO (NEÓN) --- */
+        /* ================================================= */
+        .version-label {
+            position: relative; height: 20px; display: flex; 
+            justify-content: center; align-items: center; margin-top: 35px;
+        }
+        .version-label span {
+            position: absolute; font-family: 'Courier New', monospace; font-size: 0.85rem; 
+            letter-spacing: 3px; text-transform: uppercase; white-space: nowrap;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lbl-final {
+            color: #FFFFFF; 
+            text-shadow: 0 0 5px rgba(255,255,255,0.8), 0 0 15px var(--vz-violet), 0 0 25px var(--vz-violet-glow);
+            opacity: 1; transform: translateY(0);
+        }
+
+        .lbl-base { 
+            color: #E0E0E0; text-shadow: 0 0 8px rgba(255, 255, 255, 0.3); 
+            opacity: 0; transform: translateY(10px); 
+        }
+        
+        .version-label.show-base .lbl-final { opacity: 0; transform: translateY(-10px); }
+        .version-label.show-base .lbl-base { opacity: 1; transform: translateY(0); }
+
+        /* --- CONTACTO --- */
+        .floating-contact { position: fixed; bottom: 80px; right: 25px; display: flex; flex-direction: column; gap: 15px; z-index: 1500; }
+        .contact-icon { width: 60px; height: 60px; background: rgba(5, 3, 10, 0.9); border: 1px solid var(--vz-violet); border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 12px; }
+        .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+        /* --- RESPONSIVO --- */
+        @media (max-width: 1024px) { .collage-container { column-count: 2; } }
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; }
+            .page-title { font-size: 1.5rem; letter-spacing: 4px; }
+            .collage-container { column-count: 1; padding: 10px 5% 100px; }
+            .close-lightbox-btn { top: 15px; right: 15px; }
+            .lb-title-display { font-size: 1rem; margin-bottom: 10px; }
+            .lb-img-after { max-height: 60vh; }
+            .slider-button { width: 30px; height: 30px; bottom: -14px; }
+            .version-label span { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body id="mainBody">
+    <video autoplay muted loop playsinline class="bg-image" controlsList="nodownload" disablePictureInPicture oncontextmenu="return false;">
+        <source src="VIDEO/webbg.mp4" type="video/mp4">
+    </video>
+    <div class="ambient-bg"></div>
+
+    <div class="floating-contact">
+        <a href="https://wa.me/56932751639" target="_blank" class="contact-icon"><img src="ICON/social.png" alt="WhatsApp"></a>
+        <a href="mailto:contacto.veconzeta@gmail.com" class="contact-icon"><img src="ICON/gmail.png" alt="Email"></a>
+    </div>
+
+    <header>
+        <a href="index.html" class="back-btn">[ < VOLVER AL INICIO ]</a>
+        <div>SYS.VECONZETA // COMPOSITING_MODULE</div>
+    </header>
+
+    <h1 class="page-title">FOTOMONTAJES</h1>
+
+    <div class="collage-container" id="collageGrid"></div>
+
+    <div class="lightbox-overlay" id="lightboxOverlay">
+        <button class="close-lightbox-btn" onclick="closeLightbox()">[ X CERRAR ]</button>
+        
+        <h3 class="lb-title-display" id="lbTitle">TÍTULO</h3>
+        
+        <div class="lb-slider-container" id="lbSliderContainer">
+            <img src="" id="lbImgAfter" class="lb-img-after">
+            <img src="" id="lbImgBefore" class="lb-img-before">
+            
+            <div class="slider-line" id="lbLine">
+                <div class="slider-button" id="lbSliderBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M18 8l-4 4 4 4M6 8l4 4-4 4"/></svg>
+                </div>
+            </div>
+        </div>
+
+        <div class="version-label" id="lbLabel">
+            <span class="lbl-final">VERSIÓN FINAL</span>
+            <span class="lbl-base">VERSIÓN BASE (INICIAL)</span>
+        </div>
+    </div>
+
+    <script>
+        const montajesData = [
+            { 
+                final: "FOTOMONTAJES_IMG/00_TLP_1_FINAL.jpg", 
+                base: "FOTOMONTAJES_IMG/00_TLP_1_BASE.jpg", 
+                title: "THE LAST PRIORITY PT. 1" 
+            },
+            { 
+                final: "FOTOMONTAJES_IMG/00_TLP_2_FINAL.jpg", 
+                base: "FOTOMONTAJES_IMG/00_TLP_2_BASE.jpg", 
+                title: "THE LAST PRIORITY PT. 2" 
+            },
+            { 
+                final: "FOTOMONTAJES_IMG/01_SKULLKID_FINAL.jpg", 
+                base: "FOTOMONTAJES_IMG/01_SKULLKID_BASE.jpg", 
+                title: "SKULLKID - THE LEGEND OF ZELDA" 
+            },
+            { 
+                final: "FOTOMONTAJES_IMG/02_VIPER_FINAL.jpg", 
+                base: "FOTOMONTAJES_IMG/02_VIPER_BASE.jpg", 
+                title: "VIPER - VALORANT" 
+            },
+            { 
+                final: "FOTOMONTAJES_IMG/03_COMIC_VIPER_FINAL.jpg", 
+                base: "FOTOMONTAJES_IMG/03_COMIC_VIPER_BASE.jpg", 
+                title: "COMIC VIPER - VALORANT" 
+            },
+            { 
+                final: "FOTOMONTAJES_IMG/04_MORDOR_COSTANERA_FINAL.jpg", 
+                base: "FOTOMONTAJES_IMG/04_MORDOR_COSTANERA_BASE.jpg", 
+                title: "MORDOR COSTANERA" 
+            },
+            { 
+                final: "FOTOMONTAJES_IMG/05_FLASH_FINAL.jpg", 
+                base: "FOTOMONTAJES_IMG/05_FLASH_BASE.jpg", 
+                title: "THE FLASH - DC" 
+            }
+        ];
+
+        const grid = document.getElementById('collageGrid');
+
+        function generateCollage() {
+            montajesData.forEach((data, index) => {
+                const item = document.createElement('div');
+                item.className = 'collage-item';
+                item.innerHTML = `
+                    <img src="${data.final}" loading="lazy" alt="${data.title}">
+                    <div class="hover-info">
+                        <span>[ VER DETALLE ]</span>
+                    </div>
+                `;
+                item.onclick = () => openLightbox(index);
+                grid.appendChild(item);
+            });
+        }
+
+        const lbOverlay = document.getElementById('lightboxOverlay');
+        const imgAfter = document.getElementById('lbImgAfter');
+        const imgBefore = document.getElementById('lbImgBefore');
+        const title = document.getElementById('lbTitle');
+        const line = document.getElementById('lbLine');
+        const label = document.getElementById('lbLabel');
+
+        function openLightbox(index) {
+            const data = montajesData[index];
+            imgAfter.src = data.final;
+            imgBefore.src = data.base;
+            title.innerText = data.title;
+
+            // Resetear máscara al 0%
+            imgBefore.style.clipPath = `polygon(0 0, 0% 0, 0% 100%, 0 100%)`;
+            line.style.left = `0%`;
+            label.classList.remove('show-base');
+            isDragging = false;
+
+            lbOverlay.classList.add('open');
+            document.body.classList.add('no-scroll');
+        }
+
+        function closeLightbox() {
+            lbOverlay.classList.remove('open');
+            document.body.classList.remove('no-scroll');
+            setTimeout(() => { imgAfter.src = ""; imgBefore.src = ""; }, 300);
+        }
+
+        // ==========================================
+        // LÓGICA DEL SLIDER CUSTOM (SOLO DESDE CÍRCULO)
+        // ==========================================
+        const lbSliderContainer = document.getElementById('lbSliderContainer');
+        const lbSliderBtn = document.getElementById('lbSliderBtn');
+        let isDragging = false;
+
+        // Inicia el arrastre solo si se hace clic/touch sobre el botón
+        lbSliderBtn.addEventListener('mousedown', () => isDragging = true);
+        lbSliderBtn.addEventListener('touchstart', () => isDragging = true, {passive: true});
+
+        // Detiene el arrastre al soltar el clic en cualquier parte
+        window.addEventListener('mouseup', () => isDragging = false);
+        window.addEventListener('touchend', () => isDragging = false);
+
+        // Mueve la máscara
+        window.addEventListener('mousemove', dragSlider);
+        window.addEventListener('touchmove', dragSlider, {passive: false});
+
+        function dragSlider(e) {
+            if (!isDragging) return;
+            
+            // Previene el scroll del navegador en móviles mientras se arrastra
+            if (e.type === 'touchmove') e.preventDefault(); 
+
+            let clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            let rect = lbSliderContainer.getBoundingClientRect();
+            let xPos = clientX - rect.left;
+            let percentage = (xPos / rect.width) * 100;
+
+            // Limitar el deslizador a los bordes de la imagen
+            if (percentage < 0) percentage = 0;
+            if (percentage > 100) percentage = 100;
+
+            imgBefore.style.clipPath = `polygon(0 0, ${percentage}% 0, ${percentage}% 100%, 0 100%)`;
+            line.style.left = `${percentage}%`;
+
+            if (percentage > 5) {
+                label.classList.add('show-base');
+            } else {
+                label.classList.remove('show-base');
+            }
+        }
+
+        // Cierra el Lightbox si tocan el fondo oscuro
+        lbOverlay.addEventListener('click', (e) => {
+            if (e.target === lbOverlay) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lbOverlay.classList.contains('open')) closeLightbox();
+        });
+
+        // --- SISTEMA DE PROTECCIÓN ---
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('dragstart', e => {
+            if (e.target.nodeName.toUpperCase() === 'IMG' || e.target.nodeName.toUpperCase() === 'VIDEO') e.preventDefault();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.ctrlKey && ['s','u','p'].includes(e.key.toLowerCase())) e.preventDefault();
+        });
+
+        generateCollage();
+    </script>
+</body>
+</html>
