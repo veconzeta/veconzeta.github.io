@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Veconzeta | Portafolio </title>
+    
+    <link rel="icon" href="IMG/321.png" type="image/png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <meta property="og:title" content="Veconzeta | Artista Digital">
+    <meta property="og:description" content="Portafolio oficial: Fotografía, Fotomontaje, Edición de Video y Diseño.">
+    <meta property="og:image" content="https://veconzeta.github.io/IMG/321.png">
+    <meta property="og:url" content="https://veconzeta.github.io/">
+
     <style>
         :root {
             --vz-violet: #6C4BFF;
@@ -410,14 +420,12 @@
             }
         });
 
-        // --- MEJORA 1: CERRAR CON TECLADO (Tecla Escape) ---
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeAllPanels();
             }
         });
 
-        // --- MEJORA 2: CERRAR CON GESTOS TÁCTILES (SWIPE EN MÓVIL) ---
         let touchStartYFeedback = 0;
         fDrawer.addEventListener('touchstart', e => { 
             touchStartYFeedback = e.changedTouches[0].screenY; 
@@ -438,21 +446,16 @@
             if (touchEndX > touchStartXBio + 50) { closeAllPanels(); }
         }, {passive: true});
 
-        // --- SISTEMA DE PROTECCIÓN DE ACTIVOS (Capa 3) ---
-        
-        // 1. Bloquear el clic derecho (menú contextual) en toda la página
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
 
-        // 2. Prevenir el arrastre de elementos multimedia
         document.addEventListener('dragstart', function(e) {
             if (e.target.nodeName.toUpperCase() === 'IMG' || e.target.nodeName.toUpperCase() === 'VIDEO') {
                 e.preventDefault();
             }
         });
 
-        // 3. Bloquear atajos de teclado de extracción (Ctrl+S, Ctrl+U, Ctrl+P)
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey || e.metaKey) {
                 const key = e.key.toLowerCase();
