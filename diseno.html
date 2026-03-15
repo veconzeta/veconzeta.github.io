@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Veconzeta | Diseño Gráfico</title>
+    <link rel="icon" href="IMG/321.png" type="image/png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+    <meta property="og:title" content="Veconzeta | Artista Digital">
+    <meta property="og:description" content="Portafolio oficial: Fotografía, Fotomontaje, Edición de Video y Diseño.">
+    <meta property="og:image" content="https://veconzeta.github.io/IMG/321.png">
+    <meta property="og:url" content="https://veconzeta.github.io/">
     <style>
         :root {
             --vz-violet: #6C4BFF;
@@ -19,139 +27,137 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             font-family: 'Inter', -apple-system, sans-serif;
-            overflow-x: hidden; /* Permite scroll vertical para la galería */
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            width: 100vw;
+            overflow-x: hidden; 
+            display: flex; flex-direction: column;
+            min-height: 100vh; width: 100vw;
         }
 
-        /* --- PROTECCIÓN DE ACTIVOS --- */
+        /* --- PROTECCIÓN --- */
         body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
         img, video { -webkit-user-drag: none; -khtml-user-drag: none; -moz-user-drag: none; -o-user-drag: none; }
 
-        /* --- FONDO --- */
         .bg-image { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
-        .ambient-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, rgba(5, 3, 10, 0.4) 0%, rgba(5, 3, 10, 0.95) 100%);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: -1;
-        }
+        .ambient-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(5, 3, 10, 0.5) 0%, rgba(5, 3, 10, 0.98) 100%); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: -1; }
 
-        /* --- HEADER --- */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 30px 5% 10px; font-family: 'Courier New', monospace;
-            font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase;
-            color: var(--text-muted); z-index: 50; position: relative;
-        }
-        .back-btn {
-            color: white; text-decoration: none; border: 1px solid var(--vz-violet);
-            padding: 8px 15px; border-radius: 5px; background: rgba(108, 75, 255, 0.1);
-            transition: all 0.3s ease; cursor: pointer; z-index: 50;
-        }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 30px 5% 10px; font-family: 'Courier New', monospace; font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); z-index: 50; position: relative; }
+        .back-btn { color: white; text-decoration: none; border: 1px solid var(--vz-violet); padding: 8px 15px; border-radius: 5px; background: rgba(108, 75, 255, 0.1); transition: all 0.3s ease; cursor: pointer; z-index: 50; }
         .back-btn:hover { background: rgba(108, 75, 255, 0.3); box-shadow: 0 0 15px var(--vz-violet-glow); }
         
-        .page-header-container { text-align: left; padding: 20px 5% 40px; max-width: 1600px; margin: 0 auto; width: 100%; z-index: 5; position: relative; }
+        .page-header-container { text-align: left; padding: 20px 5% 60px; max-width: 1400px; margin: 0 auto; width: 100%; z-index: 5; position: relative; }
         .page-subtitle { font-family: 'Inter', sans-serif; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 5px; }
         .page-title { font-family: 'Courier New', monospace; font-size: 2rem; letter-spacing: 8px; color: white; text-shadow: 0 0 15px var(--vz-violet-glow); margin: 0; }
 
-        /* --- CONTACTO FLOTANTE --- */
         .floating-contact { position: fixed; bottom: 80px; right: 25px; display: flex; flex-direction: column; gap: 15px; z-index: 1500; }
         .contact-icon { width: 60px; height: 60px; background: rgba(5, 3, 10, 0.9); border: 1px solid var(--vz-violet); border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 12px; transition: all 0.3s ease;}
         .contact-icon:hover { box-shadow: 0 0 20px var(--vz-violet-glow); transform: scale(1.1); }
         .contact-icon img { width: 100%; height: 100%; object-fit: contain; }
 
         /* ==================================================================
-           GRILLA DE DISEÑO (BASE)
+           ESTRUCTURA DE SECCIONES (MARCAS)
         ================================================================== */
-        .design-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
-            padding: 0 5% 100px; /* Padding inferior para que no tape el contacto */
-            max-width: 1600px;
-            margin: 0 auto;
-            width: 100%;
-            z-index: 10;
-            position: relative;
+        .design-portfolio { max-width: 1400px; margin: 0 auto; width: 100%; padding: 0 5% 100px; position: relative; z-index: 10; }
+        .brand-section { margin-bottom: 80px; }
+        
+        .brand-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid rgba(108, 75, 255, 0.3); padding-bottom: 15px; margin-bottom: 30px; }
+        .brand-title { font-family: 'Arial Black', sans-serif; font-size: 2rem; color: white; text-transform: uppercase; letter-spacing: 2px; }
+        .brand-tags { font-family: 'Courier New', monospace; font-size: 0.8rem; color: var(--vz-violet); display: flex; gap: 15px; flex-wrap: wrap;}
+        .brand-tags span { background: rgba(108, 75, 255, 0.1); padding: 5px 10px; border-radius: 4px; border: 1px solid rgba(108, 75, 255, 0.2); }
+
+        /* ==================================================================
+           MINIATURAS DE CARPETAS (ADAPTATIVAS)
+        ================================================================== */
+        .folder-grid { display: flex; flex-wrap: wrap; gap: 20px; }
+
+        .folder-item {
+            position: relative; border-radius: 12px; overflow: hidden; background: #0a0a0f;
+            border: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); flex: 1 1 300px; 
         }
 
-        .design-item {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(108, 75, 255, 0.2);
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-            background: #000;
-            aspect-ratio: 4/5; /* Formato estándar, podemos cambiarlo luego */
+        .format-square { aspect-ratio: 1 / 1; flex-basis: 250px; }
+        .format-horizontal { aspect-ratio: 16 / 9; flex-basis: 400px; }
+        .format-vertical { aspect-ratio: 4 / 5; flex-basis: 250px; }
+
+        .folder-item:hover { border-color: var(--vz-violet); box-shadow: 0 10px 30px rgba(108, 75, 255, 0.3); transform: translateY(-5px); z-index: 2; }
+
+        .folder-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease, filter 0.5s ease; filter: grayscale(30%) brightness(0.7); }
+        .folder-item.contain-img .folder-img { object-fit: contain; padding: 20px; }
+        .folder-item:hover .folder-img { transform: scale(1.05); filter: grayscale(0%) brightness(1); }
+
+        .folder-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px 20px 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%);
+            display: flex; flex-direction: column; justify-content: flex-end; pointer-events: none;
         }
 
-        .design-item:hover {
-            border-color: var(--vz-violet);
-            box-shadow: 0 0 30px rgba(108, 75, 255, 0.3);
-            transform: translateY(-10px);
-            z-index: 2;
+        .folder-title { font-family: 'Arial Black', sans-serif; color: white; font-size: 1.3rem; text-transform: uppercase; text-shadow: 0 2px 10px rgba(0,0,0,0.8); line-height: 1.1; margin-bottom: 5px;}
+        .folder-count { font-family: 'Courier New', monospace; color: var(--vz-violet); font-size: 0.8rem; font-weight: bold; letter-spacing: 1px; }
+
+        /* ==================================================================
+           LIGHTBOX SLIDER HÍBRIDO (IMG/GIF/MP4)
+        ================================================================== */
+        .lightbox {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(5, 3, 10, 0.98); backdrop-filter: blur(15px);
+            z-index: 3000; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .lightbox.active { opacity: 1; pointer-events: auto; }
+
+        .lightbox-img-container {
+            position: relative; width: 90vw; height: 75vh;
+            display: flex; align-items: center; justify-content: center;
+            cursor: grab;
+        }
+        .lightbox-img-container:active { cursor: grabbing; }
+
+        .lightbox-media {
+            max-width: 100%; max-height: 100%;
+            object-fit: contain; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.8); border-radius: 8px;
+            transition: opacity 0.15s ease, transform 0.2s ease;
         }
 
-        .design-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease, filter 0.5s ease;
-            filter: grayscale(30%) brightness(0.8);
+        .lightbox-header {
+            position: absolute; top: 0; left: 0; width: 100%; padding: 20px 40px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 3010;
+        }
+        .lightbox-counter { font-family: 'Courier New', monospace; color: var(--vz-violet); font-size: 1.2rem; font-weight: bold;}
+        .close-lightbox {
+            background: rgba(108, 75, 255, 0.1); border: 1px solid var(--vz-violet);
+            color: white; font-family: 'Courier New', monospace; padding: 10px 20px; cursor: pointer;
+            border-radius: 4px; transition: 0.3s;
+        }
+        .close-lightbox:hover { background: var(--vz-violet); box-shadow: 0 0 15px var(--vz-violet-glow); }
+
+        /* CONTROLES CENTRADOS ABAJO PARA EVITAR CHOQUE CON WSP/GMAIL */
+        .lightbox-controls {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 20px; z-index: 3010;
         }
 
-        .design-item:hover .design-img {
-            transform: scale(1.05);
-            filter: grayscale(0%) brightness(1);
+        .nav-arrow {
+            background: rgba(5, 3, 10, 0.9); border: 1px solid var(--vz-violet);
+            color: white; width: 55px; height: 55px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; backdrop-filter: blur(5px);
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
         }
+        .nav-arrow:hover { background: var(--vz-violet); box-shadow: 0 0 20px var(--vz-violet-glow); transform: scale(1.1); }
+        .nav-arrow svg { width: 26px; height: 26px; stroke: currentColor; stroke-width: 3; fill: none; }
 
-        .design-overlay {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%;
-            padding: 40px 20px 20px;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .design-item:hover .design-overlay {
-            opacity: 1;
-        }
-
-        .design-title {
-            font-family: 'Arial Black', sans-serif;
-            color: white;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
-        }
-
-        .design-category {
-            font-family: 'Courier New', monospace;
-            color: var(--vz-violet);
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        /* --- RESPONSIVO --- */
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 10px; padding: 20px 5% 10px; align-items: flex-start; }
             .page-title { font-size: 1.5rem; letter-spacing: 4px; }
-            .design-gallery { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
-            .floating-contact { bottom: 65px; right: 15px; gap: 12px; }
-            .contact-icon { width: 50px; height: 50px; }
+            .folder-grid { flex-direction: column; }
+            .folder-item { flex-basis: auto; width: 100%; aspect-ratio: 16/9 !important; }
+            .brand-title { font-size: 1.5rem; }
+            .brand-tags { flex-wrap: wrap; gap: 8px; }
+            .brand-tags span { font-size: 0.7rem; }
             
-            /* En móvil mostramos siempre los textos porque no hay "hover" natural */
-            .design-overlay { opacity: 1; padding: 30px 15px 15px; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 100%);}
-            .design-img { filter: grayscale(0%) brightness(0.9); }
+            .lightbox-controls { bottom: 20px; } 
+            .nav-arrow { width: 50px; height: 50px; }
+            .lightbox-header { padding: 15px; }
+            .lightbox-img-container { height: 65vh; } /* Da más espacio abajo para las flechas en móvil */
         }
     </style>
 </head>
@@ -172,45 +178,272 @@
     </header>
 
     <div class="page-header-container">
-        <div class="page-subtitle">PORTAFOLIO VISUAL</div>
+        <div class="page-subtitle">IDENTIDAD & GRÁFICA</div>
         <h1 class="page-title">DISEÑO GRÁFICO</h1>
     </div>
 
-    <div class="design-gallery" id="designGallery">
-        <div class="design-item">
-            <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=800&q=80" class="design-img" alt="Ejemplo">
-            <div class="design-overlay">
-                <div class="design-category">SOCIAL MEDIA</div>
-                <div class="design-title">CAMPAÑA FITNESS</div>
-            </div>
+    <div class="design-portfolio" id="portfolioContainer">
         </div>
 
-        <div class="design-item">
-            <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80" class="design-img" alt="Ejemplo">
-            <div class="design-overlay">
-                <div class="design-category">BRANDING</div>
-                <div class="design-title">LOGOTIPO ESPORTS</div>
-            </div>
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-header">
+            <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
+            <button class="close-lightbox" onclick="closeGallery()">[ X CERRAR ]</button>
         </div>
 
-        <div class="design-item">
-            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80" class="design-img" alt="Ejemplo">
-            <div class="design-overlay">
-                <div class="design-category">PRINT</div>
-                <div class="design-title">AFICHE EVENTO</div>
-            </div>
+        <div class="lightbox-img-container" id="swipeContainer">
+            <img src="" alt="Visualizador" class="lightbox-media" id="lightboxImg">
+            <video src="" class="lightbox-media" id="lightboxVideo" autoplay loop muted playsinline style="display: none; pointer-events: none;"></video>
+        </div>
+
+        <div class="lightbox-controls" id="lightboxControls">
+            <button class="nav-arrow arrow-prev" id="prevBtn" onclick="prevImage(event)">
+                <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button class="nav-arrow arrow-next" id="nextBtn" onclick="nextImage(event)">
+                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
         </div>
     </div>
 
     <script>
+        // ==================================================================
+        // BASE DE DATOS DE DISEÑO
+        // ==================================================================
+        const designData = [
+            {
+                name: "PORTADAS DE LIBROS",
+                tags: ["Ilustración", "Tipografía", "Composición Editorial"],
+                folders: [
+                    {
+                        name: "HIELO QUE ARDE", formatClass: "format-horizontal", 
+                        cover: "IMG_DISENO/PORTADAS_LIBROS/01_HIELO_QUE_ARDE/PORTADA_ALBUM.jpg",
+                        images: [
+                            "IMG_DISENO/PORTADAS_LIBROS/01_HIELO_QUE_ARDE/PORTADA_ALBUM.jpg",
+                            "IMG_DISENO/PORTADAS_LIBROS/01_HIELO_QUE_ARDE/COVER_BOOK_4.jpg", 
+                            "IMG_DISENO/PORTADAS_LIBROS/01_HIELO_QUE_ARDE/COVER_BOOK_5.jpg",
+                            "IMG_DISENO/PORTADAS_LIBROS/01_HIELO_QUE_ARDE/COVER_BOOK_6.jpg", 
+                            "IMG_DISENO/PORTADAS_LIBROS/01_HIELO_QUE_ARDE/COVER_BOOK_7.jpg"
+                        ]
+                    },
+                    {
+                        name: "HABITACIÓN 314", formatClass: "format-horizontal", 
+                        cover: "IMG_DISENO/PORTADAS_LIBROS/02_HABITACION_314/PORTADA_ALBUM.jpg",
+                        images: [
+                            "IMG_DISENO/PORTADAS_LIBROS/02_HABITACION_314/PORTADA_ALBUM.jpg",
+                            "IMG_DISENO/PORTADAS_LIBROS/02_HABITACION_314/COVER_BOOK.jpg", 
+                            "IMG_DISENO/PORTADAS_LIBROS/02_HABITACION_314/COVER_BOOK_1.jpg",
+                            "IMG_DISENO/PORTADAS_LIBROS/02_HABITACION_314/COVER_BOOK_2.jpg", 
+                            "IMG_DISENO/PORTADAS_LIBROS/02_HABITACION_314/COVER_BOOK_3.jpg"
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "BRUJO URBANO",
+                tags: ["Identidad Visual", "UI Streaming", "Material Curso"],
+                folders: [
+                    {
+                        name: "CHARLA", formatClass: "format-square", cover: "IMG_DISENO/BRUJO_URBANO/CHARLA/BRUJO_URBANO_CHARLA_01.jpg",
+                        images: [
+                            "IMG_DISENO/BRUJO_URBANO/CHARLA/BRUJO_URBANO_CHARLA_01.jpg", "IMG_DISENO/BRUJO_URBANO/CHARLA/BRUJO_URBANO_CHARLA_02.jpg",
+                            "IMG_DISENO/BRUJO_URBANO/CHARLA/BRUJO_URBANO_CHARLA_03.jpg", "IMG_DISENO/BRUJO_URBANO/CHARLA/BRUJO_URBANO_CHARLA_04.jpg"
+                        ]
+                    },
+                    {
+                        name: "CURSOS & PROMOS", formatClass: "format-horizontal", cover: "IMG_DISENO/BRUJO_URBANO/CURSOS/BRUJO_URBANO_CURSO_01.jpg",
+                        images: [
+                            "IMG_DISENO/BRUJO_URBANO/CURSOS/BRUJO_URBANO_CURSO_01.jpg", "IMG_DISENO/BRUJO_URBANO/CURSOS/BRUJO_URBANO_CURSO_02.jpg",
+                            "IMG_DISENO/BRUJO_URBANO/CURSOS/BRUJO_URBANO_CURSO_03.jpg", "IMG_DISENO/BRUJO_URBANO/CURSOS/BRUJO_URBANO_PROMO_01.jpg",
+                            "IMG_DISENO/BRUJO_URBANO/CURSOS/BRUJO_URBANO_PROMO_02.jpg"
+                        ]
+                    },
+                    {
+                        name: "PUBLICACIONES", formatClass: "format-square", cover: "IMG_DISENO/BRUJO_URBANO/PUBLICACIONES/PUBLICACION_01.jpg",
+                        images: [
+                            "IMG_DISENO/BRUJO_URBANO/PUBLICACIONES/PUBLICACION_01.jpg", "IMG_DISENO/BRUJO_URBANO/PUBLICACIONES/PUBLICACION_02.jpg",
+                            "IMG_DISENO/BRUJO_URBANO/PUBLICACIONES/PUBLICACION_03.jpg"
+                        ]
+                    },
+                    {
+                        name: "TWITCH UI", formatClass: "format-horizontal contain-img", cover: "IMG_DISENO/BRUJO_URBANO/TWITCH/BRUJO_URBANO_TWITCH_01.jpg",
+                        images: [
+                            "IMG_DISENO/BRUJO_URBANO/TWITCH/BRUJO_URBANO_TWITCH_00.gif",
+                            "IMG_DISENO/BRUJO_URBANO/TWITCH/BRUJO_URBANO_TWITCH_01.jpg",
+                            "IMG_DISENO/BRUJO_URBANO/TWITCH/BRUJO_URBANO_TWITCH_02.jpg"
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "AMÉRICA REMATES",
+                tags: ["Diseño Corporativo", "Infografías", "Material Impreso"],
+                folders: [
+                    {
+                        name: "CARRUSEL", formatClass: "format-square", cover: "IMG_DISENO/AMERICA_REMATES/CARRUSEL/CARRUSEL_01.jpg",
+                        images: [
+                            "IMG_DISENO/AMERICA_REMATES/CARRUSEL/CARRUSEL_01.jpg", "IMG_DISENO/AMERICA_REMATES/CARRUSEL/CARRUSEL_02.jpg",
+                            "IMG_DISENO/AMERICA_REMATES/CARRUSEL/CARRUSEL_03.jpg", "IMG_DISENO/AMERICA_REMATES/CARRUSEL/CARRUSEL_04.jpg",
+                            "IMG_DISENO/AMERICA_REMATES/CARRUSEL/CARRUSEL_05.jpg", "IMG_DISENO/AMERICA_REMATES/CARRUSEL/CARRUSEL_06.jpg"
+                        ]
+                    },
+                    {
+                        name: "TRÍPTICO", formatClass: "format-horizontal contain-img", cover: "IMG_DISENO/AMERICA_REMATES/TRIPTICO/TRIPTICO_01.jpg",
+                        images: [
+                            "IMG_DISENO/AMERICA_REMATES/TRIPTICO/TRIPTICO_01.jpg", "IMG_DISENO/AMERICA_REMATES/TRIPTICO/TRIPTICO_02.jpg"
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        // ==================================================================
+        // RENDERIZADO Y LÓGICA DE GALERÍA
+        // ==================================================================
+        function renderPortfolio() {
+            const container = document.getElementById('portfolioContainer');
+            container.innerHTML = '';
+
+            designData.forEach((brand, brandIndex) => {
+                const section = document.createElement('section');
+                section.className = 'brand-section';
+                const tagsHTML = brand.tags.map(tag => `<span>${tag}</span>`).join('');
+                
+                const foldersHTML = brand.folders.map((folder, folderIndex) => `
+                    <div class="folder-item ${folder.formatClass}" onclick="openGallery(${brandIndex}, ${folderIndex})">
+                        <img src="${folder.cover}" alt="${folder.name}" class="folder-img" onerror="this.src='https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80'">
+                        <div class="folder-overlay">
+                            <div class="folder-title">${folder.name}</div>
+                            <div class="folder-count">${folder.images.length} ARCHIVO${folder.images.length > 1 ? 'S' : ''}</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                section.innerHTML = `
+                    <div class="brand-header">
+                        <h2 class="brand-title">${brand.name}</h2>
+                        <div class="brand-tags">${tagsHTML}</div>
+                    </div>
+                    <div class="folder-grid">
+                        ${foldersHTML}
+                    </div>
+                `;
+                container.appendChild(section);
+            });
+        }
+        renderPortfolio();
+
+        // --- LÓGICA DEL VISUALIZADOR ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxVideo = document.getElementById('lightboxVideo');
+        const lightboxCounter = document.getElementById('lightboxCounter');
+        const lightboxControls = document.getElementById('lightboxControls');
+
+        let currentGallery = [];
+        let currentIndex = 0;
+
+        function openGallery(brandIndex, folderIndex) {
+            currentGallery = designData[brandIndex].folders[folderIndex].images;
+            currentIndex = 0;
+            
+            // Mostrar flechas solo si hay más de una imagen en la carpeta
+            if (currentGallery.length > 1) { 
+                lightboxControls.style.display = 'flex'; 
+            } else { 
+                lightboxControls.style.display = 'none'; 
+            }
+
+            updateLightbox();
+            lightbox.classList.add('active');
+        }
+
+        function updateLightbox() {
+            lightboxImg.style.opacity = 0;
+            lightboxVideo.style.opacity = 0;
+            
+            setTimeout(() => {
+                const currentMedia = currentGallery[currentIndex];
+                const isVideo = currentMedia.toLowerCase().endsWith('.mp4');
+
+                if (isVideo) {
+                    lightboxImg.style.display = 'none';
+                    lightboxVideo.style.display = 'block';
+                    lightboxVideo.src = currentMedia;
+                    lightboxVideo.play().catch(e => console.log("Auto-play bloqueado:", e));
+                    lightboxVideo.style.opacity = 1;
+                } else {
+                    lightboxVideo.style.display = 'none';
+                    lightboxVideo.pause();
+                    lightboxImg.style.display = 'block';
+                    lightboxImg.src = currentMedia;
+                    lightboxImg.style.opacity = 1;
+                }
+                
+                lightboxCounter.innerText = `${currentIndex + 1} / ${currentGallery.length}`;
+            }, 150);
+        }
+
+        function nextImage(event) {
+            if (event) event.stopPropagation();
+            if (currentGallery.length <= 1) return;
+            currentIndex = (currentIndex + 1) % currentGallery.length;
+            updateLightbox();
+        }
+
+        function prevImage(event) {
+            if (event) event.stopPropagation();
+            if (currentGallery.length <= 1) return;
+            currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
+            updateLightbox();
+        }
+
+        function closeGallery() {
+            lightbox.classList.remove('active');
+            setTimeout(() => { 
+                lightboxImg.src = ''; 
+                lightboxVideo.src = '';
+                lightboxVideo.pause();
+            }, 300);
+        }
+
+        // ==================================================================
+        // MOTOR DE SWIPE Y ARRASTRE PARA EL VISUALIZADOR
+        // ==================================================================
+        const swipeContainer = document.getElementById('swipeContainer');
+        let startX = 0;
+        let endX = 0;
+
+        swipeContainer.addEventListener('touchstart', e => { startX = e.changedTouches[0].screenX; }, {passive: true});
+        swipeContainer.addEventListener('touchend', e => { 
+            endX = e.changedTouches[0].screenX; 
+            handleSwipe();
+        }, {passive: true});
+
+        swipeContainer.addEventListener('mousedown', e => { startX = e.screenX; });
+        swipeContainer.addEventListener('mouseup', e => { 
+            endX = e.screenX; 
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const threshold = 50; 
+            if (endX < startX - threshold) nextImage();
+            if (endX > startX + threshold) prevImage();
+        }
+
+        // Controles de teclado
+        document.addEventListener('keydown', e => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeGallery();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+
         // --- SISTEMA DE PROTECCIÓN DE ACTIVOS ---
         document.addEventListener('contextmenu', e => e.preventDefault());
-        document.addEventListener('dragstart', e => { 
-            if (e.target.nodeName.toUpperCase() === 'IMG' || e.target.nodeName.toUpperCase() === 'VIDEO') e.preventDefault(); 
-        });
-        document.addEventListener('keydown', e => {
-            if (e.ctrlKey && ['s','u','p'].includes(e.key.toLowerCase())) e.preventDefault();
-        });
+        document.addEventListener('dragstart', e => { if (e.target.nodeName.toUpperCase() === 'IMG' || e.target.nodeName.toUpperCase() === 'VIDEO') e.preventDefault(); });
+        document.addEventListener('keydown', e => { if (e.ctrlKey && ['s','u','p'].includes(e.key.toLowerCase())) e.preventDefault(); });
     </script>
 </body>
 </html>
